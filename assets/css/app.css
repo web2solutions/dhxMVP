@@ -1,0 +1,351 @@
+/*@font-face {
+    font-family: UbuntuRegular;
+    src: url(../fonts/Ubuntu-R.ttf);
+}
+@font-face {
+    font-family: Arial;
+    src: url(../fonts/Ubuntu-R.ttf);
+}
+
+@font-face {
+    font-family: Tahoma;
+    src: url(../fonts/Ubuntu-R.ttf);
+}
+
+body:after
+{
+  content: url(../fonts/Ubuntu-R.ttf);
+  display: none;
+}*/
+
+
+
+html,body{
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      width:100%;
+      height:100%;
+      margin: 0px;
+      padding: 0px;
+      overflow: hidden;
+      font-size:13px;
+      font-family:Arial;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      font-family: Tahoma;
+    }
+    
+    [draggable] {
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+      /* Required to make elements draggable in old WebKit */
+      -khtml-user-drag: element;
+      -webkit-user-drag: element;
+    }
+    
+    .dhx_dataview_custom_item_selected{
+      margin : 0px;
+       padding: 0px;
+       float: left;
+    }
+    .dhx_dataview_custom_item{
+       margin : 0px;
+       padding: 0px;
+       float: left;
+    }
+
+
+
+
+    .chat_message{
+      float: left;
+      width: 97%;
+      box-shadow: -2px 0px 3px #ddd;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .chat_message h5{
+      float: left;
+      width: 100%;
+      padding:0px;
+      margin: 0px;
+      font-size: 14px;
+    }
+
+    .chat_message a{
+      float: left;
+      width: 100%;
+      font-size: 10px;
+    }
+
+    .chat_message small{
+      float: left;
+      font-size: 12px;
+      padding: 7px;
+    }
+
+    .chat_message h5.right, .chat_message a.right{
+      text-align: right;
+    }
+
+    .chat_message small.right{
+      text-align: right;
+      float: right;
+    }
+
+
+
+
+
+    .expert_card{
+      float: left;
+      width: 97%;
+      box-shadow: -2px 0px 3px #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #F7F7F7;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .expert_card:hover{
+      float: left;
+      width: 97%;
+      box-shadow: -2px 0px 3px #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      background-color: #ffffff;
+      position: relative;
+    }
+
+    .expert_card h5{
+      float: left;
+      margin: 0px;
+      margin-left: 104px;
+      width: 100%;
+      padding:0px;
+
+      font-size: 14px;
+      color:#2589ce;
+      position: relative;
+    }
+
+    .expert_card a{
+      float: left;
+      margin-left: 104px;
+      width: 100%;
+      font-size: 11px;
+      color:#2589ce;
+      position: relative;
+    }
+
+    .expert_card small{
+      float: left;
+      margin-left: 104px;
+      font-size: 12px;
+      padding: 7px;
+      position: relative;
+    }
+
+    .expert_card .photo{
+      float: left;
+      width: 100px;
+      height: 100px;
+      background-color: #375BF8;
+      position: absolute;
+      top : 16px;
+      left: 8px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      background-position: center center;
+      background-size: 160px;
+    }
+
+    .photo_form{
+      width: 160px;
+      height: 160px;
+      background-color: #375BF8;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      background-position: center center;
+      background-size: 160px;
+    }
+
+    .photo_dashboard{
+      width: 130px;
+      height: 130px;
+      background-color: #375BF8;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      background-position: center center;
+      background-size: 140px;
+      z-index: 1;
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+
+    .skill_set{
+      max-width: 300px;
+      position:relative;
+    }
+    .form_skill{
+      float:left;
+      padding: 3px;
+      background-color: #2589ce;
+      position: relative;
+      cursor: pointer;
+      margin: 2px;
+      border-radius: 5px;
+      color: #ffffff;
+    }
+
+
+    .dhx_dataview {
+     /*overflow: auto !important;*/
+    }
+
+    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item div.dhxsidebar_bubble{
+      background-color: #9F132C;
+    }
+
+    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item:hover div.dhxsidebar_bubble{
+      background-color: #610C9F;
+    }
+    }
+
+    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item div.dhxsidebar_bubble:hover{
+      background-color: #610C9F;
+    }
+    
+    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item.dhxsidebar_item_selected div.dhxsidebar_bubble{
+       background-color: #9F6F04;
+    }
+
+    div.simple_bold {
+      margin: 2px 0px;
+      padding: 1px 0px;
+      font-weight: bold;
+    }
+    div.simple_link {
+      margin: 2px 0px;
+      padding: 1px 0px;
+    }
+
+
+
+    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side{
+      
+    }
+
+
+
+    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items{
+      
+    }
+
+    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item {
+      
+    }
+
+    .dhxform_obj_dhx_web div.dhxform_img.btn2state_0 {
+        background-image: url("../images/toggle_no.png");
+        width: 42px;
+        height: 20px;
+    }
+
+ 
+    .dhxform_obj_dhx_web div.dhxform_img.btn2state_1 {
+        background-image: url("../images/toggle_yes.png");
+        width: 42px;
+        height: 20px;
+    }
+
+    div.dhxform_img.btn2state_1 {
+        background-image: url("../images/toggle_yes.png");
+        width: 42px;
+        height: 20px;
+    }
+
+    .dhxform_obj_dhx_web div.disabled div.dhxform_img.btn2state_0 {
+        background-image: url("../images/toggle_no_dis.png");
+        width: 42px;
+        height: 20px;
+    }
+
+    .dhxform_obj_dhx_web div.disabled div.dhxform_img.btn2state_1 {
+        background-image: url("../images/toggle_yes_dis.png");
+        width: 42px;
+        height: 20px;
+    }
+
+    #progress {
+      width: 150px;
+      height: 150px;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 9999;
+      cursor: pointer;
+    }
+
+    .progress {
+                width: 150px;
+                height: 150px;
+    }
+
+    .progress > svg {
+                height: 100%;
+                display: block;
+    }
+
+    .progressbar-text{
+      font-size: 30px;
+      font-weight: bold;
+      text-shadow: 2px 2px 2px rgba(255, 255, 255, 1);
+
+    }
+
+    #mocha{
+      z-index: 9999999;
+    }
+
+    .dhxform_obj_dhx_web div.dhxform_btn.dhxform_btn_over {
+     background-color: #2a8ed2 ;
+    }
+
+    div.dhxform_item_label_left.dash_buttons  div.dhxform_btn{
+      height: 60px;
+    }
+
+    div.dhxform_item_label_left.dash_buttons  div.dhxform_btn div.dhxform_btn_txt.dhxform_btn_txt_autowidth
+    {
+      height: 40px;
+      font-size: 30px;
+      padding-top: 17px;
+    }
+
+    span.dashboard_title{
+      font-size: 30px;
+      color: #4672B2;
+      text-shadow: 2px 2px 2px #85d3ff; /*ali*/
+    }
+
+    a.dashboard_link{
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img.dash_buttons_image{
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
