@@ -1,8 +1,8 @@
 {
-  "name": "sap-desk-web",
+  "name": "dhxMVP",
   "version": "0.0.1",
-  "description": "sap-desk-web",
-  "author": "XpertMinds",
+  "description": "A complete boilerplate for building MV* applications using DHTMLX on top",
+  "author": "Eduardo Almeida",
   "dependencies": {},
   "devDependencies": {
     "gulp": "^3.9.0",
@@ -17,10 +17,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XpertMinds/sap-desk-web.git"
+    "url": "git+https://github.com/web2solutions/dhxMVP.git"
   },
   "bugs": {
-    "url": "https://github.com/XpertMinds/sap-desk-web/issues"
+    "url": "https://github.com/web2solutions/dhxMVP/issues"
   },
-  "homepage": "https://github.com/XpertMinds/sap-desk-web#readme"
+  "homepage": "https://github.com/web2solutions/dhxMVP#readme"
 }
