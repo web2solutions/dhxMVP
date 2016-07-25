@@ -13,24 +13,10 @@
     "email": "web2solucoes@gmail.com"
   },
   "dependencies": {},
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-beautify": "^2.0.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-jshint": "^1.12.0",
-    "gulp-mocha-phantomjs": "^0.11.0",
-    "gulp-print": "^2.0.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.1",
-    "mocha": "^2.4.5",
-    "should": "^8.2.1"
-  },
+  "devDependencies": {},
   "license": "GPL-2.0",
   "scripts": {
-    "test": "gulp test",
-    "lint": "gulp lint",
-    "dist": "gulp dist",
-    "install": "npm install"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
