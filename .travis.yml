@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "0.12"
-before_install: npm install --global gulp-cli && npm install --save-dev gulp
+before_install: npm install --global gulp-cli
 install: npm install
 script:
   - gulp test
