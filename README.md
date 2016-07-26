@@ -103,3 +103,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 
 ## How to use the boilerplate to get my application done?
+
+### License
+
+This software is distributed under `GPL-2.0` in accordance with [DHTMLX license](http://dhtmlx.com/docs/products/licenses.shtml).
