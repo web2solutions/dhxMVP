@@ -1,8 +1,8 @@
+sudo: required
 language: node_js
 node_js:
   - "0.12"
 before_install: npm install --global gulp-cli
 install: npm install
-before_script: npm install --global gulp-cli && npm install gulp --save-dev && npm install gulp-print --save-dev && npm install gulp-beautify --save-dev && npm install gulp-concat --save-dev && npm install gulp-jshint --save-dev && npm install --save gulp-mocha-phantomjs --save-dev && npm install gulp-rename --save-dev && npm install gulp-uglify --save-dev && npm install mocha --save-dev && npm install should --save-dev
 script:
   - gulp test
