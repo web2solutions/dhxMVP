@@ -2,7 +2,7 @@ sudo: required
 language: node_js
 node_js:
   - "0.12"
-before_install: npm install --global gulp-cli && npm install -g istanbul
+before_install: npm install --global gulp-cli
 install: npm install
 script:
   - gulp test

@@ -9,8 +9,6 @@ var path = require("path");
 var fs = require("fs");
 
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
-
-/*var istanbulReport = require('gulp-istanbul-report');*/
 var coverageFile = './coverage/coverage.json';
 
 var files = "./lib/*.js";
@@ -71,18 +69,12 @@ gulp.task('dist', function() {
 });
 gulp.task('test', function() {
     return gulp.src('./test/test.html').pipe(mochaPhantomJS({
-        //reporter: 'tap', // spec
-        //mocha: {
-        //    grep: 'pattern'
-        //},
         phantomjs: {
             viewportSize: {
                 width: 1024,
                 height: 768
             },
-            useColors: true,
-            hooks: 'mocha-phantomjs-istanbul',
-            coverageFile: coverageFile,
+            useColors: true
         },
         reporter: 'spec'
     }));
