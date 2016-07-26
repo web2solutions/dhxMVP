@@ -9,14 +9,36 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 
 It makes DHTMLX simple and powerful. It let starter javascript programmers to build Enterprise Javascript applications.
 
-Although, generally, a Enterprise application has it code increasing on it lifetime, resulting in a big codebase.
+Another reason is actually there is no MV* framework or library which let you to build MV* aplications using DHTMLX components `using the same paradigm` or even similar in the way the are created. DHTMLX fits to a paradigm that is very similar to other frameworks like EXT JS (Senha actually), Dojo, Qooxdoo and others in term of how to implement applications using the `Component Driven Developmemnt`.
+
+Frameworks like DHTMLX provides mature and tested components API, rather the model where you create your own components.
+
+There is no problem with the paradigm where you create your own components, it can be great for small applications or when you have sufficient time to start from the scratch to create components mature like the components which already exists in frameworks for Enterprise applications.
+
+Frameworks like Angular, React an others, render `views` by using `predefined` or `static` plain HTML templates.
+
+Frameworks like DHTMLX provides `built in` components where you can consume it APIs. The HTML, by itself, is generated on the fly when when the code which call the components is executed.
+
+Frameworks for Enterprise Applications keep the developer focus on the business logic, avoiding time wasting creating HTML and css code. 
+
+You may wondering: "What about concepts like `reaction` and data binding?"
+
+Don't worry. Take a deep look into DHTMLX documentation and you will see those concepts are nothing new.
+
+Framerworks for Enterprise Javascript Applications are the first citizens from the `Javascript Development World`.
+
+There is nothing you can do with those frameworks, certainly they may not be the bet choice for a very small POC or applications, but they are the best choice in several scenarios which I will not discuss here.
+
+As DHTMLX offers rich components through simple interfaces (API) with a great docs, it may be a right choice for small application too. Not only for Enterprise applications.
+
+Although, generally, a Enterprise application has it code increasing on it lifetime, resulting in a big codebase. In this scenario, you may see a lack in DHTMLX that is it does not encourage any pattern for development. Requiring from the developer to create it own application design and structure.
 
 Another common problems are:
 
 - Giant Javascript modules/classes which are harder to maintain and get new people envolved on it development
 - `Load the whole app in just one file`, encouraged in top most several modern frameworks may not work for Enterprise applications, where you may have ` 2, 3, 4, 5 or even more` MB loading at the same time before application starts.
 
-The dhxMVP boilerplate solves it by using `dhx.ui.mvp`, a MV* framework built on top of [dhx framework](https://github.com/web2solutions/dhx).
+The dhxMVP boilerplate solves the problems by using `dhx.ui.mvp`, a MV* framework built on top of [dhx framework](https://github.com/web2solutions/dhx).
 
 `dhx.ui.mvp` let you to declare your routes and it will call it properly `presenter` and `view`, automatically creating references to the model on each view and presenter.
 
@@ -35,7 +57,7 @@ To solve the problems regarding loading performance, `dhx.ui.mvp` implements a `
 
 ## Installation
 
-List of softwares that you need to have already installed:
+List of the softwares you need to have installed in your computer to use the whole features:
 
  - Node.js
  - Gulp
@@ -58,3 +80,6 @@ Download this repository and uncompress to a given directory, lets assume: ***/U
 ## Creating minified version of the application javascript files
 
     $ Gulp dist
+
+
+## How to use the boilerplate to get my application done?
