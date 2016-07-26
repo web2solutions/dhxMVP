@@ -1,4 +1,4 @@
-# dhxMVP  [![NPM version](https://badge.fury.io/js/dhxMVP.png)](http://badge.fury.io/js/dhxMVP) [![Build Status](https://travis-ci.org/web2solutions/dhxMVP.svg?branch=master)](https://travis-ci.org/web2solutions/dhxMVP)
+# dhxMVP  [![NPM version](https://badge.fury.io/js/dhxmvp.png)](http://badge.fury.io/js/dhxmvp) [![Build Status](https://travis-ci.org/web2solutions/dhxMVP.svg?branch=master)](https://travis-ci.org/web2solutions/dhxMVP)
 
 dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 
