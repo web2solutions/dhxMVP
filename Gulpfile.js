@@ -4,17 +4,21 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var beautify = require('gulp-beautify');
-var mochaPhantomJS = require('gulp-mocha-phantomjs');
 var print = require('gulp-print');
-var istanbulReport = require('gulp-istanbul-report');
 var path = require("path");
 var fs = require("fs");
+
+var mochaPhantomJS = require('gulp-mocha-phantomjs');
+
+/*var istanbulReport = require('gulp-istanbul-report');*/
 var coverageFile = './coverage/coverage.json';
+
 var files = "./lib/*.js";
 var views = "./lib/view/*.js";
 var model = "./lib/model/*.js";
 var presenters = "./lib/presenter/*.js";
 var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx"];
+
 gulp.task('lint', function() {
     paths.forEach(function(path_file) {
         console.log('=====> working on the directory: ', path_file);
@@ -67,7 +71,7 @@ gulp.task('dist', function() {
 });
 gulp.task('test', function() {
     return gulp.src('./test/test.html').pipe(mochaPhantomJS({
-        reporter: 'tap', // spec
+        //reporter: 'tap', // spec
         //mocha: {
         //    grep: 'pattern'
         //},
@@ -76,42 +80,28 @@ gulp.task('test', function() {
                 width: 1024,
                 height: 768
             },
-            useColors: true
-        }
+            useColors: true,
+            hooks: 'mocha-phantomjs-istanbul',
+            coverageFile: coverageFile,
+        },
+        reporter: 'spec'
     }));
 });
+
+
 gulp.task('test-coverage', function() {
     var phantomConf = {
         phantomjs: {
-            viewportSize: {
-                width: 1024,
-                height: 768
-            },
-            useColors: true,
             hooks: 'mocha-phantomjs-istanbul',
-            coverageFile: './coverage/coverage.json',
-            reporter: 'spec'
-        }
+            coverageFile: coverageFile
+        },
+        reporter: 'spec'
     };
-    return gulp.src('./test/test.html', {read: false}).pipe(mochaPhantomJS(phantomConf)).on('finish', function() {
-        gulp.src(coverageFile).pipe(istanbulReport({
-            reporterOpts: {
-                dir: './coverage'
-            },
-            reporters: [
-            	'text-summary',
-            	{
-                    'name': 'text',
-                    file: 'report.txt'
-                }, // -> ./coverage/report.txt
-                {
-                    'name': 'json',
-                    file: 'cov.json',
-                    dir: './jsonCov'
-                } // -> ./jsonCov/cov.json
-            ]
-        }))
-    });;
+    return gulp.src('./test/test.html', {read: false})
+    	.pipe(mochaPhantomJS(phantomConf))
+    	.on('finish', function() {
+        	gulp.src(coverageFile).pipe(istanbulReport())
+    	});
 });
 gulp.task('default', function() {
     gulp.run('lint');
