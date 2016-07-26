@@ -106,4 +106,4 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ### License
 
-This software is distributed under `GPL-2.0` in accordance with [DHTMLX license](http://dhtmlx.com/docs/products/licenses.shtml).
+This software is distributed under [GPL-2.0](https://www.gnu.org/licenses/gpl-2.0.html) in accordance with [DHTMLX license](http://dhtmlx.com/docs/products/licenses.shtml).
