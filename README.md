@@ -42,11 +42,11 @@ The dhxMVP boilerplate solves the problems by using `dhx.ui.mvp`, a MV* framewor
 
 `dhx.ui.mvp` let you to declare your routes and it will call it properly `presenter` and `view`, automatically creating references to the model on each view and presenter.
 
-For each route you declare a `view` and a `presenter`, but not least, you may also to attach any javascript file to the view scope.
+For each route, you declare (will use route as file name if not declared) a `view` and a `presenter`, but not least, you may also to attach any javascript file to the view scope.
 
 On the view, you basically you declare DHTMLX component settings and it calls.
 
-On the presenter, you orchestrate your view meanwhile you may implement and provide any required helper method.
+On the presenter, you orchestrate your view, meanwhile you may implement and provide any required helper method.
 
 Both view and presenter have reference to the application model, although it would be great to implement model tasks over the presenter and let the view to be the simple as possible.
 
@@ -55,29 +55,49 @@ For now, the model is framework agnostic, you may develop it using Backbone for 
 To solve the problems regarding loading performance, `dhx.ui.mvp` implements a `on demand loading` model for loading your javascript views and presenters, let the end user to load it on their browsers only when they really need that file on their cache.
 
 
-## Installation
+## Kit installation
 
 List of the softwares you need to have installed in your computer to use the whole features:
 
  - Node.js
  - Gulp
 
-Download this repository and uncompress to a given directory, lets assume: ***/Users/YourName/apps/
+Clone this repository to a given directory, lets assume: ***/Users/YourName/apps/
+
+    $ cd /Users/YourName/apps/
+    $ git clone https://github.com/web2solutions/dhxMVP.git
+
+Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
     $ cd dhxMVP
     $ npm install --global gulp-cli
     $ npm install
 
+## What the boilerplate provides?
 
-##  Command line testing
+- Very simple Application demo with one declared route
+    - Initially Using DHTMLX Sidebar as application `wrapper and navigation`
+    - Demo model
+    - Demo routes
+        - #
+            - Main view
+            - Main presente
+        - /help
+            - view
+            - presenter
+
+- Testing suite initially covering the implemented code
+
+
+## Testing the application
 
     $ gulp test
 
-## Run JSHint to check the code
+## Run JSHint to check the code and look for error and bad pratices
 
     $ gulp lint
 
-## Creating minified version of the application javascript files
+## Creating minified version of the application javascript files (necessary to put changes on production)
 
     $ Gulp dist
 
