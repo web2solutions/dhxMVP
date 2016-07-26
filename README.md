@@ -19,7 +19,7 @@ Frameworks like Angular, React an others, render `views` by using `predefined` o
 
 Frameworks like DHTMLX provides `built in` components where you can consume it APIs. The HTML, by itself, is generated on the fly when when the code which call the components is executed.
 
-Frameworks for Enterprise Applications keep the developer focus on the business logic, avoiding time wasting creating HTML and css code. 
+Frameworks for Enterprise Applications keep the developer focus on the business logic, avoiding time wasting to create HTML and css code. 
 
 You may wondering: "What about concepts like `reaction` and data binding?"
 
@@ -27,7 +27,7 @@ Don't worry. Take a deep look into DHTMLX documentation and you will see those c
 
 Framerworks for Enterprise Javascript Applications are the first citizens from the `Javascript Development World`.
 
-There is nothing you can do with those frameworks, certainly they may not be the bet choice for a very small POC or applications, but they are the best choice in several scenarios which I will not discuss here.
+There is nothing you can not do with those frameworks, certainly they may not be the bet choice for a very small POC or applications, but they are the best choice in several scenarios which I will not discuss here.
 
 As DHTMLX offers rich components through simple interfaces (API) with a great docs, it may be a right choice for small application too. Not only for Enterprise applications.
 
