@@ -29,19 +29,6 @@
   "scripts": {
     "test": "gulp test"
   },
-  "config": {
-    "blanket": {
-      "pattern": [
-        ""
-      ],
-      "data-cover-never": [
-        "node_modules",
-        "test",
-        "lib/dhx",
-        "lib/thirdparty"
-      ]
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/web2solutions/dhxMVP.git"
