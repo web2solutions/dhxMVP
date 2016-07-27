@@ -24,7 +24,14 @@ dhx_application.on('render', function(options) {
     mochad.id = 'mocha';
     document.body.appendChild(mochad);
 
-    mocha.run();
+    
+    if (window.mochaPhantomJS) {
+      mochaPhantomJS.run();
+    }
+    else
+    {
+        mocha.run();
+    }
     //$dhx.debug.log('options ', options);
 });
 // instantiate $dhx MVP application and router

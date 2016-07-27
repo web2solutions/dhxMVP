@@ -151,6 +151,9 @@ gulp.task('dist', ['jshint', 'test'], function() {
 });
 var called = false;
 gulp.task('test', function( cb ) {
+	var start_date = new Date(),
+		end_date = 0,
+		elapsed_time = 0;
 	//console.log('test arguments', arguments);
 	
     return gulp.src('./test/test.html')
@@ -165,7 +168,9 @@ gulp.task('test', function( cb ) {
         reporter: 'spec'
     }))
     .on('finish', function() {
-    	gulp.src("gulpfile.js").pipe(notify('# gulp test done in:  ms'));
+    	end_date = new Date();
+	     var elapsed_time = (+end_date) - (+start_date);
+    	gulp.src("gulpfile.js").pipe(notify('# gulp test done in: ' + elapsed_time + ' ms'));
     	if( !called )
     	{
     		//cb();	
@@ -174,21 +179,34 @@ gulp.task('test', function( cb ) {
 });
 
 
-gulp.task('test-coverage', function() {
-    var phantomConf = {
-        phantomjs: {
-            hooks: 'mocha-phantomjs-istanbul',
-            coverageFile: coverageFile
-        },
-        reporter: 'spec'
-    };
-    return gulp.src('./test/test.html', {read: false})
-    	.pipe(mochaPhantomJS(phantomConf))
-    	.on('finish', function() {
-        	gulp.src(coverageFile).pipe(istanbulReport())
-    	});
-});
+var istanbulReport = require('gulp-istanbul-report');
 
+var coverageFile = './coverage/coverage.json';
+var mochaPhantomOpts = {
+  phantomjs: {
+    hooks: 'mocha-phantomjs-istanbul',
+    coverageFile: coverageFile 
+  },
+  reporter: 'spec'
+};
+
+gulp.task('test-coverage', function () {
+  gulp.src('./test/test.html', {read: false})
+    .pipe(mochaPhantomJS(mochaPhantomOpts))
+    .on('finish', function() {
+      gulp.src(coverageFile)
+        .pipe(istanbulReport({
+		  reporterOpts: {
+		    dir: './coverage'
+		  },
+		  reporters: [
+		  	'text-summary', // outputs summary to stdout, uses default options 
+		    {'name': 'text', file: 'report.txt'}, // -> ./coverage/report.txt
+		    {'name': 'json', file: 'cov.json'} // -> ./jsonCov/cov.json
+		  ]
+		}))
+    });
+});
 
 gulp.task('default', function() {
     gulp.run('jshint');
