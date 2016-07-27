@@ -80,9 +80,9 @@ gulp.task('jshint', function ( cb ) {
 				if (done_files == t_files) {
 				    end_date = new Date();
 					elapsed_time = (+end_date) - (+start_date);
-				    console.log('# gulp jshint executed in: ', elapsed_time + ' ms');
+				    console.log('# jshint executed in: ', elapsed_time + ' ms');
 				    console.log('#======> gulp jshint is done with no errors <=====#', (end_date).toISOString());
-				    gulp.src("gulpfile.js").pipe(notify('# gulp jshint done in: ' + elapsed_time + ' ms'));
+				    gulp.src("gulpfile.js").pipe(notify('# jshint done in: ' + elapsed_time + ' ms'));
 				    cb();
 				}
 	        		
@@ -97,12 +97,6 @@ gulp.task('jshint', function ( cb ) {
     });
 });
 
-
-
-
-gulp.task('all', ['jshint'], function() {
-  gulp.src("gulpfile.js").pipe(notify('# gulp ALL done in:  ms'));
-});
 
 gulp.task('dist', ['jshint', 'test'], function() {
 	var file = '',
@@ -140,15 +134,18 @@ gulp.task('dist', ['jshint', 'test'], function() {
 	        	{
 	        		end_date = new Date();
 	        		var elapsed_time = (+end_date) - (+start_date);
-	        		console.log('# gulp dist executed in: ', elapsed_time + ' ms');
+	        		console.log('# dist executed in: ', elapsed_time + ' ms');
 	        		console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
-	        		gulp.src("gulpfile.js").pipe(notify('# gulp dist done in: ' + elapsed_time + ' ms'));
+	        		gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
 	        	}
 	    	});
         });
     });
     /*dis*/
 });
+
+
+
 var called = false;
 gulp.task('test', function( cb ) {
 	var start_date = new Date(),
@@ -170,7 +167,7 @@ gulp.task('test', function( cb ) {
     .on('finish', function() {
     	end_date = new Date();
 	     var elapsed_time = (+end_date) - (+start_date);
-    	gulp.src("gulpfile.js").pipe(notify('# gulp test done in: ' + elapsed_time + ' ms'));
+    	gulp.src("gulpfile.js").pipe(notify('# test done in: ' + elapsed_time + ' ms'));
     	if( !called )
     	{
     		//cb();	
@@ -178,7 +175,7 @@ gulp.task('test', function( cb ) {
 	});
 });
 
-
+/*
 var istanbulReport = require('gulp-istanbul-report');
 
 var coverageFile = './coverage/coverage.json';
@@ -207,12 +204,13 @@ gulp.task('test-coverage', function () {
 		}))
     });
 });
+*/
 
 gulp.task('default', function() {
     gulp.run('jshint');
-    gulp.watch(files, function(evt) {
-        gulp.run('jshint');
-    });
+    //gulp.watch(files, function(evt) {
+    //    gulp.run('jshint');
+    //});
 });
 
 
@@ -222,8 +220,8 @@ gulp.task('default', function() {
 //});
 
 
-require('events').EventEmitter.prototype._maxListeners = 100;
+//require('events').EventEmitter.prototype._maxListeners = 100;
 
 process.on('exit', function(code){
-  console.log("About to exit with code: " + code );
+  console.log("Gulp terminated: " + ( ( code == 0 ) ? 'with' : 'with no' ) + ' success'  );
 });
