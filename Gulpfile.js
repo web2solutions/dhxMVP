@@ -199,24 +199,26 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 total_data_stream += 1;
                 if( typeof data === 'string' )
                 {
+                    var x = {  };
                     if( data.indexOf('files changed') > -1 || data.indexOf('file changed') > -1 )
                     {
                         console.log( 'there is file changed' );
                         data = data.replace(/\n/g, "||");
                         var arr = data.split('||');
                         console.log( arr[1] );
-                        cb();
                     }
                     else if( data.indexOf('Your branch is ahead of') > -1 )
                     {
                         console.log( 'done' );
                         console.log( 'you need push' );
-                        cb({ push : true });
+                        x.push = true;
                     }
                     else
                     {
                         console.log( data );
+                        return;
                     }
+                    cb(x);
                 }
 
             })
