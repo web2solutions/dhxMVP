@@ -75,9 +75,12 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ## What the boilerplate provides?
 
-- Very simple Application demo with one declared route
-    - Initially Using DHTMLX Sidebar as application `wrapper and navigation`
-    - Demo model
+- Starter foundation for a SPA application
+    - Main View
+        - Initially Using DHTMLX Sidebar as application `wrapper and navigation`
+    - Main Presenter
+    - Demo Model
+        - Initially using Backbone and [indexeddb-backbonejs-adapter](https://github.com/superfeedr/indexeddb-backbonejs-adapter)
     - Demo routes
         - #
             - Main view
@@ -86,7 +89,19 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
             - view
             - presenter
 
-- Testing suite initially covering the implemented code
+- Code Validation Suite
+ - jshint - Run jsHint against application code
+ - dist - Minify JavaScript files.
+ - test - Unit Tests
+ - git-init - init git on the repository
+ - git-add - prepare staged content to the next commit
+ - git-add-commit - prepare staged content and commit to the repository
+ - git-push - push commit from Origin to Master branch
+ - build - Build distribution. Performs several tasks over the code. If any tasks breaks, the upcoming task will not be executed. The tasks order is:
+  - jsHint
+  - dist
+  - test
+  - git-add-commit
 
 
 ## Testing the application
@@ -100,6 +115,10 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 ## Creating minified version of the application javascript files (necessary to put changes on production)
 
     $ Gulp dist
+
+## Build a distribution
+
+    $ Gulp build
 
 
 ## How to use the boilerplate to get my application done?
