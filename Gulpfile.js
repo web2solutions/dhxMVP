@@ -167,7 +167,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             cb();
         });
     },
-    git_add = function( cb ){
+    git_add = function( cb, fn ){
         var start_date = new Date(),
             end_date,
             elapsed_time;
@@ -180,13 +180,13 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 console.log('# git-add executed in: ', elapsed_time + ' ms');
                 console.log('#======> gulp git-add is done with no errors <=====#', (end_date).toISOString());
                 gulp.src("gulpfile.js").pipe(notify('# git-add done in: ' + elapsed_time + ' ms'));
-                cb();
+                if( fn ) fn( );
             })
             .on('error', function(){
                 console.log( '!!>>>!!!>>>! error here add' );
             });
     },
-    git_commit = function( cb ){
+    git_commit = function( cb, fn ){
         var start_date = new Date(),
             end_date,
             elapsed_time,
@@ -199,26 +199,24 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 total_data_stream += 1;
                 if( typeof data === 'string' )
                 {
-                    var x = {  };
                     if( data.indexOf('files changed') > -1 || data.indexOf('file changed') > -1 )
                     {
                         console.log( 'there is file changed' );
                         data = data.replace(/\n/g, "||");
                         var arr = data.split('||');
                         console.log( arr[1] );
+                        if(fn) fn();
                     }
                     else if( data.indexOf('Your branch is ahead of') > -1 )
                     {
                         console.log( 'done' );
                         console.log( 'you need push' );
-                        x.push = true;
+                        if(fn) fn({ push : true });
                     }
                     else
                     {
                         console.log( data );
-                        return;
                     }
-                    cb(x);
                 }
 
             })
@@ -241,8 +239,8 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
         jsHint( function(){
             dist( function(){
                 test( function(){
-                    //git_add( function(){
-                        git_commit( function( c ){
+                    //git_add( null, function(){
+                        git_commit( null, function( c ){
 
 
                             if( c.push )
