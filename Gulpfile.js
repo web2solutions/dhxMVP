@@ -339,8 +339,9 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             dist( function(){
                 test( function(){
                     //git_add( null, function(){
-                        git_add_commit( null, function( c ){
+                        git_add_commit_push( null, function( c ){
 
+                            console.log( 'cccccccc ', c );
 
                             if( c.push )
                             {
