@@ -172,8 +172,12 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             end_date,
             elapsed_time;
         return gulp
-            .src('./git-test/*')
+            .src('./*')
             .pipe(git.add())
+            .on('error', function(e){
+                console.log( '>>>> error on git-add' );
+                this.emit('end');
+            })
             .on('finish', function() {
                 end_date = new Date(),
                 elapsed_time = (+end_date) - (+start_date);
@@ -181,9 +185,6 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 console.log('#======> gulp git-add is done with no errors <=====#', (end_date).toISOString());
                 gulp.src("gulpfile.js").pipe(notify('# git-add done in: ' + elapsed_time + ' ms'));
                 if( fn ) fn( );
-            })
-            .on('error', function(){
-                console.log( '!!>>>!!!>>>! error here add' );
             });
     },
 
@@ -194,9 +195,10 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             elapsed_time,
             total_data_stream = 0;
         return gulp
-            .src('./git-test/*')
+            .src(['./*', '!./node_modules','!./node_modules/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
             .pipe(git.commit('testing git via gulp 14', {emitData:true}))
             .on('data',function(data) {
+                var self = this;
                 try{
                     total_data_stream += 1;
                     if( typeof data === 'string' )
@@ -213,28 +215,34 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                         {
                             console.log( 'done' );
                             console.log( 'you need push' );
-                            this.emit('end')
+                            //self.emit('end')
                             if(fn) fn({ push : true });
                         }
                         else if( data.indexOf('no changes addedd') > -1 )
                         {
                             console.log( 'done' );
                             console.log( 'nothing changed' );
-                            this.emit('end')
+                            //self.emit('end')
                             if(fn) fn();
                         }
                         else
                         {
                             console.log( 'xxxx', data );
+                            //self.emit('end');
                         }
                         
                     }
                 }
                 catch(e)
                 {
-                    console.log('>>>>>>>1 ', e.stack)
+                    console.log('>>>>>>>1 ', e.stack);
+                    //self.emit('end');
                 }
 
+            })
+            .on('error', function(e){
+                console.log( '>>>> error on git-add-commit' );
+                this.emit('end');
             })
             .on('finish', function() {
                 try{
@@ -249,11 +257,6 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                     console.log('>>>>>>> ', e.stack)
                 }
                 //cb();
-                //
-                //
-            })
-            .on('error', function(e){
-                console.log( e );
             });
     },
     build = function( cb ) {
@@ -322,13 +325,7 @@ gulp.task('test', function( cb ) {
         });
 });
 gulp.task('git-add', git_add);
-gulp.task('git-add-commit', function(){
-  return gulp.src('./git-test/*')
-    .pipe(git.commit('gulp git test commit', {emitData:true}))
-    .on('data',function(data) {
-      console.log(data);
-    });
-});
+gulp.task('git-add-commit', git_commit);
 gulp.task('git-push', function(){
   git.push('origin', 'master', function (err) {
     if (err) throw err;
