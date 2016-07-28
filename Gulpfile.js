@@ -281,14 +281,15 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                             data = data.replace(/\n/g, "||");
                             var arr = data.split('||');
                             console.log( arr[1] );
-                            if(fn) fn({ push : true });
+                            gulp.run('git-push');
+                            if(fn) fn();
                         }
                         else if( data.indexOf('Your branch is ahead of') > -1 )
                         {
                             console.log( 'done' );
                             console.log( 'you need push' );
-                            //self.emit('end')
-                            if(fn) fn({ push : true });
+                            gulp.run('git-push');
+                            if(fn) fn();
                         }
                         else if( data.indexOf('no changes addedd') > -1 )
                         {
@@ -340,13 +341,6 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 test( function(){
                     //git_add( null, function(){
                         git_add_commit_push( null, function( c ){
-
-                            console.log( 'cccccccc ', c );
-
-                            if( c.push )
-                            {
-                                gulp.run('git-push');
-                            }
 
 
                             //git.tag('v1.1.1', 'Version message', function (err) {
