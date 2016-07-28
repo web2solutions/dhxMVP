@@ -91,7 +91,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 - Code Validation Suite
  - jshint - Run jsHint against application code
- - dist - Minify JavaScript files.
+ - dist - Minify JavaScript files. It runs `jshint`first. The dist will not be executed if is there any programmimng error reported by jshint.
  - test - Unit Tests
  - git-init - init git on the repository
  - git-add - prepare staged content to the next commit

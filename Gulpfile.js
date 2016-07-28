@@ -270,7 +270,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
 
 
 gulp.task('jshint', jsHint);
-gulp.task('dist', dist);
+gulp.task('dist', ['jshint'], dist);
 gulp.task('build', build);
 gulp.task('test', function( cb ) {
         var start_date = new Date(),
