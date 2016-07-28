@@ -398,7 +398,7 @@ gulp.task('test', function( cb ) {
 });
 gulp.task('git-add', git_add);
 gulp.task('git-commit', git_commit);
-gulp.task('git-add-commit', git_add_commit);
+gulp.task('git-add-commit-push', git_add_commit);
 gulp.task('git-push', function(){
     var start_date = new Date(),
         end_date,
