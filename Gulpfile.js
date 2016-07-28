@@ -341,27 +341,10 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                     //git_add( null, function(){
                         git_add_commit( null, function( c ){
 
-                            var complete = function(){
-                                end_date = new Date(),
-                                    elapsed_time = (+end_date) - (+start_date);
-                                console.log('# build executed in: ', elapsed_time + ' ms');
-                                console.log('#======> gulp build is done with no errors <=====#', (end_date).toISOString());
-                                gulp.src("gulpfile.js").pipe(notify('# build done in: ' + elapsed_time + ' ms'));
-                            }
 
                             if( c.push )
                             {
-                                git.push('origin', 'master', function (err) {
-                                    if (err)
-                                    {
-                                        throw err;
-                                    }
-                                    complete();
-                                });
-                            }
-                            else
-                            {
-                                complete();
+                                gulp.run('git-push');
                             }
 
 
@@ -370,8 +353,12 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                             //});
 
 
-                            
-                            //cb();
+                            end_date = new Date(),
+                            elapsed_time = (+end_date) - (+start_date);
+                            console.log('# build executed in: ', elapsed_time + ' ms');
+                            console.log('#======> gulp build is done with no errors <=====#', (end_date).toISOString());
+                            gulp.src("gulpfile.js").pipe(notify('# build done in: ' + elapsed_time + ' ms'));
+                            cb();
                         } );                    
                     //} );
                 } );
@@ -413,11 +400,19 @@ gulp.task('git-add', git_add);
 gulp.task('git-commit', git_commit);
 gulp.task('git-add-commit', git_add_commit);
 gulp.task('git-push', function(){
+    var start_date = new Date(),
+        end_date,
+        elapsed_time;            
   git.push('origin', 'master', function (err) {
     if (err)
     {
         throw err;  
     } 
+
+    end_date = new Date(),
+    elapsed_time = (+end_date) - (+start_date);
+    console.log('# git push executed in: ', elapsed_time + ' ms');
+    gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
   });
 });
 gulp.task('git-init', function(){
