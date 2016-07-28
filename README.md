@@ -21,7 +21,7 @@ Frameworks like DHTMLX provides `built in` components where you can consume it A
 
 Frameworks for Enterprise Applications keep the developer focus on the business logic, avoiding time wasting to create HTML and css code. 
 
-You may wondering: "What about concepts like `reaction` and data binding?"
+You may be wondering: "What about concepts like `reaction` and data binding?"
 
 Don't worry. Take a deep look into DHTMLX documentation and you will see those concepts are nothing new.
 
