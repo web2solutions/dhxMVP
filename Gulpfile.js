@@ -209,7 +209,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                             data = data.replace(/\n/g, "||");
                             var arr = data.split('||');
                             console.log( arr[1] );
-                            if(fn) fn();
+                            if(fn) fn({ push : true });
                         }
                         else if( data.indexOf('Your branch is ahead of') > -1 )
                         {
@@ -259,7 +259,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 //cb();
             });
     },
-    git_add_commit = function( cb, fn ){
+    git_add_commit_push = function( cb, fn ){
         var self = this,
             start_date = new Date(),
             end_date,
@@ -281,7 +281,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                             data = data.replace(/\n/g, "||");
                             var arr = data.split('||');
                             console.log( arr[1] );
-                            if(fn) fn();
+                            if(fn) fn({ push : true });
                         }
                         else if( data.indexOf('Your branch is ahead of') > -1 )
                         {
@@ -398,7 +398,7 @@ gulp.task('test', function( cb ) {
 });
 gulp.task('git-add', git_add);
 gulp.task('git-commit', git_commit);
-gulp.task('git-add-commit-push', git_add_commit);
+gulp.task('git-add-commit-push', git_add_commit_push);
 gulp.task('git-push', function(){
     var start_date = new Date(),
         end_date,
