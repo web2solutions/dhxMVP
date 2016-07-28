@@ -63,4 +63,8 @@ var app = new dhx_application({
 router.route({
     url: '/help'
 });
-app.start();
+app.start({
+        backboneIDB: true,
+        $dhx_form: true,
+        $dhx_grid: true
+});
