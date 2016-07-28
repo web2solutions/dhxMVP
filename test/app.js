@@ -1,4 +1,3 @@
-//clickElement($("#menuItemToClick")[0]);
 var dhx_application = $dhx.ui.mvp.application.extend({
         initialize: function(options) {
             //$dhx.debug.log('called initialize from factory');

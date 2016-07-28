@@ -98,7 +98,7 @@ gulp.task('jshint', function ( cb ) {
 });
 
 
-gulp.task('dist', ['jshint', 'test'], function() {
+gulp.task('dist', function() {
 	var file = '',
 		t_files = 0,
 		done_files = 0,
@@ -124,7 +124,9 @@ gulp.task('dist', ['jshint', 'test'], function() {
                 return "packing " + filepath;
             }))
             .pipe(rename('min.' + file))
-            .pipe(uglify())
+            .pipe(uglify({
+                mangle: true
+            }))
             .pipe(gulp.dest('./' + path_file))
             .on('finish', function() {
 	        	//console.log( file +' minified to --> min.' + file );
@@ -139,6 +141,55 @@ gulp.task('dist', ['jshint', 'test'], function() {
 	        		gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
 	        	}
 	    	});
+        });
+    });
+    /*dis*/
+});
+
+
+gulp.task('build', ['jshint', 'test'], function() {
+    var file = '',
+        t_files = 0,
+        done_files = 0,
+        start_date = new Date(),
+        end_date = 0;
+    console.warn('#======> gulp dist is started <=====#', (start_date).toISOString());
+    paths.forEach(function(path_file) {
+        //console.log('=====> working on the directory: ', path_file);
+        var app_files = fs.readdirSync(path.join(__dirname, path_file));
+        var app_files_a = [];
+        app_files.forEach(function(file) {
+            if (file.indexOf(".js", file.length - 3) != -1) {
+                if (file.indexOf("min.") == -1) {
+                    app_files_a.push(file);
+                    t_files += 1;
+                }
+            }
+        });
+        app_files_a.forEach(function(file) {
+            //console.log('reading ' + path_file + "/" + file);
+            gulp.src("./" + path_file + "/" + file)
+            .pipe(print(function(filepath) {
+                return "packing " + filepath;
+            }))
+            .pipe(rename('min.' + file))
+            .pipe(uglify({
+                mangle: true
+            }))
+            .pipe(gulp.dest('./' + path_file))
+            .on('finish', function() {
+                //console.log( file +' minified to --> min.' + file );
+                done_files += 1;
+
+                if( done_files == t_files )
+                {
+                    end_date = new Date();
+                    var elapsed_time = (+end_date) - (+start_date);
+                    console.log('# dist executed in: ', elapsed_time + ' ms');
+                    console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
+                    gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
+                }
+            });
         });
     });
     /*dis*/
