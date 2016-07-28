@@ -186,50 +186,74 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 console.log( '!!>>>!!!>>>! error here add' );
             });
     },
+
     git_commit = function( cb, fn ){
-        var start_date = new Date(),
+        var self = this,
+            start_date = new Date(),
             end_date,
             elapsed_time,
             total_data_stream = 0;
         return gulp
             .src('./git-test/*')
-            //.pipe(git.add())
-            .pipe(git.commit('testing git via gulp 12', {emitData:true}))
+            .pipe(git.commit('testing git via gulp 14', {emitData:true}))
             .on('data',function(data) {
-                total_data_stream += 1;
-                if( typeof data === 'string' )
+                try{
+                    total_data_stream += 1;
+                    if( typeof data === 'string' )
+                    {
+                        if( data.indexOf('files changed') > -1 || data.indexOf('file changed') > -1 )
+                        {
+                            console.log( 'there is file changed' );
+                            data = data.replace(/\n/g, "||");
+                            var arr = data.split('||');
+                            console.log( arr[1] );
+                            if(fn) fn();
+                        }
+                        else if( data.indexOf('Your branch is ahead of') > -1 )
+                        {
+                            console.log( 'done' );
+                            console.log( 'you need push' );
+                            this.emit('end')
+                            if(fn) fn({ push : true });
+                        }
+                        else if( data.indexOf('no changes addedd') > -1 )
+                        {
+                            console.log( 'done' );
+                            console.log( 'nothing changed' );
+                            this.emit('end')
+                            if(fn) fn();
+                        }
+                        else
+                        {
+                            console.log( 'xxxx', data );
+                        }
+                        
+                    }
+                }
+                catch(e)
                 {
-                    if( data.indexOf('files changed') > -1 || data.indexOf('file changed') > -1 )
-                    {
-                        console.log( 'there is file changed' );
-                        data = data.replace(/\n/g, "||");
-                        var arr = data.split('||');
-                        console.log( arr[1] );
-                        if(fn) fn();
-                    }
-                    else if( data.indexOf('Your branch is ahead of') > -1 )
-                    {
-                        console.log( 'done' );
-                        console.log( 'you need push' );
-                        if(fn) fn({ push : true });
-                    }
-                    else
-                    {
-                        console.log( data );
-                    }
+                    console.log('>>>>>>>1 ', e.stack)
                 }
 
             })
             .on('finish', function() {
-                end_date = new Date(),
-                elapsed_time = (+end_date) - (+start_date);
-                console.log('# git-commit executed in: ', elapsed_time + ' ms');
-                console.log('#======> gulp git-commit is done with no errors <=====#', (end_date).toISOString());
-                gulp.src("gulpfile.js").pipe(notify('# git-commit done in: ' + elapsed_time + ' ms'));
-                
+                try{
+                    end_date = new Date(),
+                    elapsed_time = (+end_date) - (+start_date);
+                    console.log('# git-commit executed in: ', elapsed_time + ' ms');
+                    console.log('#======> gulp git-commit is done with no errors <=====#', (end_date).toISOString());
+                    gulp.src("gulpfile.js").pipe(notify('# git-commit done in: ' + elapsed_time + ' ms'));
+                }
+                catch(e)
+                {
+                    console.log('>>>>>>> ', e.stack)
+                }
+                //cb();
+                //
+                //
             })
-            .on('error', function(){
-                //console.log( '!!>>>!!!>>>! error here commit' );
+            .on('error', function(e){
+                console.log( e );
             });
     },
     build = function( cb ) {
@@ -298,7 +322,13 @@ gulp.task('test', function( cb ) {
         });
 });
 gulp.task('git-add', git_add);
-gulp.task('git-add-commit', git_commit);
+gulp.task('git-add-commit', function(){
+  return gulp.src('./git-test/*')
+    .pipe(git.commit('gulp git test commit', {emitData:true}))
+    .on('data',function(data) {
+      console.log(data);
+    });
+});
 gulp.task('git-push', function(){
   git.push('origin', 'master', function (err) {
     if (err) throw err;
