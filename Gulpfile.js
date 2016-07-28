@@ -172,7 +172,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             end_date,
             elapsed_time;
         return gulp
-            .src('./git-test/*')
+            .src('./*')
             .pipe(git.add())
             .on('finish', function() {
                 end_date = new Date(),
@@ -192,7 +192,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             elapsed_time,
             total_data_stream = 0;
         return gulp
-            .src('./git-test/*')
+            .src('./*')
             .pipe(git.add())
             .pipe(git.commit('testing git via gulp 12', {emitData:true}))
             .on('data',function(data) {
