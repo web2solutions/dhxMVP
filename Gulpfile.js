@@ -364,6 +364,17 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
         string_version = start_version + '.' + middle_version + '.' + final_version;
         commit_message = 'build #' + string_version + ' - built with gulp';
 
+        package.version = string_version;
+        var pstring = JSON.stringify( package );
+
+        fs.writeFile("./package.json", pstring, function(err) {
+            if(err) {
+                console.log("xxxxx=====>>> Error updating version in package.json");
+                return console.log(err);
+            }
+            console.log("xx Ok for updating version in package.json xx");
+        }); 
+
         return gulp
             .src(['./*', '!./node_modules','!./node_modules/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
             .pipe(git.add())
@@ -381,14 +392,20 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                             var arr = data.split('||');
                             console.log( arr[1] );
                             gulp.run('git-push');
-                            if(fn) fn();
+                            if(fn) fn({
+                                commit_message: commit_message,
+                                string_version: string_version
+                            });
                         }
                         else if( data.indexOf('Your branch is ahead of') > -1 )
                         {
                             console.log( 'done' );
                             console.log( 'you need push' );
                             gulp.run('git-push');
-                            if(fn) fn();
+                            if(fn) fn({
+                                commit_message: commit_message,
+                                string_version: string_version
+                            });
                         }
                         else if( data.indexOf('no changes addedd') > -1 )
                         {
@@ -442,9 +459,10 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                         git_add_commit_push( null, function( c ){
 
 
-                            //git.tag('v1.1.1', 'Version message', function (err) {
-                            //    if (err) throw err;
-                            //});
+                            git.tag( ('v'+c.string_version), ('gulp built version ' + c.string_version), function (err) {
+                                console.log(err);
+                                if (err) throw err;
+                            });
 
 
                             end_date = new Date(),
