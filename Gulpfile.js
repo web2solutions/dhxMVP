@@ -528,7 +528,7 @@ gulp.task('git-push', function(){
     elapsed_time = (+end_date) - (+start_date);
     console.log('# git push executed in: ', elapsed_time + ' ms');
 
-    console.log('# setting tag');
+    console.log('# setting tag ' + ('v'+package.version) + ' ' + commit_message );
     git.tag( ('v'+package.version), commit_message, function (err) {
         if( err ) console.log(err);
         if (err) throw err;
