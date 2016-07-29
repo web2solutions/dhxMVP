@@ -25,6 +25,8 @@ var beautify = require('gulp-beautify');
 var print = require('gulp-print');
 var fs = require("fs");
 
+var package = JSON.parse(fs.readFileSync('./package.json'));
+
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
 var coverageFile = './coverage/coverage.json';
 
@@ -227,10 +229,42 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             start_date = new Date(),
             end_date,
             elapsed_time,
-            total_data_stream = 0;
+            total_data_stream = 0,
+            commit_message = '',
+            varray = package.version.split('.'),
+            final_version = +( varray[2] || 0 ),
+            middle_version = +( varray[1] || 0 ),
+            start_version = +( varray[0] || 0 ),
+            string_version = '';
+
+        if( final_version < 999 )
+        {
+            final_version += 1;
+        }
+
+        if( final_version > 999 )
+        {
+            final_version = 0;
+            if( middle_version < 999 )
+            {
+                middle_version += 1;
+            }
+
+            if( middle_version > 999 )
+            {
+                final_version = 0;
+                middle_version = 0;
+                start_version += 1;
+            }
+        }
+
+        string_version = start_version + '.' + middle_version + '.' + final_version;
+        commit_message = 'build #' + string_version + ' - built with gulp';
+
+
         return gulp
             .src(['./*', '!./node_modules','!./node_modules/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
-            .pipe(git.commit('testing git via gulp 14', {emitData:true}))
+            .pipe(git.commit(commit_message , {emitData:true}))
             .on('data',function(data) {
                 var self = this;
                 try{
@@ -298,11 +332,42 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             start_date = new Date(),
             end_date,
             elapsed_time,
-            total_data_stream = 0;
+            total_data_stream = 0,
+            commit_message = '',
+            varray = package.version.split('.'),
+            final_version = +( varray[2] || 0 ),
+            middle_version = +( varray[1] || 0 ),
+            start_version = +( varray[0] || 0 ),
+            string_version = '';
+
+        if( final_version < 999 )
+        {
+            final_version += 1;
+        }
+
+        if( final_version > 999 )
+        {
+            final_version = 0;
+            if( middle_version < 999 )
+            {
+                middle_version += 1;
+            }
+
+            if( middle_version > 999 )
+            {
+                final_version = 0;
+                middle_version = 0;
+                start_version += 1;
+            }
+        }
+
+        string_version = start_version + '.' + middle_version + '.' + final_version;
+        commit_message = 'build #' + string_version + ' - built with gulp';
+
         return gulp
             .src(['./*', '!./node_modules','!./node_modules/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
             .pipe(git.add())
-            .pipe(git.commit('testing git via gulp 14', {emitData:true}))
+            .pipe(git.commit(commit_message, {emitData:true}))
             .on('data',function(data) {
                 var self = this;
                 try{
