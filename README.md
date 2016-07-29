@@ -1,6 +1,31 @@
-# dhxMVP  [![NPM version](https://badge.fury.io/js/dhxmvp.png)](http://badge.fury.io/js/dhxmvp) [![Build Status](https://travis-ci.org/web2solutions/dhxMVP.svg?branch=master)](https://travis-ci.org/web2solutions/dhxMVP) ![Dependency Status](https://gemnasium.com/web2solutions/dhxMVP.png) [![License GPL-2.0](http://b.repl.ca/v1/License-GPL--2.0-brightgreen.png)](https://github.com/web2solutions/dhxMVP/blob/master/LICENSE) 
+# dhxMVP  
+
+[![NPM version](https://badge.fury.io/js/dhxmvp.png)](http://badge.fury.io/js/dhxmvp) [![Build Status](https://travis-ci.org/web2solutions/dhxMVP.svg?branch=master)](https://travis-ci.org/web2solutions/dhxMVP) ![Dependency Status](https://gemnasium.com/web2solutions/dhxMVP.png) [![License GPL-2.0](http://b.repl.ca/v1/License-GPL--2.0-brightgreen.png)](https://github.com/web2solutions/dhxMVP/blob/master/LICENSE) 
 
 dhxMVP is a boilerplater system for building MV* DHTMLX applications.
+
+
+- [Why another MV* implementation](#why-another-mv-implementation)
+- [Kit installation](#kit-installation)
+- [What the boilerplate provides?](#what-the-boilerplate-provides)
+- [Testing the application](#testing-the-application)
+- [Run JSHint to check the code and look for error and bad pratices](#run-jshint-to-check-the-code-and-look-for-error-and-bad-pratices)
+- [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
+- [Build a distribution](#build-a-distribution)
+- [How to use the boilerplate to get my application done?](#how-to-use-the-boilerplate-to-get-my-application-done)
+    - [Setup development env](#setup-development-env)
+    - [The application `main` View](#the-application-main-view)
+    - [The application `main` Presenter](#the-application-main-presenter)
+    - [The application Model](#the-application-model)
+    - [Declaring routes](#declaring-routes)
+        - [Child Views](#child-views)
+        - [Child Presenters](#child-presenters)
+    - [Software validation](#software-validation)
+        -[Code quality](#code-quality)
+        - [Unit Tests](#unit-tests)
+        - [Deploy](#deploy)
+- [License](#license)
+
 
 
 ## Why another MV* implementation?
@@ -9,7 +34,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 
 It makes DHTMLX simple and powerful. It let starter javascript programmers to build Enterprise Javascript applications.
 
-Another reason is actually there is no MV* framework or library which let you to build MV* aplications using DHTMLX components `using the same paradigm` or even similar in the way the are created. DHTMLX fits to a paradigm that is very similar to other frameworks like EXT JS (Senha actually), Dojo, Qooxdoo and others in term of how to implement applications using the `Component Driven Developmemnt`.
+Another reason is actually there is no MV* framework or library which let you to build MV* aplications using DHTMLX components `using the same paradigm` or even similar in the way they were created. DHTMLX fits to a paradigm that is very similar to other frameworks like EXT JS (Senha actually), Dojo, Qooxdoo and others in term of how to implement applications using the `Component Driven Developmemnt` approach.
 
 Frameworks like DHTMLX provides mature and tested components API, rather the model where you create your own components.
 
@@ -57,12 +82,22 @@ To solve the problems regarding loading performance, `dhx.ui.mvp` implements a `
 
 ## Kit installation
 
-List of the softwares you need to have installed in your computer to use the whole features:
+List of the softwares you need to have installed in your computer to use the whole features of the development kit.
 
- - Node.js
- - Gulp
+ - [Node.js](https://nodejs.org/en/download/)
+ - [Gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)
+ - [Git](https://desktop.github.com/) - `I'm using github`
 
-Clone this repository to a given directory, lets assume: ***/Users/YourName/apps/
+Install process:
+
+### Via npm
+
+[![NPM](https://nodei.co/npm/dhxmvp.png?compact=true)](https://nodei.co/npm/dhxmvp/)
+
+
+### Via Github repo
+
+Clone this repository to a given directory, lets assume: ***/Users/YourName/apps/***
 
     $ cd /Users/YourName/apps/
     $ git clone https://github.com/web2solutions/dhxMVP.git
@@ -73,9 +108,11 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
     $ npm install --global gulp-cli
     $ npm install
 
+
+
 ## What the boilerplate provides?
 
-- Starter foundation for Single Page Applications
+- Foundation for Single Page Applications
     - Main View
         - Initially Using DHTMLX Sidebar as application `wrapper and navigation`
     - Main Presenter
@@ -98,10 +135,10 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
  - git-add-commit-push - prepare staged content, commit and push to the repository
  - git-push - push commit from Origin to Master branch
  - build - Build distribution. Performs several tasks over the code. If any tasks breaks, the upcoming task will not be executed. The tasks order is:
-  - jsHint
-  - dist
-  - test
-  - git-add-commit-push
+    gi- jsHint
+    - dist
+    - test
+    - git-add-commit-push
 
 Note about `git` features:
 
@@ -115,9 +152,9 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 ## Run JSHint to check the code and look for error and bad pratices
 
-    $ gulp lint
+    $ gulp jshint
 
-## Creating minified version of the application javascript files (necessary to put changes on production)
+## Creating minified version of the javascript files (necessary to put changes on production)
 
     $ Gulp dist
 
@@ -138,9 +175,9 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 ### Declaring routes
 
-### Child Views
+#### Child Views
 
-### Child Presenters
+#### Child Presenters
 
 ### Software validation
 
