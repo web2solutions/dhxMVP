@@ -333,8 +333,7 @@ html,body{
 
     span.dashboard_title{
       font-size: 30px;
-      color: #4672B2;
-      text-shadow: 2px 2px 2px #85d3ff; /*ali*/
+      color: #4672B2
     }
 
     a.dashboard_link{

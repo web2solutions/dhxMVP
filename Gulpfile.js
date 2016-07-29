@@ -16,6 +16,7 @@ var gulp = require('gulp'),
   path = require('path');
 
 var git = require('gulp-git');
+var gls = require('gulp-live-server');
 //var istanbulReport = require('gulp-istanbul-report');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
@@ -32,7 +33,7 @@ var views = "./lib/view/*.js";
 var model = "./lib/model/*.js";
 var presenters = "./lib/presenter/*.js";
 var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/thirdparty"*/],
-    jsHint = function ( cb ) {
+    jsHint = function ( cb, fn  ) {
         var t_files = 0,
             done_files = 0,
             start_date = new Date(),
@@ -81,7 +82,8 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                         console.log('# jshint executed in: ', elapsed_time + ' ms');
                         console.log('#======> gulp jshint is done with no errors <=====#', (end_date).toISOString());
                         //gulp.src("gulpfile.js").pipe(notify('# jshint done in: ' + elapsed_time + ' ms'));
-                        cb();
+                        if(fn) fn();
+                        if(cb) cb();
                     }
                         
                 })
@@ -94,55 +96,86 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             });
         });
     },
-    dist = function( cb ) {
+    dist = function( cb, fn ) {
         var file = '',
             t_files = 0,
             done_files = 0,
             start_date = new Date(),
             end_date = 0;
-        console.warn('#======> gulp dist is started <=====#', (start_date).toISOString());
-        paths.forEach(function(path_file) {
-            //console.log('=====> working on the directory: ', path_file);
-            var app_files = fs.readdirSync(path.join(__dirname, path_file));
-            var app_files_a = [];
-            app_files.forEach(function(file) {
-                if (file.indexOf(".js", file.length - 3) != -1) {
-                    if (file.indexOf("min.") == -1) {
-                        app_files_a.push(file);
-                        t_files += 1;
-                    }
-                }
-            });
-            app_files_a.forEach(function(file) {
-                //console.log('reading ' + path_file + "/" + file);
-                gulp.src("./" + path_file + "/" + file)
-                .pipe(print(function(filepath) {
-                    return "packing " + filepath;
-                }))
-                .pipe(rename('min.' + file))
-                .pipe(uglify({
-                    mangle: true
-                }))
-                .pipe(gulp.dest('./' + path_file))
-                .on('finish', function() {
-                    //console.log( file +' minified to --> min.' + file );
-                    done_files += 1;
 
-                    if( done_files == t_files )
-                    {
-                        end_date = new Date();
-                        var elapsed_time = (+end_date) - (+start_date);
-                        console.log('# dist executed in: ', elapsed_time + ' ms');
-                        console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
-                        //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
-                        cb();
+        jsHint( null, function(){
+            console.warn('#======> gulp dist is started <=====#', (start_date).toISOString());
+            paths.forEach(function(path_file) {
+                //console.log('=====> working on the directory: ', path_file);
+                var app_files = fs.readdirSync(path.join(__dirname, path_file));
+                var app_files_a = [];
+                app_files.forEach(function(file) {
+                    if (file.indexOf(".js", file.length - 3) != -1) {
+                        if (file.indexOf("min.") == -1) {
+                            app_files_a.push(file);
+                            t_files += 1;
+                        }
                     }
                 });
+                app_files_a.forEach(function(file) {
+                    //console.log('reading ' + path_file + "/" + file);
+                    gulp.src("./" + path_file + "/" + file)
+                    .pipe(print(function(filepath) {
+                        return "packing " + filepath;
+                    }))
+                    .pipe(rename('min.' + file))
+                    .pipe(uglify({
+                        mangle: true
+                    }))
+                    .pipe(gulp.dest('./' + path_file))
+                    .on('finish', function() {
+                        //console.log( file +' minified to --> min.' + file );
+                        done_files += 1;
+
+                        if( done_files == t_files )
+                        {
+                            console.log('#======> moving files to dist/');
+                            gulp
+                                .src(['lib/**/*'])
+                                .pipe(gulp.dest('dist/lib'))
+                                .on('finish', function() {
+                                    
+                                    gulp
+                                        .src(['assets/**/*'])
+                                        .pipe(gulp.dest('dist/assets'))
+                                        .on('finish', function() {
+
+
+                                            gulp
+                                                .src(['boilerplate_sidebar.html'])
+                                                .pipe(rename('index.html'))
+                                                .pipe(gulp.dest('dist/'))
+                                                .on('finish', function() {
+                                                    end_date = new Date();
+                                                    var elapsed_time = (+end_date) - (+start_date);
+                                                    console.log('# dist executed in: ', elapsed_time + ' ms');
+                                                    console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
+                                                    //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
+                                                    if(fn) fn();
+                                                    
+                                                });
+
+
+                                            
+                                            
+                                        });
+                                    
+                                });
+                            if(cb) cb();
+                        }
+                    });
+                });
             });
+            /*dis*/
         });
-        /*dis*/
+        
     },
-    test = function( cb ) {
+    test = function( cb, fn ) {
         var start_date = new Date(),
             end_date = 0,
             elapsed_time = 0;
@@ -164,7 +197,8 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             end_date = new Date();
              var elapsed_time = (+end_date) - (+start_date);
             gulp.src("gulpfile.js").pipe(notify('# test done in: ' + elapsed_time + ' ms'));
-            cb();
+            if(fn) fn();
+            if(cb) cb();
         });
     },
     git_add = function( cb, fn ){
@@ -256,7 +290,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 {
                     console.log('>>>>>>> ', e.stack)
                 }
-                //cb();
+                //if(cb) cb();
             });
     },
     git_add_commit_push = function( cb, fn ){
@@ -329,16 +363,16 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                 {
                     console.log('>>>>>>> ', e.stack)
                 }
-                //cb();
+                //if(cb) cb();
             });
     },
     build = function( cb ) {
         var start_date = new Date(),
             end_date,
             elapsed_time;
-        jsHint( function(){
-            dist( function(){
-                test( function(){
+        //jsHint( null, function(){
+            dist( null, function(){
+                test( null, function(){
                     //git_add( null, function(){
                         git_add_commit_push( null, function( c ){
 
@@ -353,18 +387,18 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                             console.log('# build executed in: ', elapsed_time + ' ms');
                             console.log('#======> gulp build is done with no errors <=====#', (end_date).toISOString());
                             gulp.src("gulpfile.js").pipe(notify('# build done in: ' + elapsed_time + ' ms'));
-                            cb();
+                            if(cb) cb();
                         } );                    
                     //} );
                 } );
             } );
-        } );    
+        //} );    
     };
 
 
 
 gulp.task('jshint', jsHint);
-gulp.task('dist', ['jshint'], dist);
+gulp.task('dist', dist);
 gulp.task('build', build);
 gulp.task('test', function( cb ) {
         var start_date = new Date(),
@@ -388,7 +422,7 @@ gulp.task('test', function( cb ) {
             end_date = new Date();
              var elapsed_time = (+end_date) - (+start_date);
             gulp.src("gulpfile.js").pipe(notify('# test done in: ' + elapsed_time + ' ms'));
-            //cb();
+            //if(cb) cb();
         });
 });
 gulp.task('git-add', git_add);
@@ -450,6 +484,19 @@ gulp.task('default', function() {
     //gulp.watch(files, function(evt) {
     //    gulp.run('jshint');
     //});
+});
+
+
+
+gulp.task('server-start', function() {
+    //2. serve at custom port
+    var server = gls.static('dist', 8888);
+    server.start();
+   
+    //use gulp.watch to trigger server actions(notify, start or stop)
+    gulp.watch(['dist/*'], function(file) {
+        server.notify.apply(server, [file]);
+    });
 });
 
 

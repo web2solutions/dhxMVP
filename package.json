@@ -19,6 +19,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-git": "^1.10.0",
     "gulp-jshint": "^1.12.0",
+    "gulp-live-server": "0.0.30",
     "gulp-mocha-phantomjs": "^0.11.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
