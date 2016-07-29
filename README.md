@@ -24,6 +24,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
         - [Code quality](#code-quality)
         - [Unit Tests](#unit-tests)
         - [Deploy](#deploy)
+    - [Move to production](#move-to-production)
 - [License](#license)
 
 
@@ -186,6 +187,8 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 #### Unit Tests
 
 #### Deploy
+
+### Move to production
 
 
 
