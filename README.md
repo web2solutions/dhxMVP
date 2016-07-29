@@ -21,7 +21,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
         - [Child Views](#child-views)
         - [Child Presenters](#child-presenters)
     - [Software validation](#software-validation)
-        -[Code quality](#code-quality)
+        - [Code quality](#code-quality)
         - [Unit Tests](#unit-tests)
         - [Deploy](#deploy)
 - [License](#license)
