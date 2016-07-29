@@ -8,7 +8,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 - [Why another MV* implementation](#why-another-mv-implementation)
 - [Kit installation](#kit-installation)
 - [What the boilerplate provides?](#what-the-boilerplate-provides)
-- [Single Page Application architecture](#single-page-application-architecture)
+- [Boilerplate architecture](#boilerplate-architecture)
 - [How to use the boilerplate to get my application done?](#how-to-use-the-boilerplate-to-get-my-application-done)
     - [Setup development env](#setup-development-env)
     - [The application `main` View](#the-application-main-view)
@@ -110,7 +110,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
     $ npm install --global gulp-cli
     $ npm install
 
-## Single Page Application architecture
+## Boilerplate architecture
 
 ## What the boilerplate provides?
 
