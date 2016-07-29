@@ -8,10 +8,6 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 - [Why another MV* implementation](#why-another-mv-implementation)
 - [Kit installation](#kit-installation)
 - [What the boilerplate provides?](#what-the-boilerplate-provides)
-- [Testing the application](#testing-the-application)
-- [Run JSHint to check the code and look for error and bad pratices](#run-jshint-to-check-the-code-and-look-for-error-and-bad-pratices)
-- [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
-- [Build a distribution](#build-a-distribution)
 - [How to use the boilerplate to get my application done?](#how-to-use-the-boilerplate-to-get-my-application-done)
     - [Setup development env](#setup-development-env)
     - [The application `main` View](#the-application-main-view)
@@ -22,9 +18,12 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
         - [Child Presenters](#child-presenters)
     - [Software validation](#software-validation)
         - [Code quality](#code-quality)
+            - [Run JSHint to check the code and look for error and bad pratices](#run-jshint-to-check-the-code-and-look-for-error-and-bad-pratices)
         - [Unit Tests](#unit-tests)
         - [Deploy](#deploy)
+            - [Build a distribution](#build-a-distribution)
     - [Move to production](#move-to-production)
+        - [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
 - [License](#license)
 
 
@@ -147,23 +146,6 @@ You will need `GIT LFS` to push large files to the repository.
 Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/github/git-lfs)
 
 
-## Testing the application
-
-    $ gulp test
-
-## Run JSHint to check the code and look for error and bad pratices
-
-    $ gulp jshint
-
-## Creating minified version of the javascript files (necessary to put changes on production)
-
-    $ Gulp dist
-
-## Build a distribution
-
-    $ Gulp build
-
-
 ## How to use the boilerplate to get my application done?
 
 ### Setup development env
@@ -184,11 +166,25 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 #### Code quality
 
+##### Run JSHint to check the code and look for error and bad pratices
+
+    $ gulp jshint
+
 #### Unit Tests
+
+    $ gulp test
 
 #### Deploy
 
+##### Build a distribution
+
+    $ Gulp build
+
 ### Move to production
+
+#### Creating minified version of the javascript files (necessary to put changes on production)
+
+    $ Gulp dist
 
 
 
