@@ -21,9 +21,10 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
             - [Run JSHint to check the code and look for error and bad pratices](#run-jshint-to-check-the-code-and-look-for-error-and-bad-pratices)
         - [Unit Tests](#unit-tests)
         - [Deploy](#deploy)
+            - [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
             - [Build a distribution](#build-a-distribution)
     - [Move to production](#move-to-production)
-        - [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
+        
 - [License](#license)
 
 
@@ -140,7 +141,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
     - test
     - git-add-commit-push
 
-Note about `git` features:
+***Note about `git` features:***
 
 You will need `GIT LFS` to push large files to the repository.
 Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/github/git-lfs)
@@ -176,15 +177,33 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 #### Deploy
 
+##### Creating minified version of the javascript files (necessary to put changes on production)
+
+    $ gulp dist
+
+***Note***
+
+It is a good pratice to run `$ gulp jshint` before `$ gulp dist` and check for programming error and bad pratices.
+
 ##### Build a distribution
 
     $ Gulp build
 
+_This command will run the following tasks in order:_
+
+- gulp jshint
+- gulp dist
+- gulp test
+- gulp git-add-commit-push
+
+***Note***
+
+If a error occurs on any of the above steps, the upcoming deploy task will not be runned.
+
+
 ### Move to production
 
-#### Creating minified version of the javascript files (necessary to put changes on production)
 
-    $ Gulp dist
 
 
 
