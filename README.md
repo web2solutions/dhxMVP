@@ -129,21 +129,20 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
             - presenter
 
 - Code Validation Suite
- - jshint - Run jsHint against application code
- - dist 
+ - gulp jshint - Run jsHint against application code
+ - gulp dist 
     - Run jshint (_The dist will not be executed if is there any programmimng error reported by jshint_)
     - Minify JavaScript files
     - Copy `lib/`to `dist/`
     - Copy `assets/`to `dist/`
     - Copy `boilerplate_sidebar.html`to `dist/` and rename to `index.html
 
- - test - Unit Tests
- - git-init - init git on the repository
- - git-add - prepare staged content to the next commit
- - git-add-commit-push - prepare staged content, commit and push to the repository
- - git-push - push commit from Origin to Master branch
- - build - Build distribution. Performs several tasks over the code. If any task breaks, the upcoming task will not be executed. The tasks order is:
-    gi- jsHint
+ - gulp test - Unit Tests
+ - gulp git-init - init git on the repository
+ - gulp git-add - prepare staged content to the next commit
+ - gulp git-add-commit-push - prepare staged content, commit and push to the repository
+ - gulp git-push - push commit from Origin to Master branch
+ - gulp build - Build distribution. Performs several tasks over the code. If any task breaks, the upcoming task will not be executed. The tasks order is:
     - dist
     - test
     - git-add-commit-push
