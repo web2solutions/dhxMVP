@@ -460,10 +460,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
 
                             console.log( ('v'+c.string_version) );
                             console.log( ('gulp built version ' + c.string_version) );
-                            git.tag( ('v'+c.string_version), ('gulp built version ' + c.string_version), function (err) {
-                                console.log(err);
-                                if (err) throw err;
-                            });
+                            
 
 
                             end_date = new Date(),
@@ -515,7 +512,12 @@ gulp.task('git-add-commit-push', git_add_commit_push);
 gulp.task('git-push', function(){
     var start_date = new Date(),
         end_date,
-        elapsed_time;            
+        elapsed_time,
+        commit_message = '';
+        
+
+        
+  commit_message = 'build #' + package.version + ' - built with gulp';           
   git.push('origin', 'master', function (err) {
     if (err)
     {
@@ -525,7 +527,16 @@ gulp.task('git-push', function(){
     end_date = new Date(),
     elapsed_time = (+end_date) - (+start_date);
     console.log('# git push executed in: ', elapsed_time + ' ms');
-    gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
+
+    console.log('# setting tag');
+    git.tag( ('v'+package.version), commit_message, function (err) {
+        console.log(err);
+        if (err) throw err;
+        gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
+    });
+
+
+    
   });
 });
 gulp.task('git-init', function(){
