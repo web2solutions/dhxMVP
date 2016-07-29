@@ -530,11 +530,12 @@ gulp.task('git-push', function(){
 
     console.log('# setting tag ' + ('v'+package.version) + ' ' + commit_message );
     git.tag( ('v'+package.version), commit_message, function (err) {
-        if( err ) console.log(err);
+        
         if (err) throw err;
+        if( err ) console.log( 'err: ', err);
         gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
     });
-    
+
     
   });
 });
