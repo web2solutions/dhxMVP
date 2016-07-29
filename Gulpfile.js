@@ -458,7 +458,8 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
                     //git_add( null, function(){
                         git_add_commit_push( null, function( c ){
 
-
+                            console.log( ('v'+c.string_version) );
+                            console.log( ('gulp built version ' + c.string_version) );
                             git.tag( ('v'+c.string_version), ('gulp built version ' + c.string_version), function (err) {
                                 console.log(err);
                                 if (err) throw err;
