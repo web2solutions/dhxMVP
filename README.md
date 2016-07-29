@@ -75,7 +75,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ## What the boilerplate provides?
 
-- Starter foundation for a SPA application
+- Starter foundation for Single Page Applications
     - Main View
         - Initially Using DHTMLX Sidebar as application `wrapper and navigation`
     - Main Presenter
@@ -95,13 +95,18 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
  - test - Unit Tests
  - git-init - init git on the repository
  - git-add - prepare staged content to the next commit
- - git-add-commit - prepare staged content and commit to the repository
+ - git-add-commit-push - prepare staged content, commit and push to the repository
  - git-push - push commit from Origin to Master branch
  - build - Build distribution. Performs several tasks over the code. If any tasks breaks, the upcoming task will not be executed. The tasks order is:
   - jsHint
   - dist
   - test
-  - git-add-commit
+  - git-add-commit-push
+
+Note about `git` features:
+
+You will need `GIT LFS` to push large files to the repository.
+Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/github/git-lfs)
 
 
 ## Testing the application
@@ -123,6 +128,31 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ## How to use the boilerplate to get my application done?
 
-### License
+### Setup development env
+
+### The application `main` View
+
+### The application `main` Presenter
+
+### The application Model
+
+### Declaring routes
+
+### Child Views
+
+### Child Presenters
+
+### Software validation
+
+#### Code quality
+
+#### Unit Tests
+
+#### Deploy
+
+
+
+
+## License
 
 This software is distributed under [GPL-2.0](https://www.gnu.org/licenses/gpl-2.0.html) in accordance with [DHTMLX license](http://dhtmlx.com/docs/products/licenses.shtml).
