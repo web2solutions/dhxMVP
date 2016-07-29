@@ -518,7 +518,7 @@ gulp.task('git-push', function(){
 
         
   commit_message = 'build #' + package.version + ' - built with gulp';           
-  git.push('origin', 'master', function (err) {
+  git.push('origin', 'master', {args: " --tag -a "+('v'+package.version)+" -m 'my version "+package.version+"'"}, function (err) {
     if (err)
     {
         throw err;  
