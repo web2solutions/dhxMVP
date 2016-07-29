@@ -516,12 +516,11 @@ gulp.task('git-push', function(){
         commit_message = '';
         
   commit_message = 'build #' + package.version + ' - built with gulp';           
-  git.push('origin', 'master', {args: " --tags "+('v'+package.version)+" -m 'my version "+package.version+"'"}, function (err) {
+  git.push('origin', 'master', {args: " --tags "+('v'+package.version)+""}, function (err) {
     if (err)
     {
         throw err;  
     } 
-
     end_date = new Date(),
     elapsed_time = (+end_date) - (+start_date);
     console.log('# git push executed in: ', elapsed_time + ' ms');
