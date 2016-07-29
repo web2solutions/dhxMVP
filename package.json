@@ -1,6 +1,6 @@
 {
   "name": "dhxmvp",
-  "version": "0.0.1",
+  "version": "0.0.49",
   "description": "A complete boilerplate for building MV* applications using DHTMLX on top using dhx.ui.mvp, the first MV* framework focused in building DHTMLX applications.",
   "keywords": [
     "MVC",

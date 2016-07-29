@@ -130,13 +130,19 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 - Code Validation Suite
  - jshint - Run jsHint against application code
- - dist - Minify JavaScript files. It runs `jshint`first. The dist will not be executed if is there any programmimng error reported by jshint.
+ - dist 
+    - Run jshint (_The dist will not be executed if is there any programmimng error reported by jshint_)
+    - Minify JavaScript files
+    - Copy `lib/`to `dist/`
+    - Copy `assets/`to `dist/`
+    - Copy `boilerplate_sidebar.html`to `dist/` and rename to `index.html
+
  - test - Unit Tests
  - git-init - init git on the repository
  - git-add - prepare staged content to the next commit
  - git-add-commit-push - prepare staged content, commit and push to the repository
  - git-push - push commit from Origin to Master branch
- - build - Build distribution. Performs several tasks over the code. If any tasks breaks, the upcoming task will not be executed. The tasks order is:
+ - build - Build distribution. Performs several tasks over the code. If any task breaks, the upcoming task will not be executed. The tasks order is:
     gi- jsHint
     - dist
     - test
