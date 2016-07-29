@@ -8,6 +8,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 - [Why another MV* implementation](#why-another-mv-implementation)
 - [Kit installation](#kit-installation)
 - [What the boilerplate provides?](#what-the-boilerplate-provides)
+- [Single Page Application architecture](#single-page-application-architecture)
 - [How to use the boilerplate to get my application done?](#how-to-use-the-boilerplate-to-get-my-application-done)
     - [Setup development env](#setup-development-env)
     - [The application `main` View](#the-application-main-view)
@@ -24,7 +25,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
             - [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
             - [Build a distribution](#build-a-distribution)
     - [Move to production](#move-to-production)
-        
+
 - [License](#license)
 
 
@@ -109,7 +110,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
     $ npm install --global gulp-cli
     $ npm install
 
-
+## Single Page Application architecture
 
 ## What the boilerplate provides?
 
@@ -187,7 +188,7 @@ It is a good pratice to run `$ gulp jshint` before `$ gulp dist` and check for p
 
 ##### Build a distribution
 
-    $ Gulp build
+    $ gulp build
 
 _This command will run the following tasks in order:_
 
@@ -198,7 +199,7 @@ _This command will run the following tasks in order:_
 
 ***Note***
 
-If a error occurs on any of the above steps, the upcoming deploy task will not be runned.
+If a error occurs on any of the above task, the upcoming deploy task will not be runned.
 
 
 ### Move to production
