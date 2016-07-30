@@ -549,7 +549,7 @@ gulp.task('git-push', function(){
         commit_message = '';
         
     commit_message = 'build #' + package.version + ' - built with gulp';
-    git.tag( ('v'+package.version), commit_message, function (err) {
+    git.tag( ('v'+package.version), commit_message, {args: ' -a'}, function (err) {
         
         if (err) throw err;
         if( err ) console.log( 'err: ', err);
