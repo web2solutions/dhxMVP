@@ -549,13 +549,13 @@ gulp.task('git-push', function(){
         commit_message = '';
         
     commit_message = 'build #' + package.version + ' - built with gulp';
-    git.tag( ('v'+package.version), commit_message, {args: ' -a'}, function (err) {
+    git.tag( ('v'+package.version), commit_message, {args: ' -a '+ package.version}, function (err) {
         
         if (err) throw err;
         if( err ) console.log( 'err: ', err);
 
 
-        git.push('origin', ['master'], function (err) {
+        git.push('origin', ['master'], {args: " --tags"}, function (err) {
             if (err)
             {
                 throw err;  
@@ -563,10 +563,9 @@ gulp.task('git-push', function(){
             end_date = new Date(),
             elapsed_time = (+end_date) - (+start_date);
             console.log('# git push executed in: ', elapsed_time + ' ms');
+            gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
         });
-
-
-        gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
+        
     });      
   
 });
