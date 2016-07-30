@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     watch = require('gulp-watch'),
-    plumber = require('gulp-plumber'),
+    //plumber = require('gulp-plumber'),
     jshint = require('gulp-jshint'),
     stylish = require('jshint-stylish'),
     map = require('map-stream'),
