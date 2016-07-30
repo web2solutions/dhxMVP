@@ -1,40 +1,32 @@
 var gulp = require('gulp'),
-  watch = require('gulp-watch'),
-
-// This will keeps pipes working after error event
-  plumber = require('gulp-plumber'),
-
-// linting
-  jshint = require('gulp-jshint'),
-  stylish = require('jshint-stylish'),
-
-// Used in linting custom reporter
-  map = require('map-stream'),
-  events = require('events'),
-  notify = require('gulp-notify'),
-  emmitter = new events.EventEmitter(),
-  path = require('path');
-
-var git = require('gulp-git');
-var gls = require('gulp-live-server');
-//var istanbulReport = require('gulp-istanbul-report');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
-var rename = require('gulp-rename');
-var beautify = require('gulp-beautify');
-var print = require('gulp-print');
-var fs = require("fs");
-
-var package = JSON.parse(fs.readFileSync('./package.json'));
-
-var mochaPhantomJS = require('gulp-mocha-phantomjs');
-var coverageFile = './coverage/coverage.json';
-
-var files = "./lib/*.js";
-var views = "./lib/view/*.js";
-var model = "./lib/model/*.js";
-var presenters = "./lib/presenter/*.js";
-var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/thirdparty"*/],
+    watch = require('gulp-watch'),
+    plumber = require('gulp-plumber'),
+    jshint = require('gulp-jshint'),
+    stylish = require('jshint-stylish'),
+    map = require('map-stream'),
+    events = require('events'),
+    notify = require('gulp-notify'),
+    emmitter = new events.EventEmitter(),
+    path = require('path'),
+    electron = require('gulp-electron'),
+    packageJson = require('./package.json'),
+    git = require('gulp-git'),
+    gulp_live_server = require('gulp-live-server'),
+    //istanbulReport = require('gulp-istanbul-report'),
+    uglify = require('gulp-uglify'),
+    concat = require('gulp-concat'),
+    rename = require('gulp-rename'),
+    beautify = require('gulp-beautify'),
+    print = require('gulp-print'),
+    fs = require("fs"),
+    package = JSON.parse(fs.readFileSync('./package.json')),
+    mochaPhantomJS = require('gulp-mocha-phantomjs'),
+    coverageFile = './coverage/coverage.json',
+    files = "./lib/*.js",
+    views = "./lib/view/*.js",
+    model = "./lib/model/*.js",
+    presenters = "./lib/presenter/*.js",
+    paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/thirdparty"*/],
     jsHint = function ( cb, fn  ) {
         var t_files = 0,
             done_files = 0,
@@ -506,99 +498,6 @@ gulp.task('test', function( cb ) {
             //if(cb) cb();
         });
 });
-gulp.task('git-add', git_add);
-gulp.task('git-commit', git_commit);
-gulp.task('git-add-commit-push', git_add_commit_push);
-gulp.task('git-push', function(){
-    var start_date = new Date(),
-        end_date,
-        elapsed_time,
-        commit_message = '';
-        
-    commit_message = 'build #' + package.version + ' - built with gulp';
-    git.tag( ('v'+package.version), commit_message, function (err) {
-        
-        if (err) throw err;
-        if( err ) console.log( 'err: ', err);
-
-
-        git.push('origin', ['master'], {args: " --tags"}, function (err) {
-            if (err)
-            {
-                throw err;  
-            } 
-            end_date = new Date(),
-            elapsed_time = (+end_date) - (+start_date);
-            console.log('# git push executed in: ', elapsed_time + ' ms');
-        });
-
-
-        gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
-    });      
-  
-});
-gulp.task('git-init', function(){
-  git.init();
-});
-
-
-/*
-
-var coverageFile = './coverage/coverage.json';
-var mochaPhantomOpts = {
-  phantomjs: {
-    hooks: 'mocha-phantomjs-istanbul',
-    coverageFile: coverageFile 
-  },
-  reporter: 'spec'
-};
-
-gulp.task('test-coverage', function () {
-  gulp.src('./test/test.html', {read: false})
-    .pipe(mochaPhantomJS(mochaPhantomOpts))
-    .on('finish', function() {
-      gulp.src(coverageFile)
-        .pipe(istanbulReport({
-		  reporterOpts: {
-		    dir: './coverage'
-		  },
-		  reporters: [
-		  	'text-summary', // outputs summary to stdout, uses default options 
-		    {'name': 'text', file: 'report.txt'}, // -> ./coverage/report.txt
-		    {'name': 'json', file: 'cov.json'} // -> ./jsonCov/cov.json
-		  ]
-		}))
-    });
-});
-*/
-
-gulp.task('default', function() {
-    gulp.run('jshint');
-    //gulp.watch(files, function(evt) {
-    //    gulp.run('jshint');
-    //});
-});
-
-
-
-gulp.task('server-start', function() {
-    //2. serve at custom port
-    var server = gls.static('dist', 8888);
-    server.start();
-   
-    //use gulp.watch to trigger server actions(notify, start or stop)
-    gulp.watch(['dist/*'], function(file) {
-        server.notify.apply(server, [file]);
-    });
-});
-
-
-
-
-
-var electron = require('gulp-electron');
-var packageJson = require('./package.json');
- 
 gulp.task('build-installer-mac', function() {
  
     gulp.src('./dist/**/*')
@@ -637,6 +536,97 @@ gulp.task('build-installer-mac', function() {
     .pipe(rename('index.js'))
     .pipe(gulp.dest("installers/Mac/dhxMVP.app/Contents/Resources/app/"));
 });
+gulp.task('git-init', function(){
+  git.init();
+});
+gulp.task('git-add', git_add);
+gulp.task('git-commit', git_commit);
+gulp.task('git-add-commit-push', git_add_commit_push);
+gulp.task('git-push', function(){
+    var start_date = new Date(),
+        end_date,
+        elapsed_time,
+        commit_message = '';
+        
+    commit_message = 'build #' + package.version + ' - built with gulp';
+    git.tag( ('v'+package.version), commit_message, function (err) {
+        
+        if (err) throw err;
+        if( err ) console.log( 'err: ', err);
+
+
+        git.push('origin', ['master'], {args: " --tags"}, function (err) {
+            if (err)
+            {
+                throw err;  
+            } 
+            end_date = new Date(),
+            elapsed_time = (+end_date) - (+start_date);
+            console.log('# git push executed in: ', elapsed_time + ' ms');
+        });
+
+
+        gulp.src("gulpfile.js").pipe(notify('# git push done in: ' + elapsed_time + ' ms'));
+    });      
+  
+});
+
+gulp.task('server-start', function() {
+    //2. serve at custom port
+    var server = gulp_live_server.static('dist', 8888);
+    server.start();
+   
+    //use gulp.watch to trigger server actions(notify, start or stop)
+    gulp.watch(['dist/*'], function(file) {
+        server.notify.apply(server, [file]);
+    });
+});
+
+
+
+
+
+
+gulp.task('default', function() {
+    gulp.run('jshint');
+    //gulp.watch(files, function(evt) {
+    //    gulp.run('jshint');
+    //});
+});
+
+
+
+/*
+
+var coverageFile = './coverage/coverage.json';
+var mochaPhantomOpts = {
+  phantomjs: {
+    hooks: 'mocha-phantomjs-istanbul',
+    coverageFile: coverageFile 
+  },
+  reporter: 'spec'
+};
+
+gulp.task('test-coverage', function () {
+  gulp.src('./test/test.html', {read: false})
+    .pipe(mochaPhantomJS(mochaPhantomOpts))
+    .on('finish', function() {
+      gulp.src(coverageFile)
+        .pipe(istanbulReport({
+		  reporterOpts: {
+		    dir: './coverage'
+		  },
+		  reporters: [
+		  	'text-summary', // outputs summary to stdout, uses default options 
+		    {'name': 'text', file: 'report.txt'}, // -> ./coverage/report.txt
+		    {'name': 'json', file: 'cov.json'} // -> ./jsonCov/cov.json
+		  ]
+		}))
+    });
+});
+*/
+
+
 
 
 //process.on('uncaughtException', function(err){
