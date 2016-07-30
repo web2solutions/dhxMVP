@@ -548,7 +548,7 @@ gulp.task('git-push', function(){
         elapsed_time,
         commit_message = '';
         
-    commit_message = 'Build #' + package.version + '.\n Built with gulp.';
+    commit_message = 'Build #' + package.version + '.\n\nBuilt with gulp.';
     git.tag( ('v'+package.version+'-alpha'), commit_message, {args: ''}, function (err) {
         
         if (err) throw err;
@@ -580,10 +580,6 @@ gulp.task('server-start', function() {
         server.notify.apply(server, [file]);
     });
 });
-
-
-
-
 
 
 gulp.task('default', function() {
