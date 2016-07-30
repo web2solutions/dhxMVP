@@ -590,9 +590,7 @@ gulp.task('default', function() {
 });
 
 
-
 /*
-
 var coverageFile = './coverage/coverage.json';
 var mochaPhantomOpts = {
   phantomjs: {
