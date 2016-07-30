@@ -17,17 +17,31 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
     - [Declaring routes](#declaring-routes)
         - [Child Views](#child-views)
         - [Child Presenters](#child-presenters)
-    - [Software validation](#software-validation)
+    - [Software validation and code automation](#software-validation-and-code-automation)
         - [Code quality](#code-quality)
             - [Run JSHint to check the code and look for error and bad pratices](#run-jshint-to-check-the-code-and-look-for-error-and-bad-pratices)
         - [Unit Tests](#unit-tests)
         - [Deploy](#deploy)
             - [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
             - [Build a distribution](#build-a-distribution)
+        - [Application distributing](#application-distributing)
+            - [Creating Mac installers](#creating-mac-installers)
+            - [Creating Windows installers](#creating-windows-installers)
+            - [Creating Linux installers](#creating-linux-installers)
     - [Move to production](#move-to-production)
 
 - [License](#license)
 
+
+
+
+##### 
+
+
+##### 
+
+
+##### 
 
 
 ## Why another MV* implementation?
@@ -128,7 +142,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
             - view
             - presenter
 
-- Code Validation Suite
+- Code Validation and Automation Suite
  - gulp jshint - Run jsHint against application code
  - gulp dist 
     - Run jshint (_The dist will not be executed if is there any programmimng error reported by jshint_)
@@ -140,12 +154,15 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
  - gulp test - Unit Tests
  - gulp git-init - init git on the repository
  - gulp git-add - prepare staged content to the next commit
- - gulp git-add-commit-push - prepare staged content, commit and push to the repository
+ - sudo gulp git-add-commit-push - prepare staged content, commit and push to the repository
  - gulp git-push - push commit from Origin to Master branch
- - gulp build - Build distribution. Performs several tasks over the code. If any task breaks, the upcoming task will not be executed. The tasks order is:
+ - sudo gulp build - Build distribution. Performs several tasks over the code. If any task breaks, the upcoming task will not be executed. The tasks order is:
     - dist
     - test
     - git-add-commit-push
+ - gulp build-installer-mac - generate a Mac installer of the current build.
+ - gulp build-installer-window - generate a Windows installer of the current build.
+ - gulp build-installer-linux - generate a Linux installer of the current build.
 
 ***Note about `git` features:***
 
@@ -169,7 +186,7 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 #### Child Presenters
 
-### Software validation
+### Software validation  and code automation
 
 #### Code quality
 
@@ -183,17 +200,27 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 #### Deploy
 
-##### Creating minified version of the javascript files (necessary to put changes on production)
+##### Creating minified version of the javascript files
+
+When working on localhost, the dhxMVP will generally load the non minified version of the javascript files. Although, the files used by the core are always loaded using the minified version.
+
+In this case, on every time you change a file of the core (except views and presenters), you need to run the `dist` command to see the changes in action using a browser.
+
+It is necessary too when putting the application on production due it will load only the minified version of the javascript files.
+
+To make a dist, run:
 
     $ gulp dist
 
 ***Note***
 
-It is a good pratice to run `$ gulp jshint` before `$ gulp dist` and check for programming error and bad pratices.
+It is a good pratice to run `$ gulp jshint` before `$ gulp dist` and check for programming error and bad pratices. Although, the `jshint` is automatically runned before `dist`
 
 ##### Build a distribution
 
-    $ gulp build
+Building a distribution will check the whole code reliability and push it to Git repository as a new version.
+
+    $ sudo gulp build
 
 _This command will run the following tasks in order:_
 
@@ -206,6 +233,26 @@ _This command will run the following tasks in order:_
 
 If a error occurs on any of the above task, the upcoming deploy task will not be runned.
 
+
+#### Application distributing
+
+Including the web version, you may be interested in distributing your application as a `Desktop Application`. For this case, the Boilerplate system provides you a mechanism to create `executable versions` of your application with no efforts.
+
+You can get the generated executables and distribute to your client.
+
+The generated installers will be stored into `installers/`.
+
+The make the installers, run the following commands:
+
+##### Creating Mac installers
+
+    $ gulp build-installer-mac
+
+
+##### Creating Windows installers
+
+
+##### Creating Linux installers
 
 ### Move to production
 

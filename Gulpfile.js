@@ -208,7 +208,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
             end_date,
             elapsed_time;
         return gulp
-            .src(['./*', '!./node_modules','!./node_modules/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
+            .src(['./*', '!./node_modules','!./node_modules/**', '!./cache','!./cache/**','!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
             .pipe(git.add())
             .on('error', function(e){
                 console.log( '>>>> error on git-add' );
@@ -263,7 +263,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
 
 
         return gulp
-            .src(['./*', '!./node_modules','!./node_modules/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
+            .src(['./*', '!./node_modules','!./node_modules/**','!./cache','!./cache/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
             .pipe(git.commit(commit_message , {emitData:true}))
             .on('data',function(data) {
                 var self = this;
@@ -376,7 +376,7 @@ var paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/
         }); 
 
         return gulp
-            .src(['./*', '!./node_modules','!./node_modules/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
+            .src(['./*', '!./node_modules','!./node_modules/**','!./cache','!./cache/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
             .pipe(git.add())
             .pipe(git.commit(commit_message, {emitData:true}))
             .on('data',function(data) {
@@ -594,6 +594,49 @@ gulp.task('server-start', function() {
 
 
 
+
+
+var electron = require('gulp-electron');
+var packageJson = require('./package.json');
+ 
+gulp.task('build-installer-mac', function() {
+ 
+    gulp.src('./dist/**/*')
+    /*.pipe(electron({
+        src: './dist',
+        packageJson: packageJson,
+        release: './release',
+        cache: './cache',
+        version: '2',
+        //packaging: true,
+        //asar: true,
+        //token: 'abc123...',
+        platforms: ['darwin-x64'],
+        platformResources: {
+            darwin: {
+                CFBundleDisplayName: packageJson.name,
+                CFBundleIdentifier: packageJson.name,
+                CFBundleName: packageJson.name,
+                CFBundleVersion: packageJson.version,
+                icon: 'gulp-electron.icns'
+            },
+            win: {
+                "version-string": packageJson.version,
+                "file-version": packageJson.version,
+                "product-version": packageJson.version,
+                "icon": 'gulp-electron.ico'
+            }
+        }
+    }))*/
+    .pipe(gulp.dest("installers/Mac/dhxMVP.app/Contents/Resources/app/public"));
+
+    gulp.src('./package.json')
+    .pipe(gulp.dest("installers/Mac/dhxMVP.app/Contents/Resources/app/"));
+
+    gulp.src('./electron.js')
+    .pipe(rename('index.js'))
+    .pipe(gulp.dest("installers/Mac/dhxMVP.app/Contents/Resources/app/"));
+});
 
 
 //process.on('uncaughtException', function(err){
