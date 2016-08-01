@@ -5,6 +5,9 @@
 dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 
 
+[![print screen](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
+
+
 - [Why another MV* implementation](#why-another-mv-implementation)
 - [Kit installation](#kit-installation)
 - [What the boilerplate provides?](#what-the-boilerplate-provides)
