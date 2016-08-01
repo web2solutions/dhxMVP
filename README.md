@@ -238,7 +238,7 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 ### Setup development environment
 
-1 - ***Give a name to your application.***
+1. ***Give a name to your application.***
 
 Open the file `./package.json` and alter the the following properties. 
 
@@ -266,7 +266,7 @@ The `version property` shall to be set to `0.0.0`. On every time you make a dist
 
 
 
-2 - ***Rename the Application directory***
+2. ***Rename the Application directory***
 
 The currently directory name is `dhxMVP`. Change it by providing your application name.
 
@@ -277,7 +277,7 @@ For example
 
 
 
-3 - ***Start the development server***:
+3. ***Start the development server***:
 
     $ cd MyApplicationName/
     $ gulp start-development-server
@@ -293,7 +293,7 @@ _On a future version I will release a new demo example using `DHTMLX Layout` and
 
 
 
-4 - ***Set up a new project on your prefered HTML5 and Javascript IDE***: 
+4. ***Set up a new project on your prefered HTML5 and Javascript IDE***: 
 
 I'm using [Sublime Text](https://www.sublimetext.com/) here and it provides a excellent plugin to run `gulp` directly from the IDE rather than requiring from you to run the `gulp commands` via `terminal`. Atom is a excellent choice too.
 
@@ -301,7 +301,7 @@ I'm using [Sublime Text](https://www.sublimetext.com/) here and it provides a ex
 
 
 
-5 - ***Setup a new git repository for your application.***
+5. ***Setup a new git repository for your application.***
 
 On this step you will need a github account and it client installed locally.
 
@@ -525,7 +525,7 @@ When you declare a route, you are defining 4 things inside a dhxMVP application:
 
 Routes may be dispatched through 2 different ways:
 
-1 - calling the `dispatch()` method from the `Main View`. 
+1. Calling the `dispatch()` method from the `Main View`. 
 
 This method is automatically created when you declare your `Main View`. Don't declare it again. Example:
 
@@ -548,9 +548,10 @@ $dhx.ui.mvp.presenters.declare({
 
             dispatch_help_route: function() {
                 var self = this,
-                    main_view = $dhx.ui.mvp.views.get('view');
+                    view = self.view;
                 
-                main_view.dispatch('/help');
+                view.dispatch('/help');
+                
             }
             
         }; // end API
@@ -578,9 +579,9 @@ $dhx.ui.mvp.presenters.declare({
 
             dispatch_help_route: function() {
                 var self = this,
-                    view = self.view;
+                    main_view = $dhx.ui.mvp.views.get('view');
                 
-                view.dispatch('/help');
+                main_view.dispatch('/help');
             }
             
         }; // end API
@@ -589,13 +590,83 @@ $dhx.ui.mvp.presenters.declare({
 });
 ````
 
+
+2. Calling the `dispatch()` method from the `_router` Object from the `Main View`. 
+
+
+***On the Main Presenter***
+
+````javascript
+$dhx.ui.mvp.presenters.declare({
+    "presenter": (function() {
+        'strict';
+        var API = {
+            start: function() {
+                var self = this,
+                    view = self.view;
+                $dhx.debug.log('MAIN:PRESENTER: start from MAIN:PRESENTER');
+            },
+            destroy: function() {
+                $dhx.debug.log('MAIN:PRESENTER: destroy from MAIN:PRESENTER');
+                //$dhx.debug.log(this._view);
+            },
+
+            dispatch_help_route: function() {
+                var self = this,
+                    view = self.view;
+                
+                view._router.dispatch('/help');
+                
+            }
+            
+        }; // end API
+        return API;
+    }())
+});
+````
+
+***On a Child Presenter***
+
+````javascript
+$dhx.ui.mvp.presenters.declare({
+    "help": (function() {
+        'strict';
+        var API = {
+            start: function() {
+                var self = this,
+                    view = self.view;
+                $dhx.debug.log('MAIN:PRESENTER: start from MAIN:PRESENTER');
+            },
+            destroy: function() {
+                $dhx.debug.log('MAIN:PRESENTER: destroy from MAIN:PRESENTER');
+                //$dhx.debug.log(this._view);
+            },
+
+            dispatch_help_route: function() {
+                var self = this,
+                    main_view = $dhx.ui.mvp.views.get('view');
+                
+                main_view._router.dispatch('/help');
+            }
+            
+        }; // end API
+        return API;
+    }())
+});
+````
+
+
+Now, let's see how to declare the routes:
+
+
+
 ***Complete setup***
 
 Use it only in two cases:
 
-1 - When you want to create files for child `Presenters` or `Views` and give the file a name that is different of the dispatched route name.
+1. When you want to create files for child `Presenters` or `Views` and give the file a name that is different of the dispatched route name.
 
-2 - If you want to inject another javascript files into the route scope.
+2. If you want to inject another javascript files into the route scope.
 
 
 ````javascript
@@ -622,15 +693,149 @@ Use it only in two cases:
 The above declared route will inject the files 'MyApplicationName/lib/view/help.js' and 'MyApplicationName/lib/presenter/help.js' when the route `/help` is dispatched into the Application scope.
 
 
+
+
+
+
+
 #### Child Views
+
+Child Views are Javascript Modules/Object that are reponsible for rendering the view of a dispatched route.
+
+It should looks like the following:
+
+````javascript
+$dhx.ui.mvp.views.declare({
+    "help": (function () {
+        'strict';
+        var route = 'help',
+            child_view = $dhx.ui.mvp.child_view.extend({ }),
+            view = new child_view({
+                /**
+                 * [_settings View's settings. Components' internal settings]
+                 * @type {Object}
+                 */
+                _settings: {
+                    
+                },
+
+                initialize: function(options) {
+                    $dhx.debug.log('CHILD:VIEW:: called initialize from help_view.initialize');
+                },
+                destroy: function() {
+
+                },
+                
+                
+                
+                /**
+                 * [render the view. Called once application starts]
+                 */
+                render: function() {
+                    var self = this;
+                    
+                },
+                /**
+                 * [subscriber function which receives jobs from presenter]
+                 * @param  {[string]} topic [listened topic]
+                 * @param  {[Objec]} data  [message object]
+                 */
+                _subscriber: function(topic, data) {
+                    var self = $dhx.ui.mvp.views.get( route );
+                }
+            });
+
+        return view;
+    }())
+});
+```
+
+A more complete `Child View` demo code may be [viewed here](https://gist.github.com/web2solutions/354b7f926d48ab0eb6e796834089d379)
+
+As a example, we may consider a `Help` button on the `Main View` which dispatched the `/help` route when clicked.
+`$dhx.ui.mvp` will then inject the 'lib/view/help.js' and this recently injected module will render a interface displaying a list of `Frequent Asked Questions`
+
+On a dhxMVP application, every route is associated to a `Child View`.
+
+
+
+
 
 #### Child Presenters
 
-### Software validation  and code automation
+Child Presenters are Javascript Modules/Object that are reponsible for orchestrating a `Child View`. of a dispatched route.
+
+
+It should looks like the following:
+
+````javascript
+$dhx.ui.mvp.presenters.declare({
+    "help": (function() {
+        'strict';
+        var API = {
+            start: function() {
+                var self = this,
+                    view = self.view;
+            },
+            destroy: function() {
+                
+                
+            }
+        }; // end API
+        return API;
+    }())
+});
+```
+
+A more complete `Child Presenter` demo code may be [viewed here](https://gist.github.com/web2solutions/15826fd72615da2a1b1eadcf2d45e3da)
+
+
+In the `Child Presenter` we could define `function event handlers` for the components defined in the associated 'Child View'.
+
+Not least, provide any 'help method' to be used into the associated `Child View`.
+
+
+As a example, we may consider a `Help` button on the `Main View` which dispatched the `/help` route when clicked.
+`$dhx.ui.mvp` will then inject the 'lib/presenter/help.js' and this recently injected module will orchestrate the interface displaying a list of `Frequent Asked Questions`.
+
+
+On a dhxMVP application, every route is associated to a `Child Presenter`.
+
+
+
+***Resume***
+
+Considering the Application Demo provided in this boilerplate, every time you want to add a new button on the left sidebar, you will need:
+
+1. Declare a new route into `lib/app.js`
+2. Add a new sidebar button on the file `lib/presenter/presenter.js`
+3. Declare a new Child View and create it file inside `lib/view/` folder.
+4. Declare a new Child Presenter and create it file inside `lib/presenter/` folder.
+
+
+### Software validation and code automation
+
+When you finish the development process of your dhxMVP application, you may want to move it to production.
+
+Not least, you may want to create releases of your currently application version.
+
+You may want too, to create `Desktop version` of your fresh created `Web Application`.
+
+All those features are provided in this Boilerplate system. Although, you will not be able to produce new releases, or create installers for desktop version or even to create distributions of your application to run on a production server if one of the following 2 things occurs:
+
+1 - programming error o bad pratice found in your codebase.
+2 - Tests performed by the Testing Suite are failing.
+
+It means you will not be able to delivery bad code to the end users.
+
 
 #### Code quality
 
-##### Run JSHint to check the code and look for error and bad pratices
+To ensure code quality and best pratices we use [jsHint](http://jshint.com/), a code quality tool, against your codebase.
+
+##### Run JSHint to check the code and look for error and bad pratices.
+
+Inside application directory, type:
 
     $ gulp jshint
 
@@ -639,14 +844,14 @@ The above declared route will inject the files 'MyApplicationName/lib/view/help.
 
 #### Unit Tests
 
+Inside application directory, type:
+
     $ gulp test
 
 
 
 
 #### Deploy
-
-
 
 
 
@@ -714,14 +919,14 @@ The make the installers, run the following commands:
 
 ##### Creating Windows installers
 
-   $ gulp build-installer-windows
+    $ gulp build-installer-windows
 
 
 
 
 ##### Creating Linux installers
 
-   $ gulp build-installer-windows
+    $ gulp build-installer-windows
 
 
 
