@@ -9,6 +9,9 @@ var gulp = require('gulp'),
     emmitter = new events.EventEmitter(),
     path = require('path'),
     electron = require('gulp-electron'),
+    electron_version = 'v1.3.1',
+    //electron = require('gulp-atom-electron'),
+    //gulpAsar = require('gulp-asar')
     packageJson = require('./package.json'),
     git = require('gulp-git'),
     gulp_live_server = require('gulp-live-server'),
@@ -129,36 +132,56 @@ var gulp = require('gulp'),
                         if( done_files == t_files )
                         {
                             console.log('#======> moving files to dist/');
+                            // create dist/
                             gulp
                                 .src(['lib/**/*'])
                                 .pipe(gulp.dest('dist/lib'))
                                 .on('finish', function() {
-                                    
                                     gulp
                                         .src(['assets/**/*'])
                                         .pipe(gulp.dest('dist/assets'))
                                         .on('finish', function() {
-
-
                                             gulp
                                                 .src(['boilerplate_sidebar.html'])
                                                 .pipe(rename('index.html'))
                                                 .pipe(gulp.dest('dist/'))
                                                 .on('finish', function() {
-                                                    end_date = new Date();
-                                                    var elapsed_time = (+end_date) - (+start_date);
-                                                    console.log('# dist executed in: ', elapsed_time + ' ms');
-                                                    console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
-                                                    //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
-                                                    if(fn) fn();
                                                     
+                                                    console.log('#======> moving files to dist_electron/');
+                                                    // create dist_electron/
+                                                    gulp
+                                                        .src(['dist/**/*'])
+                                                        .pipe(gulp.dest('dist_electron/public/'))
+                                                        .on('finish', function() {
+                                                            
+                                                            
+                                                            gulp
+                                                                .src(['assets/**/*'])
+                                                                .pipe(gulp.dest('dist_electron/public/assets'))
+                                                                .on('finish', function() {
+                                                                    gulp
+                                                                                .src('./electron.js')
+                                                                                .pipe(rename('index.js'))
+                                                                                .pipe(gulp.dest('dist_electron/'))
+                                                                                .on('finish', function() {
+                                                                                    gulp
+                                                                                        .src('./package.json')
+                                                                                        .pipe(gulp.dest('dist_electron/'))
+                                                                                        .on('finish', function() {
+                                                                                            end_date = new Date();
+                                                                                            var elapsed_time = (+end_date) - (+start_date);
+                                                                                            console.log('# dist executed in: ', elapsed_time + ' ms');
+                                                                                            console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
+                                                                                            //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
+                                                                                            if(fn) fn(); 
+                                                                                        });
+                                                                                });
+                                                                });
+                                                        });
+
+
                                                 });
-
-
-                                            
-                                            
                                         });
-                                    
                                 });
                             if(cb) cb();
                         }
@@ -498,16 +521,18 @@ gulp.task('test', function( cb ) {
             //if(cb) cb();
         });
 });
-gulp.task('build-installer-mac', function() {
+
+
+gulp.task('build-installer-mac', function( ) {
  
-    gulp.src('./dist/**/*')
-    /*.pipe(electron({
-        src: './dist',
+    gulp.src('')
+    .pipe(electron({
+        src: './dist_electron',
         packageJson: packageJson,
-        release: './release',
+        release: './installers',
         cache: './cache',
-        version: '2',
-        //packaging: true,
+        version: electron_version,
+        packaging: true,
         //asar: true,
         //token: 'abc123...',
         platforms: ['darwin-x64'],
@@ -517,25 +542,134 @@ gulp.task('build-installer-mac', function() {
                 CFBundleIdentifier: packageJson.name,
                 CFBundleName: packageJson.name,
                 CFBundleVersion: packageJson.version,
-                icon: 'gulp-electron.icns'
+                icon: 'assets/icons/gulp-electron.icns'
             },
             win: {
                 "version-string": packageJson.version,
                 "file-version": packageJson.version,
                 "product-version": packageJson.version,
-                "icon": 'gulp-electron.ico'
+                "icon": 'assets/icons/gulp-electron.ico'
             }
         }
-    }))*/
-    .pipe(gulp.dest("installers/Mac/dhxMVP.app/Contents/Resources/app/public"));
-
-    gulp.src('./package.json')
-    .pipe(gulp.dest("installers/Mac/dhxMVP.app/Contents/Resources/app/"));
-
-    gulp.src('./electron.js')
-    .pipe(rename('index.js'))
-    .pipe(gulp.dest("installers/Mac/dhxMVP.app/Contents/Resources/app/"));
+    }))
+    .on('error', function(e){
+        console.log( e );
+        this.emit('end');
+    })
+    .on('finish', function() {
+        
+        //if(cb) cb();
+    })
+    .pipe(gulp.dest(""));
 });
+
+
+gulp.task('build-installer-windows', function() {
+ 
+    gulp.src('')
+    .pipe(electron({
+        src: './dist_electron',
+        packageJson: packageJson,
+        release: './installers',
+        cache: './cache',
+        version: electron_version,
+        packaging: true,
+        //asar: true,
+        //token: 'abc123...',
+        platforms: ['win32-ia32', /*'win32',*/],
+        platformResources: {
+            darwin: {
+                CFBundleDisplayName: packageJson.name,
+                CFBundleIdentifier: packageJson.name,
+                CFBundleName: packageJson.name,
+                CFBundleVersion: packageJson.version,
+                icon: 'assets/icons/gulp-electron.icns'
+            },
+            win: {
+                "version-string": packageJson.version,
+                "file-version": packageJson.version,
+                "product-version": packageJson.version,
+                "icon": 'assets/icons/gulp-electron.ico'
+            }
+        }
+    }))
+    .on('error', function(e){
+        console.log( e );
+        this.emit('end');
+    })
+    .on('finish', function() {
+        
+        //if(cb) cb();
+    })
+    .pipe(gulp.dest(""));
+});
+
+gulp.task('build-installer-linux', function() {
+ 
+    gulp.src('')
+    .pipe(electron({
+        src: './dist_electron',
+        packageJson: packageJson,
+        release: './installers',
+        cache: './cache',
+        version: electron_version,
+        packaging: true,
+        //asar: true,
+        //token: 'abc123...',
+        platforms: ['linux-ia32','linux-x64'],
+        platformResources: {
+            darwin: {
+                CFBundleDisplayName: packageJson.name,
+                CFBundleIdentifier: packageJson.name,
+                CFBundleName: packageJson.name,
+                CFBundleVersion: packageJson.version,
+                icon: 'assets/icons/gulp-electron.icns'
+            },
+            win: {
+                "version-string": packageJson.version,
+                "file-version": packageJson.version,
+                "product-version": packageJson.version,
+                "icon": 'assets/icons/gulp-electron.ico'
+            }
+        }
+    }))
+    .on('error', function(e){
+        console.log( e );
+        this.emit('end');
+    })
+    .on('finish', function() {
+        
+        //if(cb) cb();
+    })
+    .pipe(gulp.dest(""));
+});
+
+
+gulp.task('start-server', function() {
+    //2. serve at custom port
+    var server = gulp_live_server.static('dist', 8888);
+    server.start();
+   
+    //use gulp.watch to trigger server actions(notify, start or stop)
+    gulp.watch(['dist/*'], function(file) {
+        server.notify.apply(server, [file]);
+    });
+});
+
+
+gulp.task('start-development-server', function() {
+    //2. serve at custom port
+    var server = gulp_live_server.static('./', 9999);
+    server.start();
+   
+    //use gulp.watch to trigger server actions(notify, start or stop)
+    gulp.watch(['lib/**/*', 'assets/**/*'], function(file) {
+        server.notify.apply(server, [file]);
+    });
+});
+
+
+
 gulp.task('git-init', function(){
   git.init();
 });
@@ -570,16 +704,7 @@ gulp.task('git-push', function(){
   
 });
 
-gulp.task('server-start', function() {
-    //2. serve at custom port
-    var server = gulp_live_server.static('dist', 8888);
-    server.start();
-   
-    //use gulp.watch to trigger server actions(notify, start or stop)
-    gulp.watch(['dist/*'], function(file) {
-        server.notify.apply(server, [file]);
-    });
-});
+
 
 
 gulp.task('default', function() {

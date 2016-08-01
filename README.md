@@ -10,7 +10,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
 - [What the boilerplate provides?](#what-the-boilerplate-provides)
 - [Boilerplate architecture](#boilerplate-architecture)
 - [How to use the boilerplate to get my application done?](#how-to-use-the-boilerplate-to-get-my-application-done)
-    - [Setup development env](#setup-development-env)
+    - [Setup development environment](#setup-development-environment)
     - [The application `main` View](#the-application-main-view)
     - [The application `main` Presenter](#the-application-main-presenter)
     - [The application Model](#the-application-model)
@@ -22,7 +22,7 @@ dhxMVP is a boilerplater system for building MV* DHTMLX applications.
             - [Run JSHint to check the code and look for error and bad pratices](#run-jshint-to-check-the-code-and-look-for-error-and-bad-pratices)
         - [Unit Tests](#unit-tests)
         - [Deploy](#deploy)
-            - [Creating minified version of the application javascript files (necessary to put changes on production)](#creating-minified-version-of-the-application-javascript-files-necessary-to-put-changes-on-production)
+            - [Creating minified version of the application javascript files](#creating-minified-version-of-the-application-javascript-files)
             - [Build a distribution](#build-a-distribution)
         - [Application distributing](#application-distributing)
             - [Creating Mac installers](#creating-mac-installers)
@@ -161,7 +161,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
     - test
     - git-add-commit-push
  - gulp build-installer-mac - generate a Mac installer of the current build.
- - gulp build-installer-window - generate a Windows installer of the current build.
+ - gulp build-installer-windows - generate a Windows installer of the current build.
  - gulp build-installer-linux - generate a Linux installer of the current build.
 
 ***Note about `git` features:***
@@ -172,13 +172,234 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 ## How to use the boilerplate to get my application done?
 
-### Setup development env
+### Setup development environment
+
+1 - ***Give a name to your application.***
+
+Open the file `./package.json` and alter the the following properties. 
+
+Example:
+
+````javascript
+{
+  "name": "MyApplicationName",
+  "version": "0.0.0",
+  "description": "Provide a description here.",
+  "keywords": [
+    "Your Keyword 1"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "Your E-mail"
+  }
+}
+````
+
+***_Note:_*** 
+
+The `version property` shall to be set to `0.0.0`. On every time you make a distribution of your application by running `gulp build`, the application version will be automatically incremented.
+
+
+2 - ***Rename the Application directory***
+
+The currently directory name is `dhxMVP`. Change it by providing your application name.
+
+For example
+
+`dhxMVP/` ***-->*** `MyApplicationName/`
+
+3 - ***Start the development server***:
+
+    $ cd dhxMVP
+    $ gulp start-development-server
+
+Now open your browser and reach [http://localhost:9999/boilerplate_sidebar.html](http://localhost:9999/boilerplate_sidebar.html)
+
+***Note about _boilerplate_sidebar.html_***
+
+This is the demo html file which uses DHTMLX Sidebar as the main `Application wrapper and navigation component`.
+
+_On a future version I will release a new demo example using `DHTMLX Layout` and `DHTMLX Toolbar` as the main `Application wrapper and navigation components`_
+
+4 - ***Set up a new project on your prefered HTML5 and Javascript IDE***: 
+
+I'm using [Sublime Text](https://www.sublimetext.com/) here and it provides a excellent plugin to run `gulp` directly from the IDE rather than requiring from you to run the `gulp commands` via `terminal`. Atom is a excellent choice too.
+
+5 - ***Setup a new git repository for your application.***
+
+On this step you will need a github account and it client installed locally.
+
+You may use the Github client to setup the new repository.
+
+Or you may prefer to use `gulp` to init it:
+
+    $ cd MyApplicationName/
+    $ gulp git-init
+
+
 
 ### The application `main` View
 
+The `Main View` on a dhxMVP application is JavaScript Module that is reponsible to render all the components that are shared by all the `child views`.
+
+Initially, it need to provides a `wrapper` component which will be used as base to construct our entire application. All application componentes will be attached to the `wrapper component`.
+
+As wrapper component, we may use DHTMLX Sidebar and DHTMLX Layout.
+
+Still yet initially, we also need a `navigation` component which is responsible to provide `navigation` feature to the end user meanwhile it `dispatchs routes` (call child views and presenters) on the application.
+
+When using `DHTMLX Sidebar` as main `application wrapper component` we already have the `navigation component` included.
+
+When using `DHTMLX Layout` as main `application wrapper component` we will need to set up a `navigation component`, and for this case we may use:
+
+    - DHTMLX Toolbar
+    - DHTMLX Menu
+    - DHTMLX Ribbon
+
+As a `Application Main View` you can assume it as `what the end user sees when application starts`, nothing more.
+
+The application `Main View` shall to provide the following mandatory methods:
+
+- ***render***
+
+    Used call methods which calls DHTMLX components and render the View on browser.
+
+- ***onDispatch***
+
+    event function which is triggered always when a route is dispatched.
+
+- ***_subscriber***
+
+    Used to receive messages from different application modules
+
+- ***initialize***
+
+    Used to perform any task before rendering the view
+
+It should looks like the following:
+
+````javascript
+$dhx.ui.mvp.views.declare({
+    "view": (function() {
+        'strict';
+        var route = '#',
+            main_view = $dhx.ui.mvp.main_view.extend({ }),
+            view = new main_view({
+                /**
+                 * [initialize view. Called before view is rendered]
+                 */
+                initialize: function(options) {
+                    console.log('VIEW:: called initialize from view.initialize');
+                    console.debug.log(this);
+                },
+
+                /**
+                 * [onDispatch event. Called each time a route is dispatched via main_view.dispatch() ]
+                 */
+                onDispatch:function(id) {
+                    var self = this;
+                },
+                
+                /**
+                 * [render the view. Called once application starts]
+                 */
+                render: function( render ) {
+                    var self = this;
+                    
+                },
+                /**
+                 * [subscriber function which receives messages from presenter]
+                 * @param  {[string]} topic [listened topic]
+                 * @param  {[Objec]} data  [message object]
+                 */
+                _subscriber: function(topic, data) {
+                    var self = $dhx.ui.mvp.views.get('view');
+                    
+                }
+            });
+        return view;
+    }())
+});
+```
+
+A more complete `Main View` demo code may be [viewed here](https://gist.github.com/web2solutions/b5efa4546b9502396b1e3b007d51a465)
+
+The `main view` is represented by the `#` route and it is executed `only one time` in the entire application lifetime when the same starts.
+
+
+The application `main view` code resides in the following path: `MyApplicationName/lib/view/view.js`.
+
+***NOTE***
+
+The name of the file is mandatory to be `view.js`. Don't change it.
+
+
+
+
+
+
 ### The application `main` Presenter
 
+
+
+The application `Main Presenter` shall to provide the following mandatory methods:
+
+- ***start***
+
+    Called when the route code starts.
+
+- ***destroy***
+
+    Used to destroy components when unloading the entire application
+
+
+It should looks like the following:
+
+````javascript
+$dhx.ui.mvp.presenters.declare({
+    "presenter": (function() {
+        'strict';
+        var API = {
+            start: function() {
+                var self = this,
+                    view = self.view;
+                $dhx.debug.log('MAIN:PRESENTER: start from MAIN:PRESENTER');
+            },
+            destroy: function() {
+                $dhx.debug.log('MAIN:PRESENTER: destroy from MAIN:PRESENTER');
+                //$dhx.debug.log(this._view);
+            }
+        }; // end API
+        return API;
+    }())
+});
+```
+
+A more complete `Main Presenter` demo code may be [viewed here](https://gist.github.com/web2solutions/3ffe4b181640c810d152cbd158693c78)
+
+The `main presenter` is represented by the `#` route and it is executed `only one time` in the entire application lifetime when the same starts.
+
+The application `main presenter` code resides in the following path: `MyApplicationName/lib/presenter/presenter.js`.
+
+***NOTE***
+
+The name of the file is mandatory to be `presenter.js`. Don't change it.
+
+
+
+
+
 ### The application Model
+
+
+The `model` is executed `only one time` in the entire application lifetime when it starts.
+
+The application `model` code resides in the following path: `MyApplicationName/lib/model/model.js`.
+
+***NOTE***
+
+The name of the file is mandatory to be `model.js`. Don't change it.
+
 
 ### Declaring routes
 
@@ -194,11 +415,21 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
     $ gulp jshint
 
+
+
+
 #### Unit Tests
 
     $ gulp test
 
+
+
+
 #### Deploy
+
+
+
+
 
 ##### Creating minified version of the javascript files
 
@@ -215,6 +446,10 @@ To make a dist, run:
 ***Note***
 
 It is a good pratice to run `$ gulp jshint` before `$ gulp dist` and check for programming error and bad pratices. Although, the `jshint` is automatically runned before `dist`
+
+
+
+
 
 ##### Build a distribution
 
@@ -234,6 +469,10 @@ _This command will run the following tasks in order:_
 If a error occurs on any of the above task, the upcoming deploy task will not be runned.
 
 
+
+
+
+
 #### Application distributing
 
 Including the web version, you may be interested in distributing your application as a `Desktop Application`. For this case, the Boilerplate system provides you a mechanism to create `executable versions` of your application with no efforts.
@@ -244,17 +483,34 @@ The generated installers will be stored into `installers/`.
 
 The make the installers, run the following commands:
 
+
+
+
 ##### Creating Mac installers
 
     $ gulp build-installer-mac
 
 
+
+
 ##### Creating Windows installers
+
+   $ gulp build-installer-windows
+
+
 
 
 ##### Creating Linux installers
 
+   $ gulp build-installer-windows
+
+
+
+
 ### Move to production
+
+
+
 
 
 
@@ -262,6 +518,9 @@ The make the installers, run the following commands:
 
 - $dhx.ui.mvp refactoring
 - Implement patterns on routes url
+
+
+
 
 
 ## License
