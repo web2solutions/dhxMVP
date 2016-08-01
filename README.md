@@ -877,11 +877,11 @@ It is a good pratice to run `$ gulp jshint` before `$ gulp dist` and check for p
 
 ##### Build a distribution
 
-Building a distribution will check the whole code reliability and push it to Git repository as a new version.
+Building a distribution will check the whole code reliability and push it to Git repository as a new version(release) of your application.
 
     $ sudo gulp build
 
-_This command will run the following tasks in order:_
+_The above command will run the following tasks in order:_
 
 - gulp jshint
 - gulp dist
@@ -905,7 +905,7 @@ You can get the generated executables and distribute to your client.
 
 The generated installers will be stored into `installers/`.
 
-The make the installers, run the following commands:
+To make the installers, run the following commands:
 
 
 
