@@ -96,6 +96,9 @@ For now, the model is framework agnostic, you may develop it using Backbone for 
 To solve the problems regarding loading performance, `dhx.ui.mvp` implements a `on demand loading` model for loading your javascript views and presenters, let the end user to load it on their browsers only when they really need that file on their cache.
 
 
+
+
+
 ## Kit installation
 
 List of the softwares you need to have installed in your computer to use the whole features of the development kit.
@@ -123,6 +126,10 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
     $ cd dhxMVP
     $ npm install --global gulp-cli
     $ npm install
+
+
+
+
 
 ## Boilerplate architecture
 
@@ -174,6 +181,9 @@ _Distributed application version are created running `$ gulp dist`._
                 |---- view.js
             |---- app.js
         |---- index.html
+
+
+
 
 ## What the boilerplate provides?
 
