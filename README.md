@@ -314,7 +314,7 @@ Initially, it need to provides a `wrapper` component which will be used as base 
 
 As wrapper component, we may use DHTMLX Sidebar and DHTMLX Layout.
 
-Still yet initially, we also need a `navigation` component which is responsible to provide `navigation` feature to the end user meanwhile it `dispatchs routes` (call child views and presenters) on the application.
+Still yet initially, we also need a `navigation` component which is responsible to provide `navigation` feature to the end user meanwhile it `dispatchs routes` (inject child views and presenters) into the application.
 
 When using `DHTMLX Sidebar` as main `application wrapper component` we already have the `navigation component` included.
 
@@ -408,7 +408,13 @@ The name of the file is mandatory to be `view.js`. Don't change it.
 
 ### The application `main` Presenter
 
+In order to take advantage of the `MV*` development model, in the `Main Presenter` we orchestrate the `Main View` operations and tasks.
 
+In the `Main Presenter` we could define `function event handlers` for the components defined in the 'Main View'.
+
+Not least, we could start the application database or provide any 'help method' to be used into the `Main View`.
+
+In this way, we keep the code separated in accordance with it type of usage.
 
 The application `Main Presenter` shall to provide the following mandatory methods:
 
@@ -459,6 +465,33 @@ The name of the file is mandatory to be `presenter.js`. Don't change it.
 
 ### The application Model
 
+Until this version of dhxMVP, the model is a simple Javascript Module/Object which will be automatically referenced by all `Views` and `Presenters` when you declare the model.
+
+It should looks like the following:
+
+````javascript
+$dhx.ui.mvp.models.declare({
+    "model": (function() {
+        'strict';
+        var API = {
+            
+        }; // end API
+        return API;
+    }())
+});
+```
+
+A more complete `model` demo code may be [viewed here](https://gist.github.com/web2solutions/2c829ea0cd11660b10bda3504c8d26b3)
+
+For a future version, I will be implementing the model using [DHTMLX Datastore](http://docs.dhtmlx.com/datastore__index.html) and integrating it with [indexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). It will provides to the `Views`, `Reaction` and `Data Binding` in a high abstracted API.
+
+For now, the `demo application` implemented in this boilerplate is using Backbone and it indexedDB plugin to implement local database over indexedDB and provide a set of features to be used on `Presenters` and `View`.
+
+
+***Note*** 
+
+As best pratice, try to consume the model always via `Presenters`. Try to keep your `Views` as simplest as possible. 
+
 
 The `model` is executed `only one time` in the entire application lifetime when it starts.
 
@@ -470,6 +503,114 @@ The name of the file is mandatory to be `model.js`. Don't change it.
 
 
 ### Declaring routes
+
+Routes are declared inside the file `MyApplicationName/lib/app.js`.
+
+When you declare a route, you are defining 4 things inside a dhxMVP application:
+
+- a hash url to be dispatched
+- a `Child Presenter` file name to be injected when dispatching the route
+- a `Child View` file name to be injected when dispatching the route
+- A array of names of Javascript modules to be injected into the route scope. You may use the injected code inside your `Child view`.
+
+Routes may be dispatched through 2 different ways:
+
+1 - calling the `dispatch()` method from the `Main View`. 
+
+This method is automatically created when you declare your `Main View`. Don't declare it again. Example:
+
+***On the Main Presenter***
+
+````javascript
+$dhx.ui.mvp.presenters.declare({
+    "presenter": (function() {
+        'strict';
+        var API = {
+            start: function() {
+                var self = this,
+                    view = self.view;
+                $dhx.debug.log('MAIN:PRESENTER: start from MAIN:PRESENTER');
+            },
+            destroy: function() {
+                $dhx.debug.log('MAIN:PRESENTER: destroy from MAIN:PRESENTER');
+                //$dhx.debug.log(this._view);
+            },
+
+            dispatch_help_route: function() {
+                var self = this,
+                    main_view = $dhx.ui.mvp.views.get('view');
+                
+                main_view.dispatch('/help');
+            }
+            
+        }; // end API
+        return API;
+    }())
+});
+````
+
+***On a Child Presenter***
+
+````javascript
+$dhx.ui.mvp.presenters.declare({
+    "help": (function() {
+        'strict';
+        var API = {
+            start: function() {
+                var self = this,
+                    view = self.view;
+                $dhx.debug.log('MAIN:PRESENTER: start from MAIN:PRESENTER');
+            },
+            destroy: function() {
+                $dhx.debug.log('MAIN:PRESENTER: destroy from MAIN:PRESENTER');
+                //$dhx.debug.log(this._view);
+            },
+
+            dispatch_help_route: function() {
+                var self = this,
+                    view = self.view;
+                
+                view.dispatch('/help');
+            }
+            
+        }; // end API
+        return API;
+    }())
+});
+````
+
+***Complete setup***
+
+Use it only in two cases:
+
+1 - When you want to create files for child `Presenters` or `Views` and give the file a name that is different of the dispatched route name.
+
+2 - If you want to inject another javascript files into the route scope.
+
+
+````javascript
+        router.route({
+            url: '/help',
+            view: 'help_view_file_name',
+            presenter: 'help_presenter_file_name',
+            method: 'start_method_name', // implicity call presenter.start() if not explicitly defined
+            append_views: [
+                { "chatter" : 'chatter_view' } // "name of the javascript object": "name of the javascript file"
+            ]
+        });
+````
+
+
+***Minimal setup***
+
+````javascript
+    router.route({
+        url: '/help'
+    });
+````
+
+The above declared route will inject the files 'MyApplicationName/lib/view/help.js' and 'MyApplicationName/lib/presenter/help.js' when the route `/help` is dispatched into the Application scope.
+
 
 #### Child Views
 
