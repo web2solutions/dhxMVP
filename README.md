@@ -126,6 +126,55 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ## Boilerplate architecture
 
+
+***The File system for a properly fresh install version of dhxMVP should be something like:***
+
+    |---- dhxMVP/
+        |---- assets/
+        |---- cache/ -> automatically created when creating Application installers
+        |---- coverage/ -> Instabul coverage files
+        |---- dist/ -> automatically created when running $ gulp dist
+        |---- dist_electron/ -> automatically created when running $ gulp dist
+        |---- installers/ -> automatically created when creating Application installers
+        |---- lib/
+            |---- dhx
+            |---- model
+                |---- model.js
+            |---- presenter
+                |---- presenter.js
+            |---- thirdparty
+            |---- view
+                |---- view.js
+            |---- app.js
+        |---- node_modules/ -> automatically created when installing the Boilerplate system
+        |---- test/
+        |---- .gitignore
+        |---- .travis.yml
+        |---- boilerplate_sidebar.html
+        |---- electron.js
+        |---- Gulpfile.js
+        |---- LICENSE
+        |---- package.json
+        |---- Readme.md
+
+***The File system for a final distributed application should be something like:***
+
+_Distributed application version are created running `$ gulp dist`._
+
+    |---- MyApplicationName/
+        |---- assets/
+        |---- lib/
+            |---- dhx
+            |---- model
+                |---- model.js
+            |---- presenter
+                |---- presenter.js
+            |---- thirdparty
+            |---- view
+                |---- view.js
+            |---- app.js
+        |---- index.html
+
 ## What the boilerplate provides?
 
 - Foundation for Single Page Applications
@@ -170,7 +219,12 @@ You will need `GIT LFS` to push large files to the repository.
 Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/github/git-lfs)
 
 
+
+
+
 ## How to use the boilerplate to get my application done?
+
+
 
 ### Setup development environment
 
@@ -200,6 +254,8 @@ Example:
 The `version property` shall to be set to `0.0.0`. On every time you make a distribution of your application by running `gulp build`, the application version will be automatically incremented.
 
 
+
+
 2 - ***Rename the Application directory***
 
 The currently directory name is `dhxMVP`. Change it by providing your application name.
@@ -208,9 +264,12 @@ For example
 
 `dhxMVP/` ***-->*** `MyApplicationName/`
 
+
+
+
 3 - ***Start the development server***:
 
-    $ cd dhxMVP
+    $ cd MyApplicationName/
     $ gulp start-development-server
 
 Now open your browser and reach [http://localhost:9999/boilerplate_sidebar.html](http://localhost:9999/boilerplate_sidebar.html)
@@ -221,9 +280,16 @@ This is the demo html file which uses DHTMLX Sidebar as the main `Application wr
 
 _On a future version I will release a new demo example using `DHTMLX Layout` and `DHTMLX Toolbar` as the main `Application wrapper and navigation components`_
 
+
+
+
 4 - ***Set up a new project on your prefered HTML5 and Javascript IDE***: 
 
 I'm using [Sublime Text](https://www.sublimetext.com/) here and it provides a excellent plugin to run `gulp` directly from the IDE rather than requiring from you to run the `gulp commands` via `terminal`. Atom is a excellent choice too.
+
+
+
+
 
 5 - ***Setup a new git repository for your application.***
 
@@ -235,6 +301,8 @@ Or you may prefer to use `gulp` to init it:
 
     $ cd MyApplicationName/
     $ gulp git-init
+
+
 
 
 
