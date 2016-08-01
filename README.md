@@ -823,8 +823,8 @@ You may want too, to create `Desktop version` of your fresh created `Web Applica
 
 All those features are provided in this Boilerplate system. Although, you will not be able to produce new releases, or create installers for desktop version or even to create distributions of your application to run on a production server if one of the following 2 things occurs:
 
-1 - programming error o bad pratice found in your codebase.
-2 - Tests performed by the Testing Suite are failing.
+1. programming error o bad pratice found in your codebase.
+2. Tests performed by the Testing Suite are failing.
 
 It means you will not be able to delivery bad code to the end users.
 

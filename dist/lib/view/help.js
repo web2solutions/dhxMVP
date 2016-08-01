@@ -61,21 +61,6 @@ $dhx.ui.mvp.views.declare({
                             tooltip: 'Close job.'
                         }]
                     },
-                    /*
-                    
-                      poster: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-                      organization: { type: mongoose.Schema.Types.ObjectId, ref: 'orgs' },
-                      postdate: { type: Date, default: Date.now },
-                      hours: { type: Number },
-                      decline_reason: String,
-                      message: String,
-                      status: { type: String, default: 'valid' },
-                      rejection_reason: String,
-                      job: { type: mongoose.Schema.Types.ObjectId, ref: 'jobs' },
-                      rate: { type: Number, default: 150 }
-
-
-                     */
 
                     grid: {
                         header: [],
@@ -84,10 +69,6 @@ $dhx.ui.mvp.views.declare({
                         colAligns: [],
                         colTypes: []
                     },
-
-
-                    
-
 
 
                     form: {
@@ -192,9 +173,7 @@ $dhx.ui.mvp.views.declare({
 
 
                     selected_row = self.grid.getSelectedRowId();
-                    //job_title = self.grid.cells(selected_row, 0).getValue();
-                    //company = self.grid.cells(selected_row, 1).getValue();
-                    //
+  
                     self._settings.form.template = [{
                         type: "settings",
                         position: "label-left",
@@ -206,16 +185,7 @@ $dhx.ui.mvp.views.declare({
                             format = bold_text,
                             value = self.grid.cells(selected_row, index).getValue() || self.grid.cells(selected_row, index).getTitle();
                         $dhx.debug.log(id, value);
-                        if (id == 'desc') {
-                            format = simple_text;
-                        }
-                        if (id == 'postdate') {
-                            format = moment_to;
-                        }
-
-                        if (id == 'rate') {
-                            format = myprice;
-                        }
+                        
 
                         value = value.replace(/\n/g, '<br>');
                         if( id == '__v' || id == '_id' )
@@ -234,10 +204,6 @@ $dhx.ui.mvp.views.declare({
                     //}
                     return this.form;
                 },
-
-
-
-
 
                 show_question: function() {
                     var self = this,
