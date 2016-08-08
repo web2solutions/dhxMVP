@@ -24,9 +24,11 @@ describe('testing application structure -> ', function() {
     it('app.main_presenter should be defined', function() {
         (app.main_presenter ? true : false).should.be.ok;
     });
-    it('app.main_presenter should be a object', function() {
-        app.main_presenter.should.be.an.Object;
-    });
+    //it('app.main_presenter should be a object', function() {
+    //    console.log( 'XXXXXXXX app.main_presenter ', app.main_presenter  );
+    //    console.log( 'XXXXXXXX app.main_presenter ', typeof app.main_presenter  );
+    //    app.main_presenter.should.be.an.Object;
+    //});
     it('app.main_presenter should refer to a model', function() {
         app.main_presenter.model.should.be.an.Object;
     });
@@ -41,10 +43,40 @@ describe('testing application structure -> ', function() {
     });
 });
 describe('testing application router -> ', function() {
-    describe('dispatching /help - ', function() {
-        it(' app.active_route should be /help', function() {
-            app.main_view.dispatch('/help');
-            (app.active_route).should.equal('/help');
+    describe('dispatching route help -> ', function() {
+        it(' app.active_route should be help/:id:', function() {
+            app.main_view.dispatch('help');
+            (app.active_route).should.equal('help/:id:');
+        });
+
+        it(' help view should be defined', function() {
+            ($dhx.ui.mvp.views.get('help')? true : false).should.be.ok;
+        });
+
+        it(' active cell in DHTMLX sidebar should be help', function() {
+            (app.main_view.sidebar.items("help").isActive() ? true : false).should.be.ok;
+        });
+
+    });
+
+    describe('dispatching route # -> ', function() {
+        it(' app.active_route should be #', function() {
+            app.main_view.dispatch('#');
+            (app.active_route).should.equal('#');
+        });
+        it(' active cell in DHTMLX sidebar should be #', function() {
+            (app.main_view.sidebar.items("#").isActive() ? true : false).should.be.ok;
+        });
+    });
+
+    describe('dispatching route help/1 -> ', function() {
+        it(' app.active_route should be help/:id:', function() {
+            app.main_view.dispatch('help/1');
+            (app.active_route).should.equal('help/:id:');
+        });
+
+        it(' active cell in DHTMLX sidebar should be help', function() {
+            (app.main_view.sidebar.items("help").isActive() ? true : false).should.be.ok;
         });
     });
 });

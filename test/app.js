@@ -35,10 +35,23 @@ dhx_application.on('render', function(options) {
 });
 // instantiate $dhx MVP application and router
 var app = new dhx_application({
-    appId: "MV* DHTMLX Demo app",
-    container: document.body,
-    root: '../',
-    icons_path: '../assets/icons/64/'
+   appId: "MV* DHTMLX Demo app",
+            container: document.body,
+            root: '../',
+            //icons_path: '../assets/icons/64/', // not mandatory, default root + 'assets/icons/64/'
+            //deps_path: '../deps/', // not mandatory, default root + 'deps/'
+            //lib_path: '../lib/', // not mandatory, default root + 'lib/'
+            model:{
+                engine: 'backboneIDB',
+                models: [
+                    "user",
+                    "question"
+                ],
+                collections: [
+                    "users",
+                    "questions"
+                ]
+            }
 });
 /*
     How to declare a route:
@@ -60,11 +73,17 @@ var app = new dhx_application({
     });
 
  */
-router.route({
-    url: '/help'
-});
-app.start({
+    router.route({
+        url: 'help/:id:',
+        view: 'help',
+        presenter: 'help',
+    });
+
+    
+
+
+    app.start({
         backboneIDB: true,
         $dhx_form: true,
         $dhx_grid: true
-});
+    });

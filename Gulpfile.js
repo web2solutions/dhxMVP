@@ -27,9 +27,9 @@ var gulp = require('gulp'),
     coverageFile = './coverage/coverage.json',
     files = "./lib/*.js",
     views = "./lib/view/*.js",
-    model = "./lib/model/*.js",
+    model = "./lib/model/**/*.js",
     presenters = "./lib/presenter/*.js",
-    paths = ["lib", "lib/view", "lib/presenter", "lib/model", "lib/dhx", /*"lib/thirdparty"*/],
+    paths = ["lib", "lib/view", "lib/presenter", "lib/model","lib/model/collections","lib/model/engines","lib/model/models", "deps/dhx", /*"lib/thirdparty"*/],
     jsHint = function ( cb, fn  ) {
         var t_files = 0,
             done_files = 0,
@@ -141,44 +141,62 @@ var gulp = require('gulp'),
                                         .src(['assets/**/*'])
                                         .pipe(gulp.dest('dist/assets'))
                                         .on('finish', function() {
+
                                             gulp
-                                                .src(['boilerplate_sidebar.html'])
-                                                .pipe(rename('index.html'))
-                                                .pipe(gulp.dest('dist/'))
+                                                .src(['deps/**/*'])
+                                                .pipe(gulp.dest('dist/deps'))
                                                 .on('finish', function() {
-                                                    
-                                                    console.log('#======> moving files to dist_electron/');
-                                                    // create dist_electron/
+
                                                     gulp
-                                                        .src(['dist/**/*'])
-                                                        .pipe(gulp.dest('dist_electron/public/'))
+                                                        .src(['boilerplate_sidebar.js'])
+                                                        //.pipe(rename('boilerplate_sidebar.js'))
+                                                        .pipe(gulp.dest('dist/'))
                                                         .on('finish', function() {
-                                                            
-                                                            
+
+
                                                             gulp
-                                                                .src(['assets/**/*'])
-                                                                .pipe(gulp.dest('dist_electron/public/assets'))
+                                                                .src(['boilerplate_sidebar.html'])
+                                                                .pipe(rename('index.html'))
+                                                                .pipe(gulp.dest('dist/'))
                                                                 .on('finish', function() {
+                                                                    
+                                                                    console.log('#======> moving files to dist_electron/');
+                                                                    // create dist_electron/
                                                                     gulp
-                                                                                .src('./electron.js')
-                                                                                .pipe(rename('index.js'))
-                                                                                .pipe(gulp.dest('dist_electron/'))
+                                                                        .src(['dist/**/*'])
+                                                                        .pipe(gulp.dest('dist_electron/public/'))
+                                                                        .on('finish', function() {
+                                                                            
+                                                                            
+                                                                            gulp
+                                                                                .src(['assets/**/*'])
+                                                                                .pipe(gulp.dest('dist_electron/public/assets'))
                                                                                 .on('finish', function() {
                                                                                     gulp
-                                                                                        .src('./package.json')
-                                                                                        .pipe(gulp.dest('dist_electron/'))
-                                                                                        .on('finish', function() {
-                                                                                            end_date = new Date();
-                                                                                            var elapsed_time = (+end_date) - (+start_date);
-                                                                                            console.log('# dist executed in: ', elapsed_time + ' ms');
-                                                                                            console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
-                                                                                            //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
-                                                                                            if(fn) fn(); 
-                                                                                        });
+                                                                                                .src('./electron.js')
+                                                                                                .pipe(rename('index.js'))
+                                                                                                .pipe(gulp.dest('dist_electron/'))
+                                                                                                .on('finish', function() {
+                                                                                                    gulp
+                                                                                                        .src('./package.json')
+                                                                                                        .pipe(gulp.dest('dist_electron/'))
+                                                                                                        .on('finish', function() {
+                                                                                                            end_date = new Date();
+                                                                                                            var elapsed_time = (+end_date) - (+start_date);
+                                                                                                            console.log('# dist executed in: ', elapsed_time + ' ms');
+                                                                                                            console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
+                                                                                                            //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
+                                                                                                            if(fn) fn(); 
+                                                                                                        });
+                                                                                                });
                                                                                 });
-                                                                });
-                                                        });
+                                                                        });
 
+
+                                                                });
+
+
+                                                        });
 
                                                 });
                                         });

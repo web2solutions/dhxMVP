@@ -74,8 +74,8 @@ $dhx.ui.mvp.views.declare({
                 _sidebar: function() {
                     var self = this;
                     if (self.sidebar === null) {
-                        self._settings.sidebar.parent = this.container;
-                        self._settings.sidebar.icons_path = this.icons_path;
+                        self._settings.sidebar.parent = self.container;
+                        self._settings.sidebar.icons_path = self.icons_path;
                         self.sidebar = new dhtmlXSideBar(self._settings.sidebar);
                         self.sidebar.attachEvent("onSelect", self.presenter.sidebarOnSelectHandler);
                         self._wrapper = self.sidebar;
@@ -85,7 +85,7 @@ $dhx.ui.mvp.views.declare({
                 _toolbar: function() {
                     var self = this;
                     if (self.toolbar === null) {
-                        self._settings.toolbar.icons_path = this.icons_path;
+                        self._settings.toolbar.icons_path = self.icons_path;
                         self.toolbar = self.sidebar.attachToolbar(self._settings.toolbar);
                         self.toolbar.attachEvent("onClick", self.presenter.toolbarOnClickHandler);
                     }
@@ -115,7 +115,7 @@ $dhx.ui.mvp.views.declare({
                         self.sidebar.cells(id.split('?')[0]).setActive();
                         //console.log( 'ok ok ' );
                         window.dhx4.callEvent("onSidebarSelect", [id.split('?')[0], self.sidebar.cells(id.split('?')[0])]);
-                        self.toolbar.setItemText("title", window.dhx4.template("<img src='assets/icons/64/#image#' width='32' style='position:relative;float:left; margin-top:10px; margin-right: 10px;' /><span style='font-weight: bold; font-size: 14px;'>#text#</span>", {
+                        self.toolbar.setItemText("title", window.dhx4.template("<img src='"+self.root+"assets/icons/64/#image#' width='32' style='position:relative;float:left; margin-top:10px; margin-right: 10px;' /><span style='font-weight: bold; font-size: 14px;'>#text#</span>", {
                             text: self.sidebar.cells(id).getText().text,
                             image: self.sidebar.cells(id).getText().text.toLowerCase() + '.png'
                         }));
@@ -131,6 +131,7 @@ $dhx.ui.mvp.views.declare({
                  */
                 render: function( render ) {
                     var self = this;
+
                     /**
                      * Start sidebar.      --> Mandatory 
                      * In this demo, DHTMLX Sidebar is used as main application wrapper and navigation panel,
@@ -142,20 +143,27 @@ $dhx.ui.mvp.views.declare({
                     self.presenter.start_database({
                         onSuccess: function(){
                             
-
                             // Last statement of a view render() method.
                             // mandatory to call ... 
                             // will dispatch any sub view passed as route
                             // && will set the view as rendered
                             render.ok({
                                 onComplete: function( route ){
-                                    self.toolbar.setItemText("title", window.dhx4.template("<img src='assets/icons/64/#image#' width='32' style='position:relative;float:left; margin-top:10px; margin-right: 10px;' /><span style='font-weight: bold; font-size: 14px;'>#text#</span>", {
-                                        text: view.sidebar.cells(route).getText().text,
-                                        image: view.sidebar.cells(route).getText().text.toLowerCase() + '.png'
+                                    // route is something like help/1
+                                    // 
+                                    console.log('now load the module requested via url: ', route);
+                                    route = route.split('/')[0];
+                                    self.toolbar.setItemText("title", window.dhx4.template("<img src='"+self.root+"assets/icons/64/#image#' width='32' style='position:relative;float:left; margin-top:10px; margin-right: 10px;' /><span style='font-weight: bold; font-size: 14px;'>#text#</span>", {
+                                        text: self.sidebar.cells(route).getText().text,
+                                        image: self.sidebar.cells(route).getText().text.toLowerCase() + '.png'
                                     }));
+
+                                    //console.log(route);
+
+                                    self.sidebar.cells(route).setActive();
                                 }
                             }); // OR render.onSuccess(); (deprecated) //
-                            //console.log('this.rendered: ', this.rendered);
+                            //console.log('self.rendered: ', self.rendered);
 
                         }
                     });

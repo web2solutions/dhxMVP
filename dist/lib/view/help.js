@@ -108,7 +108,7 @@ $dhx.ui.mvp.views.declare({
                 },
                 _layout: function() {
                     if (this.layout === null) {
-                        this.layout = this._wrapper.cells('/help').attachLayout(this._settings.layout);
+                        this.layout = this._wrapper.cells(route).attachLayout(this._settings.layout);
                         this.layout.cells('a').setWidth(300);
                         this.layout.cells('b').collapse();
                     }
