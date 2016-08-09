@@ -252,6 +252,7 @@
             }
             else
             {
+                window.location.hash = '/';
                 _application.active_route = route;
             }
             

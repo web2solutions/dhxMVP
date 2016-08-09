@@ -131,77 +131,23 @@ var gulp = require('gulp'),
 
                         if( done_files == t_files )
                         {
-                            console.log('#======> moving files to dist/');
-                            // create dist/
-                            gulp
-                                .src(['lib/**/*'])
-                                .pipe(gulp.dest('dist/lib'))
-                                .on('finish', function() {
-                                    gulp
-                                        .src(['assets/**/*'])
-                                        .pipe(gulp.dest('dist/assets'))
-                                        .on('finish', function() {
+                            move_file_to_dist(null, function(){
+                                move_file_to_dist_electron(null, function() {
+                                    move_file_to_dist_chrome_app(null, function(){
 
-                                            gulp
-                                                .src(['deps/**/*'])
-                                                .pipe(gulp.dest('dist/deps'))
-                                                .on('finish', function() {
-
-                                                    gulp
-                                                        .src(['boilerplate_sidebar.js'])
-                                                        //.pipe(rename('boilerplate_sidebar.js'))
-                                                        .pipe(gulp.dest('dist/'))
-                                                        .on('finish', function() {
-
-
-                                                            gulp
-                                                                .src(['boilerplate_sidebar.html'])
-                                                                .pipe(rename('index.html'))
-                                                                .pipe(gulp.dest('dist/'))
-                                                                .on('finish', function() {
-                                                                    
-                                                                    console.log('#======> moving files to dist_electron/');
-                                                                    // create dist_electron/
-                                                                    gulp
-                                                                        .src(['dist/**/*'])
-                                                                        .pipe(gulp.dest('dist_electron/public/'))
-                                                                        .on('finish', function() {
-                                                                            
-                                                                            
-                                                                            gulp
-                                                                                .src(['assets/**/*'])
-                                                                                .pipe(gulp.dest('dist_electron/public/assets'))
-                                                                                .on('finish', function() {
-                                                                                    gulp
-                                                                                                .src('./electron.js')
-                                                                                                .pipe(rename('index.js'))
-                                                                                                .pipe(gulp.dest('dist_electron/'))
-                                                                                                .on('finish', function() {
-                                                                                                    gulp
-                                                                                                        .src('./package.json')
-                                                                                                        .pipe(gulp.dest('dist_electron/'))
-                                                                                                        .on('finish', function() {
-                                                                                                            end_date = new Date();
-                                                                                                            var elapsed_time = (+end_date) - (+start_date);
-                                                                                                            console.log('# dist executed in: ', elapsed_time + ' ms');
-                                                                                                            console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
-                                                                                                            //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
-                                                                                                            if(fn) fn(); 
-                                                                                                        });
-                                                                                                });
-                                                                                });
-                                                                        });
-
-
-                                                                });
-
-
-                                                        });
-
-                                                });
-                                        });
+                                        move_file_to_dist_chrome_extension( null, function(){
+                                            end_date = new Date();
+                                            var elapsed_time = (+end_date) - (+start_date);
+                                            console.log('# dist executed in: ', elapsed_time + ' ms');
+                                            console.log('#======> gulp dist is done with no errors <=====#', (end_date).toISOString());
+                                            //gulp.src("gulpfile.js").pipe(notify('# dist done in: ' + elapsed_time + ' ms'));
+                                            if(cb) cb();
+                                            if (fn) fn();
+                                        } );
+                                    })
                                 });
-                            if(cb) cb();
+                            }) ; 
+                            
                         }
                     });
                 });
@@ -209,6 +155,148 @@ var gulp = require('gulp'),
             /*dis*/
         });
         
+    },
+    move_file_to_dist = function( cb, fn ){
+        console.log('#======> moving files to dist/');
+        // create dist/
+        gulp
+        .src(['lib/**/*'])
+        .pipe(gulp.dest('dist/lib'))
+        .on('finish', function() {
+            gulp
+            .src(['assets/**/*'])
+            .pipe(gulp.dest('dist/assets'))
+            .on('finish', function() {
+                gulp
+                .src(['deps/**/*'])
+                .pipe(gulp.dest('dist/deps'))
+                .on('finish', function() {
+                    gulp.src(['boilerplate_sidebar.js'])
+                        .pipe(gulp.dest('dist/'))
+                        .on('finish', function() {
+                            gulp
+                            .src(['boilerplate_sidebar.html'])
+                            .pipe(rename('index.html'))
+                            .pipe(gulp.dest('dist/'))
+                            .on('finish', function() {
+                                if(fn)fn();
+                            });
+                        });
+                });
+            });
+        });
+    },
+    move_file_to_dist_electron = function( cb, fn ){
+        console.log('#======> moving files to dist_electron/');
+        // create dist_electron/
+        gulp
+        .src(['dist/**/*'])
+        .pipe(gulp.dest('dist_electron/public/'))
+        .on('finish', function() {
+            gulp
+            .src(['assets/**/*'])
+            .pipe(gulp.dest('dist_electron/public/assets'))
+            .on('finish', function() {
+                gulp
+                .src('./electron.js')
+                .pipe(rename('index.js'))
+                .pipe(gulp.dest('dist_electron/'))
+                .on('finish', function() {
+                    gulp
+                    .src('./package.json')
+                    .pipe(gulp.dest('dist_electron/'))
+                    .on('finish', function() {
+                        if(fn)fn();
+                    });
+                });
+            });
+        });
+    },
+    move_file_to_dist_chrome_app = function( cb, fn ){
+        console.log('#======> moving files to dist_chrome_app/');
+        // create dist_electron/
+        gulp
+        .src(['dist/**/*'])
+        .pipe(gulp.dest('dist_chrome_app/'))
+        .on('finish', function() {
+            gulp
+            .src(['assets/**/*'])
+            .pipe(gulp.dest('dist_chrome_app/assets'))
+            .on('finish', function() {
+                gulp
+                .src('./google_app_manifest.json')
+                .pipe(rename('manifest.json'))
+                .pipe(gulp.dest('dist_chrome_app/'))
+                .on('finish', function() {
+                    gulp
+                    .src('./assets/images/icon-16.png')
+                    .pipe(gulp.dest('dist_chrome_app/'))
+                    .on('finish', function() {
+                        gulp
+                        .src('./assets/images/icon-128.png')
+                        .pipe(gulp.dest('dist_chrome_app/'))
+                        .on('finish', function() {
+                            gulp
+                                .src(['./boilerplate_sidebar.html'])
+                                .pipe(rename('index.html'))
+                                .pipe(gulp.dest('dist_chrome_app/'))
+                                .on('finish', function() {
+                                    gulp
+                                    .src(['./google_app_backgound.js'])
+                                    .pipe(gulp.dest('dist_chrome_app/'))
+                                    .on('finish', function() {
+                                        if(fn)fn();
+                                    });
+                                });
+                        });
+                        
+                    });
+                });
+            });
+        });
+    },
+    move_file_to_dist_chrome_extension = function( cb, fn ){
+        console.log('#======> moving files to dist_chrome_extension/');
+        // create dist_chrome_extension/
+        gulp
+        .src(['dist/**/*'])
+        .pipe(gulp.dest('dist_chrome_extension/'))
+        .on('finish', function() {
+            gulp
+            .src(['assets/**/*'])
+            .pipe(gulp.dest('dist_chrome_extension/assets'))
+            .on('finish', function() {
+                gulp
+                .src('./google_extension_manifest.json')
+                .pipe(rename('manifest.json'))
+                .pipe(gulp.dest('dist_chrome_extension/'))
+                .on('finish', function() {
+                    gulp
+                    .src('./assets/images/icon-16.png')
+                    .pipe(gulp.dest('dist_chrome_extension/'))
+                    .on('finish', function() {
+                        gulp
+                        .src('./assets/images/icon-128.png')
+                        .pipe(gulp.dest('dist_chrome_extension/'))
+                        .on('finish', function() {
+                            gulp
+                                .src(['./boilerplate_sidebar_chrome.html'])
+                                .pipe(rename('index.html'))
+                                .pipe(gulp.dest('dist_chrome_extension/'))
+                                .on('finish', function() {
+                                    //gulp
+                                    //.src(['./google_extension_backgound.js'])
+                                    //.pipe(gulp.dest('dist_chrome_extension/'))
+                                    //.on('finish', function() {
+                                        if(fn)fn();
+                                    //});
+                                });
+                        });
+                        
+                    });
+                });
+            });
+        });
     },
     test = function( cb, fn ) {
         var start_date = new Date(),

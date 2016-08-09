@@ -1,4 +1,5 @@
-    
+document.addEventListener('DOMContentLoaded', function() {
+
     //$dhx.environment = "production";
 
     var dhx_application = $dhx.ui.mvp.application.extend({
@@ -84,5 +85,4 @@
         $dhx_form: true,
         $dhx_grid: true
     });
-
-//});
+});    

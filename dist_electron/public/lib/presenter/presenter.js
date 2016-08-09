@@ -156,7 +156,7 @@ $dhx.ui.mvp.presenters.declare({
                     var initial_data = {
                         "users": [],
                         "questions": [
-                        /*
+                        
                             {
                                 id: 1,
                                 _id: 1,
@@ -183,7 +183,7 @@ $dhx.ui.mvp.presenters.declare({
                                 answer: "Answer heresss",
                                 __v: 10
                             }
-                        */
+                        
                         ]
                     };
                     self.model.schema._set_start_data(initial_data);
