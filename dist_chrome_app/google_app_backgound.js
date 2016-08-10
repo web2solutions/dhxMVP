@@ -7,6 +7,7 @@
   });
 });*/
 
+// chrome.windows.create({url: chrome.extension.getURL("local.html"), type: "popup"});
 
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.create({'url': chrome.extension.getURL('index.html')}, function(tab) {

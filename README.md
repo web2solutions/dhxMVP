@@ -2,10 +2,16 @@
 
 [![NPM version](https://badge.fury.io/js/dhxmvp.png)](http://badge.fury.io/js/dhxmvp) [![Build Status](https://travis-ci.org/web2solutions/dhxMVP.svg?branch=master)](https://travis-ci.org/web2solutions/dhxMVP) ![Dependency Status](https://gemnasium.com/web2solutions/dhxMVP.png) [![License GPL-2.0](http://b.repl.ca/v1/License-GPL--2.0-brightgreen.png)](https://github.com/web2solutions/dhxMVP/blob/master/LICENSE) [![Join the chat at https://gitter.im/web2solutions/public](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/web2solutions/public?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+[![NPM](https://nodei.co/npm/dhxmvp.png?compact=true)](https://nodei.co/npm/dhxmvp/)
+
 dhxMVP is a boilerplater system for building MV* Single Page Applications using DHTMLX.
 
 
-[![print screen](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
+[![print screen 1](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
+[![print screen 2](http://i.imgur.com/0P73aMq.png)](http://i.imgur.com/0P73aMq.png)
+[![print screen 3](http://i.imgur.com/ZsAIElz.png)](http://i.imgur.com/ZsAIElz.png)
+
+
 
 
 - [Why another MV* implementation](#why-another-mv-implementation)
@@ -31,6 +37,8 @@ dhxMVP is a boilerplater system for building MV* Single Page Applications using 
             - [Creating Mac installers](#creating-mac-installers)
             - [Creating Windows installers](#creating-windows-installers)
             - [Creating Linux installers](#creating-linux-installers)
+            - [Creating a Google Chrome Application](#creating-a-google-chrome-application)
+            - [Creating a Google Chrome Extension](#creating-a-google-chrome-extension)
     - [Move to production](#move-to-production)
 
 - [License](#license)
@@ -59,42 +67,48 @@ Frameworks like DHTMLX provides mature and tested components API, rather the mod
 
 There is no problem with the paradigm where you create your own components, it can be great for small applications or when you have sufficient time to start from the scratch to create components mature like the components which already exists in frameworks for Enterprise applications.
 
-Frameworks like Angular, React an others, render `views` by using `predefined` or `static` plain HTML templates.
+Frameworks like Angular, React an others, render `views` by using `predefined` or `declarative` plain HTML templates.
 
-Frameworks like DHTMLX provides `built in` components where you can consume it APIs. The HTML, by itself, is generated on the fly when when the code which call the components is executed.
+Frameworks like DHTMLX provides `built in` components where you can consume it APIs. The HTML, by itself, is generated in runtime when the code which call the components is executed.
 
 Frameworks for Enterprise Applications keep the developer focus on the business logic, avoiding time wasting to create HTML and css code. 
 
 You may be wondering: "What about concepts like `reaction` and data binding?"
 
-Don't worry. Take a deep look into DHTMLX documentation and you will see those concepts are nothing new.
+Don't worry. Take a deep look into [DHTMLX documentation](http://docs.dhtmlx.com/datastore__index.html) and you will see those concepts are nothing new.
 
-Framerworks for Enterprise Javascript Applications are the first citizens from the `Javascript Development World`.
+Framerworks for Enterprise Javascript Applications are the first citizens of the `Javascript Development World`.
 
-There is nothing you can not do with those frameworks, certainly they may not be the best choice for a small POC or application, but they are the best choice in several scenarios which I will not discuss here.
+There is nothing you `can not do` with those frameworks, certainly they may not be the best choice for a small POC or small application, but they are the best choice in several scenarios which I will not discuss here.
 
 As DHTMLX offers rich components through simple interfaces (API) with a great docs, it may be a right choice for small application too. Not only for Enterprise applications.
 
-Although, generally, a Enterprise application has it code increasing on it lifetime, resulting in a big codebase. In this scenario, you may see a lack in DHTMLX that is it does not encourage any pattern for development. Requiring from the developer to create it own application design and structure.
+Although, generally, a Enterprise application has it code increasing on it lifetime, resulting in a big codebase. In this scenario, you may see a lack in DHTMLX that is it does not encourage any pattern for development. Requiring from the developers to create their own application foundation.
 
 Another common problems are:
 
-- Giant Javascript modules/classes which are harder to maintain and get new people envolved on it development
-- `Load the whole app in just one file`, encouraged in top most several modern frameworks may not work for Enterprise applications, where you may have ` 2, 3, 4, 5 or even more` MB loading at the same time before application starts.
+- Giant Javascript modules/classes
 
-The dhxMVP boilerplate solves the problems by using `dhx.ui.mvp`, a MV* framework built on top of [dhx framework](https://github.com/web2solutions/dhx).
+    Are harder to maintain and get new people envolved on it development
 
-`dhx.ui.mvp` let you to declare your routes and it will call it properly `presenter` and `view`, automatically creating references to the model on each view and presenter.
+- `Load the whole app in just one file` methodology
+
+    Encouraged in top most several modern frameworks may not work for Enterprise applications, where you may have ` 2, 3, 4, 5 or even more` MB loading at the same time before application starts.
+
+The dhxMVP boilerplate solves all those problems by using `dhx.ui.mvp`, a MVP framework
+
+
+`dhx.ui.mvp` let you to declare your routes and it will call it proper `presenter` and `view` associated to it, automatically creating references to the model on each view and presenter.
 
 For each route, you declare (will use route as file name if not declared) a `view` and a `presenter`, but not least, you may also to attach any javascript file to the view scope.
 
-On the view, you basically you declare DHTMLX component settings and it calls.
+In the view, you basically declare DHTMLX component settings and it calls.
 
-On the presenter, you orchestrate your view, meanwhile you may implement and provide any required helper method.
+In the presenter, you orchestrate your view, meanwhile you may implement and provide any required helper method.
 
-Both view and presenter have reference to the application model, although it would be great to implement model tasks over the presenter and let the view to be the simple as possible.
+Models are `decoupled`, `completely independent` and `framework agnostic` Javascript Objects. Models are bound to the dhxMVP application through a `Engine\Data Driver`.
 
-For now, the model is framework agnostic, you may develop it using Backbone for a faster approach, or to use PouchDB, db for example, which would to require a less abstracted model code. Anyway, the model is just a Javascript Module or Object Literal called `model`.
+`Engines` or `Data Drivers`, are JavaScript Modules which defines certain logic of how about data is accessed, manipuled and stored.
 
 To solve the problems regarding loading performance, `dhx.ui.mvp` implements a `on demand loading` model for loading your javascript views and presenters, let the end user to load it on their browsers only when they really need that file on their cache.
 
@@ -111,11 +125,6 @@ List of the softwares you need to have installed in your computer to use the who
  - [Git](https://desktop.github.com/) - `I'm using github`
 
 Install process:
-
-### Via npm
-
-[![NPM](https://nodei.co/npm/dhxmvp.png?compact=true)](https://nodei.co/npm/dhxmvp/)
-
 
 ### Via Github repo
 
@@ -139,52 +148,47 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ***The File system for a properly fresh install version of dhxMVP should be something like:***
 
+    apps/
     |---- dhxMVP/
         |---- assets/
         |---- cache/ -> automatically created when creating Application installers
         |---- coverage/ -> Instabul coverage files
+        |---- deps/
+            |---- dhx
+            |---- thirdparty
         |---- dist/ -> automatically created when running $ gulp dist
-        |---- dist_electron/ -> automatically created when running $ gulp dist
+        |---- dist_chrome_app/ -> automatically created when running $ gulp dist
+        |---- dist_chrome_extension/ -> automatically created when running $ gulp dist
+        |---- dist_electron/ -> automatically created when running `$ gulp dist`
         |---- installers/ -> automatically created when creating Application installers
         |---- lib/
-            |---- dhx
             |---- model
-                |---- model.js
+                |---- collections
+                    |---- questions.js
+                    |---- users.js
+                |---- engines
+                    |---- backboneIDB.js
+                |---- models
+                    |---- question.js
+                    |---- user.js
             |---- presenter
                 |---- presenter.js
-            |---- thirdparty
             |---- view
                 |---- view.js
-            |---- app.js
         |---- node_modules/ -> automatically created when installing the Boilerplate system
         |---- test/
         |---- .gitignore
         |---- .travis.yml
         |---- boilerplate_sidebar.html
+        |---- boilerplate_sidebar_chrome.html
         |---- electron.js
+        |---- google_app_backgound.js
+        |---- google_app_manifest.json
+        |---- google_extension_manifest.json
         |---- Gulpfile.js
         |---- LICENSE
         |---- package.json
         |---- Readme.md
-
-***The File system for a final distributed application should be something like:***
-
-_Distributed application version are created running `$ gulp dist`._
-
-    |---- MyApplicationName/
-        |---- assets/
-        |---- lib/
-            |---- dhx
-            |---- model
-                |---- model.js
-            |---- presenter
-                |---- presenter.js
-            |---- thirdparty
-            |---- view
-                |---- view.js
-            |---- app.js
-        |---- index.html
-
 
 
 
@@ -208,10 +212,11 @@ _Distributed application version are created running `$ gulp dist`._
  - gulp jshint - Run jsHint against application code
  - gulp dist 
     - Run jshint (_The dist will not be executed if is there any programmimng error reported by jshint_)
-    - Minify JavaScript files
-    - Copy `lib/`to `dist/`
-    - Copy `assets/`to `dist/`
-    - Copy `boilerplate_sidebar.html`to `dist/` and rename to `index.html
+    - Create minified version of the JavaScript files used by the application
+    - Create distributable web version
+    - Create distributable Google Chrome application version
+    - Create distributable Google Chrome extension version
+    - Create distributable Electron version
 
  - gulp test - Unit Tests
  - gulp git-init - init git on the repository
@@ -478,41 +483,278 @@ The name of the file is mandatory to be `presenter.js`. Don't change it.
 
 ### The application Model
 
-Until this version of dhxMVP, the model is a simple Javascript Module/Object which will be automatically referenced by all `Views` and `Presenters` when you declare the model.
+The client side data layer of a dhxMVP is basically divided in 3 parts:
+
+1. Models
+2. Collections
+3. Data driver or Engine
+
+#### Models
+
+Models are plain Javascript objects which:
+
+1. Maps to the data of a JSON document of a db collection.
+2. Define `Document Property` ***_names_***.
+3. Define ***_types_*** of a `Document Property`.
+4. Define ***_validation rules_*** of a `Document Property`
+5. Define ***_UI related features_*** of a `Document Property`.
+6. Define ***_Database (client) related features_*** of a `Document Property`.
+7. Define ***_Database (server) related features_*** of a `Document Property`.
+
+Models are saved into the following directory:
+
+***`./lib/model/models`***
+
+A Model shall to provide at least 2 properties:
+
+1. ***__v***
+    Integer property used to transparently set versions of a document.
+    NOTE: Don't set it directly when saving or updating a model.
+2. ***_id***
+    String property to provide sync support for Mongo on a future version of dhxMVP.
+    NOTE: Don't set it directly when saving or updating a model on a fully offline environment. Only set it when using online data fetched from a Mongo.
+
+Let's see a model which defines the JSON Document Schema for a `question` Document of a `collection of questions` to be used to implement a view of a `Frequent Asked Questions` section.
+
+````javascript
+var question = {
+        /*
+        * mandatory, don't change it
+        */
+        __v: $dhx.ui.mvp.model.helpers.schema.defaults.__v,
+        /*
+        * mandatory, don't change it
+        */
+        _id: $dhx.ui.mvp.model.helpers.schema.defaults._id,
+        /*
+        * question property. Stores a question string.
+        */
+        question: {
+            /*
+            * Property type. Types are Javascript types. It may be:
+            * number, string, array, date
+            */
+            type: 'string',
+            /*
+            * Property default value.
+            * Value used for automatically associate to this property when inserting a 
+            * document which does not explicity declare this property
+            */
+            default: '',
+            /*
+            * Property uniqueness.
+            * true or false. Define if the value stored on this property shall to be unique 
+            * in the entire document collections
+            */
+            unique: false,
+            /*
+            * Property validation.
+            * Javascrip object which define validation aspects to be used when manipulating documents
+            * on client and server side.
+            */
+            validate: {
+                /*
+                * Is Property required?.
+                * Boolean value which defines if this property shall to have a associated value to it on every time
+                * you save or update this model.
+                */
+                required: true,
+                /*
+                * UI field masking.
+                * define a mask name to be applied to a field which represents this property on the UI.
+                * undefined or ('') for none.
+                * other values: 
+                *       currency
+                *       integer, 
+                *       credit_card, 
+                *       number, 
+                *       cpf (Brazilian SSN), 
+                *       cnpj (Brazilian Cadasro nacional de Pessoas Jurídicas)
+                *       cep (Brazilian Zip Code)
+                *       us_phone
+                *       br_phone
+                *       expiration_date
+                *       ssn
+                *       time
+                */
+                mask_to_use: undefined,
+                /*
+                * Validation rules
+                * Are rules to test the property value against to, whenever you try to save or 
+                * update the model (on client and server side) or submit a form.
+                * Separated comma list of rules
+                * Values may be: 
+                *       Empty, NotEmpty, ValidEmail, ValidInteger, ValidFloat, ValidNumeric
+                *       ValidAplhaNumeric, ValidDatetime, ValidDate, ValidTime, ValidCurrency
+                *       ValidSSN, ValidExpirationdate
+                */
+                rules: 'NotEmpty,ValidNumeric'
+            },
+            /*
+            * Property UI related definitions.
+            * Javascrip object which define aspects related to this property on the User Interface
+            */
+            ui: {
+                /*
+                * Aspects of this property on a UI Form
+                */
+                form: {
+                    /*
+                    * Form text label
+                    */
+                    label: 'Question',
+                    /*
+                    * Form input type
+                    */
+                    type: 'input',
+                },
+                /*
+                * Aspects of this property on a UI Grid
+                */
+                grid: {
+                    /*
+                    * Header text value on a grid
+                    */
+                    header: 'Question',
+                    /*
+                    * Column alignment on a grid.
+                    * String: left, right, center.
+                    */
+                    align: 'left',
+                    /*
+                    * Column type on a grid.
+                    * It is a DHTMLX Grid column type.
+                    * Please refer to the DHTMLX docs for original types: 
+                    *       -> http://docs.dhtmlx.com/grid__columns_types.html
+                    * Another implemented column types are:
+                    *       UScurrency, ssn, USphone
+                    *       BRcurrency, BRphone, cep, cpf, cnpj
+                    *       integer, time
+                    *       moment_calendar, moment_to, moment_from, moment_fromNow, myprice
+                    */
+                    coltype: 'ro',
+                    /*
+                    * Column width on a grid
+                    * Integer values or * for automatically sizing
+                    */
+                    width: '*'
+                }
+            }
+        },
+        answer: {
+            type: 'string',
+            default: '',
+            unique: false,
+            validate: {
+                required: true,
+                mask_to_use: undefined,
+                rules: 'NotEmpty'
+            },
+            ui: {
+                form: {
+                    label: 'Answer',
+                    type: 'input',
+                },
+                grid: {
+                    header: 'Answer',
+                    align: 'left',
+                    coltype: 'ro',
+                    width: '0'
+                }
+            }
+        }
+    };
+````
+
+#### Collections
+
+Collections are like a table on a RDBMS. Instead storing rows, it stores JSON documents.
+
+In a dhxMVP application, a collection is a plain Javascript Object and it looks like the following code:
+
+````javascript
+    var questions = {
+        model: 'question'
+    };
+````
+
+Collections are saved into the following directory:
+
+***`./lib/model/collections`***
+
+#### Data driver - Engines
+
+> Models are `decoupled`, `completely independent` and `framework agnostic` Javascript Objects. 
+> Models are bound to the dhxMVP application through a `Engine\Data Driver`.
+> 
+> `Engines` or `Data Drivers`, are JavaScript Modules which defines certain logic of how about data 
+> is accessed, manipuled and stored.
+
+Actually, the unique `Engine` implemented uses Backbone to `Create` and `Handle`, `Models` and `Collections` using the predefined models. It also uses the `indexeddb-backbonejs-adapter` plugin to persist data on a local database powered by [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
+
+The Engine automatically maps in runtime, the whole defined `Models` and `Collections`, and build a `input` and `output` CRUD style API to provide standardized data access and manipulation to the application. Rather than directly manipulate `Models` and `Collections`, you will count with a clear and well defined API which covers all your models and collections.
+
+The advantage of implementing a `Data Driver` consist in providing proxyed data access to the models. In other words, you have total freedom to create a new Data Driver that defines a completely different data `access`, `manipulation` and `storage` rules and provide support to different environments and stacks.
+
+A public API of a `Engine` should looks like the following code:
 
 It should looks like the following:
 
 ````javascript
-$dhx.ui.mvp.models.declare({
-    "model": (function() {
+$dhx.ui.mvp.model.engine.declare({
+    "backboneIDB": (function() {
         'strict';
         var API = {
-            
+            database:{
+                description: '',
+                id: ''
+            },
+            schema:{
+                add_all_records_from_server: function(){},
+                /*
+                * Namespace: module.schema.io
+                * Provide a CRUD like input and output API for each defined collection
+                */
+                 */
+                io:{
+                    questions:{
+                        create: function(){},
+                        destroy: function(){},
+                        read: function(){},
+                        update: function(){}
+                    },
+                    users: {
+                        create: function(){},
+                        destroy: function(){},
+                        read: function(){},
+                        update: function(){}
+                    },
+                    books: {
+                        create: function(){},
+                        destroy: function(){},
+                        read: function(){},
+                        update: function(){}
+                    },
+                },
+                start: function(){}
+            },
+            start: function(){}
         }; // end API
         return API;
     }())
 });
 ```
 
-A more complete `model` demo code may be [viewed here](https://gist.github.com/web2solutions/2c829ea0cd11660b10bda3504c8d26b3)
-
-For a future version, I will be implementing the model using [DHTMLX Datastore](http://docs.dhtmlx.com/datastore__index.html) and integrating it with [indexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). It will provides to the `Views`, `Reaction` and `Data Binding` in a high abstracted API.
-
-For now, the `demo application` implemented in this boilerplate is using Backbone and it indexedDB plugin to implement local database over indexedDB and provide a set of features to be used on `Presenters` and `View`.
-
-
-***Note*** 
-
-As best pratice, try to consume the model always via `Presenters`. Try to keep your `Views` as simplest as possible. 
-
-
-The `model` is executed `only one time` in the entire application lifetime when it starts.
-
-The application `model` code resides in the following path: `MyApplicationName/lib/model/model.js`.
-
 ***NOTE***
 
-The name of the file is mandatory to be `model.js`. Don't change it.
+_The above code is just a simple example of a Public API for a Engine. This example is not defining any `private` logic which implements that API._
+
+Engines are saved into the following directory:
+
+***`./lib/model/engines`***
+
+A more complete `engine` demo code may be [viewed here](https://gist.github.com/web2solutions/2c829ea0cd11660b10bda3504c8d26b3)
+
 
 
 ### Declaring routes
@@ -902,14 +1144,62 @@ If a error occurs on any of the above task, the upcoming deploy task will not be
 
 #### Application distributing
 
-Including the web version, you may be interested in distributing your application as a `Desktop Application`. For this case, the Boilerplate system provides you a mechanism to create `executable versions` of your application with no efforts.
+
+***Distributable Applications***
+
+Distributable applications are bundles of files automatically generated using the `dist` command in `gulp`.
+
+    $ gulp dist
+
+Running `dist` will create 4 types of distributable applications:
+
+1. Web version
+
+    Stored in `./dist`
+    The content of the web version can be simple served by a HTTP server.
+
+2. Google Chrome Application Version
+
+    Stored in `./dist_chrome_app`
+    The content of the Google Chrome Application version can be directly imported using the `Google Chrome Extension Manager` or compacted as zip and uploaded in [`Chrome Web Store Control Panel`](https://chrome.google.com/webstore/developer/dashboard)
+
+3. Google Chrome Extension Version
+
+    Stored in `./dist_chrome_extension`
+    The content of the Google Chrome Extension version can be directly imported using the `Google Chrome Extension Manager` or compacted as zip and uploaded in [`Chrome Web Store Control Panel`](https://chrome.google.com/webstore/developer/dashboard)
+
+4. Electron Version
+
+    Stored in `./dist_electron`
+    The content of the Electron version will be used to create Windows, Linux and Mac installers of your application when building your application by running `gulp build`.
+
+
+***The File system web version should be something like:***
+
+_Distributed application version are created running `$ gulp dist`._
+
+    |---- MyApplicationName/
+        |---- assets/
+        |---- lib/
+            |---- dhx
+            |---- model
+                |---- model.js
+            |---- presenter
+                |---- presenter.js
+            |---- thirdparty
+            |---- view
+                |---- view.js
+            |---- app.js
+        |---- index.html
+
+
+Including the web, Chrome Application and Chrome Extension versions, you may be interested in distributing your application as a `Desktop Application`. For this case, the Boilerplate system provides you a mechanism to create `executable versions` of your application with no efforts.
 
 You can get the generated executables and distribute to your client.
 
 The generated installers will be stored into `installers/`.
 
 To make the installers, run the following commands:
-
 
 
 
@@ -933,6 +1223,23 @@ To make the installers, run the following commands:
 
 
 
+##### Creating a Google Chrome Application
+
+A Google Chrome Application version of your app is automatically generated when you run `gulp dist`. The generated application is saved under the `./dist_chrome_app` directory.
+
+    $ gulp dist
+
+
+
+##### Creating a Google Chrome Extension
+
+A Google Chrome Extension version of your app is automatically generated when you run `gulp dist`. The generated application is saved under the `./dist_chrome_extension` directory.
+
+    $ gulp dist
+
+
+
+
 
 ### Move to production
 
@@ -941,10 +1248,18 @@ To make the installers, run the following commands:
 
 
 
+
 ## Todo
 
-- $dhx.ui.mvp refactoring
-- Implement patterns on routes url
+- Implement a `datastore` API
+    
+    Similar to [DHTMLX Datastore](http://docs.dhtmlx.com/datastore__index.html) to be used internally by all Engines.
+
+- Provide server sync for backboneIDB Engine
+    
+    Using Mongo on Back End
+
+- Implement Pouch Engine and provide support to CouchBase
 
 
 

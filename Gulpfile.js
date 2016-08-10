@@ -122,7 +122,8 @@ var gulp = require('gulp'),
                     }))
                     .pipe(rename('min.' + file))
                     .pipe(uglify({
-                        mangle: true
+                        mangle: true//,
+                        //outSourceMap: true
                     }))
                     .pipe(gulp.dest('./' + path_file))
                     .on('finish', function() {
