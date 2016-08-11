@@ -200,7 +200,7 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ## What the boilerplate provides?
 
-Until this version, this boilerplate provides features to build full featured offline applications. Still there is no standard defined for server communication. This piece of software shall to be implemented.
+Until this version, this boilerplate provides features to build full featured offline applications with powerful local database using [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). Still there is no standard defined for server communication. This piece of software shall to be implemented.
 
 For future releases, this boilerplate will also provides a complete REST back end to be consumed by your client side application, in this way, letting you to build offline, online and syncable applications.
 
