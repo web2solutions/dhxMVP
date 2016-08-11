@@ -61,11 +61,11 @@ dhxMVP is a boilerplater system for building online, offline and syncable MVP Si
 
 The [DHTMLX framework](http://www.dhtmlx.com), the main actor on the UI side of this project, does not implement any MV* model to create applications, or even implement any complex design pattern in their component calls. 
 
-Rather than the facade pattern used in several frameworks to init components, generally, DHTMLX pragmatically set up components `line by line`, by explicit calling component methods and passing the properly arguments on each call. That is their `default model`. Of course it also let you to set up your component using facade.
+Rather than the facade pattern used in several frameworks to init components, generally, DHTMLX pragmatically set up components `line by line`, by explicit calling component methods and passing the proper arguments on each call. That is their `default model`. Of course it also let you to set up your component using facade.
 
-It makes DHTMLX simple and powerful. It let starter javascript programmers to build Enterprise Javascript applications.
+It makes DHTMLX simple and powerful. It let starters javascript programmers to build Enterprise Javascript applications.
 
-Another reason is actually there is no MV* framework or library which let you to build MV* aplications using DHTMLX components `using the same paradigm` or even similar in the way they were created. 
+Another reason is, actually there is no MV* framework or library which let you to build MV* aplications focused in DHTMLX components and `using the same paradigm`, or even similar in the way they were created. 
 
 DHTMLX fits to a paradigm that is very similar to other frameworks like EXT JS (Senha actually), Dojo, Qooxdoo and others in term of how to implement applications using the `Component Driven Developmemnt` approach.
 
@@ -75,9 +75,9 @@ There is no problem with the paradigm where you create your own components, it c
 
 Frameworks like Angular, React an others, render `views` by using `predefined` or `declarative` plain HTML templates.
 
-Frameworks like DHTMLX provides `built in` components where you can consume it APIs. The HTML, by itself, is generated in runtime when the code which call the components is executed.
+Frameworks like DHTMLX provides `built in` components where you can consume it APIs. The HTML, by itself, is generated in runtime, when the code which call the components is executed.
 
-Frameworks for Enterprise Applications keep the developer focus on the business logic, avoiding time wasting to create HTML and css code. 
+Frameworks for Enterprise Applications keep the developer focus on the business logic, avoiding time wasting to create HTML, CSS, Cross Browser hacks and several other problems which already are solved by those solutions.
 
 You may be wondering: "What about concepts like `reaction` and data binding?"
 
