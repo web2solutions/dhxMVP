@@ -4,14 +4,9 @@
 
 [![NPM](https://nodei.co/npm/dhxmvp.png?compact=true)](https://nodei.co/npm/dhxmvp/)
 
-dhxMVP is a boilerplate system for building online, offline and syncable MVP Single Page Applications using [DHTMLX](http://dhtmlx.com/).
 
 
-[![print screen 1](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
-[![print screen 2](http://i.imgur.com/0P73aMq.png)](http://i.imgur.com/0P73aMq.png)
-[![print screen 3](http://i.imgur.com/ZsAIElz.png)](http://i.imgur.com/ZsAIElz.png)
-
-
+dhxMVP is a boilerplate system for building online, [offline](https://www.w3.org/TR/offline-webapps/) and [syncable](https://developer.mozilla.org/en-US/Apps/Fundamentals/Offline) [MVP](https://pt.wikipedia.org/wiki/Model-view-presenter) (Single Page Applications)[https://en.wikipedia.org/wiki/Single-page_application] using [DHTMLX](http://dhtmlx.com/).
 
 
 - [Why another MV* implementation](#why-another-mv-implementation)
@@ -46,15 +41,11 @@ dhxMVP is a boilerplate system for building online, offline and syncable MVP Sin
 - [License](#license)
 
 
+***Some print screens***
 
-
-##### 
-
-
-##### 
-
-
-##### 
+[![print screen 1](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
+[![print screen 2](http://i.imgur.com/0P73aMq.png)](http://i.imgur.com/0P73aMq.png)
+[![print screen 3](http://i.imgur.com/ZsAIElz.png)](http://i.imgur.com/ZsAIElz.png)
 
 
 ## Why another MV* implementation?
