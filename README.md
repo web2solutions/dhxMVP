@@ -337,9 +337,7 @@ The HTML code wich is reponsible for loading your dhxMVP application should look
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MV* DHTMLX Demo app</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <title>MVP DHTMLX Demo app</title>
     <link rel="icon" href="assets/images/favicon.ico">
     <!-- deps -->
     <script src='deps/dhx/min.shim.js'></script>
@@ -347,10 +345,10 @@ The HTML code wich is reponsible for loading your dhxMVP application should look
     <script src='deps/dhx/dhx.ui.mvp.js'></script>
     <!-- app -->
     <link rel="stylesheet" type="text/css" href="assets/css/app.css">
+    <script src='boilerplate_sidebar.js'></script>
     <!-- app -->
 </head>
 <body>
-    <script src='boilerplate_sidebar.js'></script>
 </body>
 </html>
 ```
