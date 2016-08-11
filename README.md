@@ -59,11 +59,15 @@ dhxMVP is a boilerplater system for building online, offline and syncable MVP Si
 
 ## Why another MV* implementation?
 
-[DHTMLX framework](http://www.dhtmlx.com) does NOT provides any MV* solution, or even implement any complex design pattern in their component calls. Rather than the facade pattern used in several frameworks to init components, generally, DHTMLX pragmatically set up components `line by line`, by explicit calling component methods and passing the properly arguments on each call. That is their `default model`, but also let you to set up your component using facade.
+The [DHTMLX framework](http://www.dhtmlx.com), the main actor on the UI side of this project, does not implement any MV* model to create applications, or even implement any complex design pattern in their component calls. 
+
+Rather than the facade pattern used in several frameworks to init components, generally, DHTMLX pragmatically set up components `line by line`, by explicit calling component methods and passing the properly arguments on each call. That is their `default model`. Of course it also let you to set up your component using facade.
 
 It makes DHTMLX simple and powerful. It let starter javascript programmers to build Enterprise Javascript applications.
 
-Another reason is actually there is no MV* framework or library which let you to build MV* aplications using DHTMLX components `using the same paradigm` or even similar in the way they were created. DHTMLX fits to a paradigm that is very similar to other frameworks like EXT JS (Senha actually), Dojo, Qooxdoo and others in term of how to implement applications using the `Component Driven Developmemnt` approach.
+Another reason is actually there is no MV* framework or library which let you to build MV* aplications using DHTMLX components `using the same paradigm` or even similar in the way they were created. 
+
+DHTMLX fits to a paradigm that is very similar to other frameworks like EXT JS (Senha actually), Dojo, Qooxdoo and others in term of how to implement applications using the `Component Driven Developmemnt` approach.
 
 Frameworks like DHTMLX provides mature and tested components API, rather the model where you create your own components.
 
