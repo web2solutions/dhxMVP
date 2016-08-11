@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/dhxmvp.png?compact=true)](https://nodei.co/npm/dhxmvp/)
 
-dhxMVP is a boilerplater system for building online, offline and syncable MV* Single Page Applications using DHTMLX.
+dhxMVP is a boilerplater system for building online, offline and syncable MVP Single Page Applications using DHTMLX.
 
 
 [![print screen 1](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
@@ -20,6 +20,7 @@ dhxMVP is a boilerplater system for building online, offline and syncable MV* Si
 - [Boilerplate architecture](#boilerplate-architecture)
 - [How to use the boilerplate to get my application done?](#how-to-use-the-boilerplate-to-get-my-application-done)
     - [Setup development environment](#setup-development-environment)
+    - [The `application` script](#the-application-script)
     - [The application `main` View](#the-application-main-view)
     - [The application `main` Presenter](#the-application-main-presenter)
     - [The application Model](#the-application-model)
@@ -322,6 +323,101 @@ Or you may prefer to use `gulp` to init it:
 
 
 
+## The `application` script
+
+The `application script` is the start point of you dhxMVP application. On that, you will declare your application and routes.
+
+
+````javascript
+document.addEventListener('DOMContentLoaded', function() {
+
+    //$dhx.environment = "production";
+
+    var dhx_application = $dhx.ui.mvp.application.extend({
+        initialize: function(options) {
+            //$dhx.debug.log('called initialize from factory');
+            //$dhx.debug.log('app initialized from ' + options.from );
+        }
+    }),
+        dhx_router = $dhx.ui.mvp.router.extend({ }),
+        router = new dhx_router({});
+
+    // lets use the events
+    dhx_application.on('before:start', function(options) {
+        console.log('fired app.onBeforeStart event 1');
+
+        //$dhx.debug.log('options ', options);
+        return true; // cancelable
+    });
+
+
+    dhx_application.on('start', function(options) {
+        console.log('fired app.onStart event');
+        //$dhx.debug.log('options ', options);
+    });
+
+    dhx_application.on('render', function(options) {
+        console.log('fired app.onRender event');
+        //app.main_view.dispatch( '/help' );
+        //$dhx.debug.log('options ', options);
+    });
+
+    // instantiate $dhx MVP application and router
+    var app = new dhx_application({
+            appId: "MV* DHTMLX Demo app",
+            container: document.body,
+            root: '',
+            //icons_path: '../assets/icons/64/', // not mandatory, default root + 'assets/icons/64/'
+            //deps_path: '../deps/', // not mandatory, default root + 'deps/'
+            //lib_path: '../lib/', // not mandatory, default root + 'lib/'
+            model:{
+                engine: 'backboneIDB',
+                models: [
+                    "user",
+                    "question"
+                ],
+                collections: [
+                    "users",
+                    "questions"
+                ]
+            }
+        });
+
+    /*
+        How to declare a route:
+
+        Properties:
+        url: Route address starting with "/". Mandatory
+        view: will assume url.replace(/\//g,'') as view name if view not explicitly defined
+        presenter: will assume url.replace(/\//g,'') as presenter name if presenter not explicitly defined
+        method: implicity call view.start() if not explicitly defined
+    
+        router.route({
+            url: '/route_name',
+            view: 'view_file_name',
+            presenter: 'presenter_file_name',
+            method: 'start_method_name', // implicity call presenter.start() if not explicitly defined
+            append_views: [
+                { "chatter" : 'chatter_view' }
+            ]
+        });
+
+     */
+
+    router.route({
+        url: 'help/:id:',
+        view: 'help',
+        presenter: 'help',
+    });
+
+
+    app.start({
+        backboneIDB: true,
+        $dhx_form: true,
+        $dhx_grid: true
+    });
+});    
+````
 
 
 ### The application `main` View
