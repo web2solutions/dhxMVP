@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/dhxmvp.png?compact=true)](https://nodei.co/npm/dhxmvp/)
 
-dhxMVP is a boilerplater system for building online, offline and syncable MVP Single Page Applications using DHTMLX.
+dhxMVP is a boilerplater system for building online, offline and syncable MVP Single Page Applications using [DHTMLX](http://dhtmlx.com/).
 
 
 [![print screen 1](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
