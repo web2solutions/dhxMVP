@@ -333,6 +333,12 @@ var gulp = require('gulp'),
             .src([
                     './*', 
                     '!./node_modules','!./node_modules/**', 
+
+                    '!./dist','!./dist/**', 
+                    '!./dist_chrome_app','!./dist_chrome_app/**', 
+                    '!./dist_chrome_extension','!./dist_chrome_extension/**', 
+                    '!./dist_electron','!./dist_electron/**', 
+
                     '!./cache','!./cache/**',
                     '!./installers','!./installers/**',
                     '!./dhxMVP.sublime-project', 
@@ -393,7 +399,21 @@ var gulp = require('gulp'),
 
 
         return gulp
-            .src(['./*', '!./node_modules','!./node_modules/**','!./cache','!./cache/**','!./installers','!./installers/**', '!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
+            .src([
+                    './*', 
+                    '!./node_modules','!./node_modules/**', 
+                    
+                    '!./dist','!./dist/**', 
+                    '!./dist_chrome_app','!./dist_chrome_app/**', 
+                    '!./dist_chrome_extension','!./dist_chrome_extension/**', 
+                    '!./dist_electron','!./dist_electron/**', 
+
+                    '!./cache','!./cache/**',
+                    '!./installers','!./installers/**',
+                    '!./dhxMVP.sublime-project', 
+                    '!./dhxMVP.sublime-workspace', 
+                    '!./sublime-gulp.log'
+            ])
             .pipe(git.commit(commit_message , {emitData:true}))
             .on('data',function(data) {
                 var self = this;
@@ -506,7 +526,21 @@ var gulp = require('gulp'),
         }); 
 
         return gulp
-            .src(['./*', '!./node_modules','!./node_modules/**','!./cache','!./cache/**', '!./installers','!./installers/**','!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
+            .src([
+                    './*', 
+                    '!./node_modules','!./node_modules/**', 
+                    
+                    '!./dist','!./dist/**', 
+                    '!./dist_chrome_app','!./dist_chrome_app/**', 
+                    '!./dist_chrome_extension','!./dist_chrome_extension/**', 
+                    '!./dist_electron','!./dist_electron/**', 
+
+                    '!./cache','!./cache/**',
+                    '!./installers','!./installers/**',
+                    '!./dhxMVP.sublime-project', 
+                    '!./dhxMVP.sublime-workspace', 
+                    '!./sublime-gulp.log'
+            ])
             .pipe(git.add())
             .pipe(git.commit(commit_message, {emitData:true}))
             .on('data',function(data) {
