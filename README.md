@@ -212,7 +212,7 @@ The currently implemented features are:
         - Initially Using DHTMLX Sidebar as application `wrapper and navigation`
     - Main Presenter
     - Demo Model
-        - Initially using Backbone and [indexeddb-backbonejs-adapter](https://github.com/superfeedr/indexeddb-backbonejs-adapter)
+        - Initially using [Backbone.js](http://backbonejs.org/) and [indexeddb-backbonejs-adapter](https://github.com/superfeedr/indexeddb-backbonejs-adapter)
     - Demo routes
         - #
             - Main view
