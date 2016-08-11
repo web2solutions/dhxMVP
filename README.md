@@ -20,6 +20,7 @@ dhxMVP is a boilerplater system for building online, offline and syncable MVP Si
 - [Boilerplate architecture](#boilerplate-architecture)
 - [How to use the boilerplate to get my application done?](#how-to-use-the-boilerplate-to-get-my-application-done)
     - [Setup development environment](#setup-development-environment)
+    - [The `application` html](#the-application-html)
     - [The `application` script](#the-application-script)
     - [The application `main` View](#the-application-main-view)
     - [The application `main` Presenter](#the-application-main-presenter)
@@ -321,6 +322,38 @@ Or you may prefer to use `gulp` to init it:
     $ cd MyApplicationName/
     $ gulp git-init
 
+
+
+
+## The `application` html
+
+The HTML code wich is reponsible for loading your dhxMVP application should looks like the following code:
+
+
+````html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MV* DHTMLX Demo app</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/images/favicon.ico">
+    <!-- deps -->
+    <script src='deps/dhx/min.shim.js'></script>
+    <script src='deps/dhx/min.dhx.js'></script>
+    <script src='deps/dhx/dhx.ui.mvp.js'></script>
+    <!-- app -->
+    <link rel="stylesheet" type="text/css" href="assets/css/app.css">
+    <!-- app -->
+</head>
+<body>
+    <script src='boilerplate_sidebar.js'></script>
+</body>
+</html>
+```
 
 
 ## The `application` script
