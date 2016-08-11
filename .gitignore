@@ -1,0 +1,12 @@
+log/
+*.pid
+*.swp
+node_modules/
+*.DS_Store
+*.sublime-project
+*.sublime-workspace
+*.sublime-gulp.cache
+cache/
+release/
+
+*.log

@@ -330,7 +330,15 @@ var gulp = require('gulp'),
             end_date,
             elapsed_time;
         return gulp
-            .src(['./*', '!./node_modules','!./node_modules/**', '!./cache','!./cache/**','!./installers','!./installers/**','!./dhxMVP.sublime-project', '!./dhxMVP.sublime-workspace', '!./sublime-gulp.log'])
+            .src([
+                    './*', 
+                    '!./node_modules','!./node_modules/**', 
+                    '!./cache','!./cache/**',
+                    '!./installers','!./installers/**',
+                    '!./dhxMVP.sublime-project', 
+                    '!./dhxMVP.sublime-workspace', 
+                    '!./sublime-gulp.log'
+            ])
             .pipe(git.add())
             .on('error', function(e){
                 console.log( '>>>> error on git-add' );
