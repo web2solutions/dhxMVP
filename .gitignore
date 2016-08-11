@@ -8,5 +8,9 @@ node_modules/
 *.sublime-gulp.cache
 cache/
 release/
+dist/
+dist_chrome_app/
+dist_chrome_extension/
+dist_electron/
 
 *.log
