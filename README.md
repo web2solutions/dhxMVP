@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/dhxmvp.png?compact=true)](https://nodei.co/npm/dhxmvp/)
 
-dhxMVP is a boilerplater system for building MV* Single Page Applications using DHTMLX.
+dhxMVP is a boilerplater system for building online, offline and syncable MV* Single Page Applications using DHTMLX.
 
 
 [![print screen 1](http://i.imgur.com/oAHO2km.png)](http://i.imgur.com/oAHO2km.png)
@@ -1171,29 +1171,166 @@ Running `dist` will create 4 types of distributable applications:
 4. Electron Version
 
     Stored in `./dist_electron`
-    The content of the Electron version will be used to create Windows, Linux and Mac installers of your application when building your application by running `gulp build`.
+    The content of the Electron version will be used to create Windows, Linux and Mac installers of your application.
 
 
-***The File system web version should be something like:***
+***The File system of a distributable web version should be something like:***
 
-_Distributed application version are created running `$ gulp dist`._
-
-    |---- MyApplicationName/
+    |---- dist/
         |---- assets/
-        |---- lib/
+        |---- deps/
             |---- dhx
+            |---- thirdparty
+        |---- lib/
             |---- model
-                |---- model.js
+                |---- collections
+                    |---- questions.js
+                    |---- min.questions.js
+                    |---- users.js
+                    |---- min.users.js
+                |---- engines
+                    |---- backboneIDB.js
+                    |---- min.backboneIDB.js
+                |---- models
+                    |---- min.question.js
+                    |---- min.question.js
+                    |---- min.user.js
+                    |---- min.user.js
             |---- presenter
                 |---- presenter.js
-            |---- thirdparty
+                |---- min.presenter.js
+                |---- help.js
+                |---- min.help.js
             |---- view
                 |---- view.js
-            |---- app.js
+                |---- min.view.js
+                |---- help.js
+                |---- min.help.js
         |---- index.html
 
 
-Including the web, Chrome Application and Chrome Extension versions, you may be interested in distributing your application as a `Desktop Application`. For this case, the Boilerplate system provides you a mechanism to create `executable versions` of your application with no efforts.
+***The File system of a distributable Google Chrome Application version should be something like:***
+
+    |---- dist_chrome_app/
+        |---- assets/
+        |---- deps/
+            |---- dhx
+            |---- thirdparty
+        |---- lib/
+            |---- model
+                |---- collections
+                    |---- questions.js
+                    |---- min.questions.js
+                    |---- users.js
+                    |---- min.users.js
+                |---- engines
+                    |---- backboneIDB.js
+                    |---- min.backboneIDB.js
+                |---- models
+                    |---- min.question.js
+                    |---- min.question.js
+                    |---- min.user.js
+                    |---- min.user.js
+            |---- presenter
+                |---- presenter.js
+                |---- min.presenter.js
+                |---- help.js
+                |---- min.help.js
+            |---- view
+                |---- view.js
+                |---- min.view.js
+                |---- help.js
+                |---- min.help.js
+        |---- boilerplate_sidebar.js
+        |---- google_app_background.js
+        |---- icon-128.png
+        |---- icon-16.png
+        |---- index.html
+        |---- manifest.json
+
+
+
+***The File system of a distributable Google Chrome Extension version should be something like:***
+
+    |---- dist_chrome_extension/
+        |---- assets/
+        |---- deps/
+            |---- dhx
+            |---- thirdparty
+        |---- lib/
+            |---- model
+                |---- collections
+                    |---- questions.js
+                    |---- min.questions.js
+                    |---- users.js
+                    |---- min.users.js
+                |---- engines
+                    |---- backboneIDB.js
+                    |---- min.backboneIDB.js
+                |---- models
+                    |---- min.question.js
+                    |---- min.question.js
+                    |---- min.user.js
+                    |---- min.user.js
+            |---- presenter
+                |---- presenter.js
+                |---- min.presenter.js
+                |---- help.js
+                |---- min.help.js
+            |---- view
+                |---- view.js
+                |---- min.view.js
+                |---- help.js
+                |---- min.help.js
+        |---- boilerplate_sidebar.js
+        |---- icon-128.png
+        |---- icon-16.png
+        |---- index.html
+        |---- manifest.json
+
+
+
+
+***The File system of a distributable Electron version should be something like:***
+
+    |---- dist_electron/
+        |---- public
+            |---- assets/
+            |---- deps/
+                |---- dhx
+                |---- thirdparty
+            |---- lib/
+                |---- model
+                    |---- collections
+                        |---- questions.js
+                        |---- min.questions.js
+                        |---- users.js
+                        |---- min.users.js
+                    |---- engines
+                        |---- backboneIDB.js
+                        |---- min.backboneIDB.js
+                    |---- models
+                        |---- min.question.js
+                        |---- min.question.js
+                        |---- min.user.js
+                        |---- min.user.js
+                |---- presenter
+                    |---- presenter.js
+                    |---- min.presenter.js
+                    |---- help.js
+                    |---- min.help.js
+                |---- view
+                    |---- view.js
+                    |---- min.view.js
+                    |---- help.js
+                    |---- min.help.js
+            |---- boilerplate_sidebar.js
+            |---- index.html
+        |---- index.js
+        |---- package.json
+
+
+Including the Web, Chrome Application and Chrome Extension versions, you may be interested in distributing your application as a `Desktop Application`. For this case, the Boilerplate system provides you a mechanism to create `executable versions` of your application with no efforts.
 
 You can get the generated executables and distribute to your client.
 
@@ -1246,10 +1383,9 @@ A Google Chrome Extension version of your app is automatically generated when yo
 
 
 
-
-
-
 ## Todo
+
+- Implement a Messaging Mediatior
 
 - Implement a `datastore` API
     
@@ -1260,6 +1396,16 @@ A Google Chrome Extension version of your app is automatically generated when yo
     Using Mongo on Back End
 
 - Implement Pouch Engine and provide support to CouchBase
+
+- Implement Firebase Engine
+
+- REST API generator using defined models and collection
+    
+    Express
+    Mongoose
+    Mongo
+
+- Implement REST client
 
 
 
