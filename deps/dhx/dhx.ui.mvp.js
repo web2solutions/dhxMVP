@@ -143,8 +143,14 @@
                 c = c || {};
                 core.push(_application.lib_path + "presenter/" + ($dhx.environment != 'test' ? "min." : "") + "presenter.js");
                 core.push(_application.lib_path + "view/" + ($dhx.environment != 'test' ? "min." : "") + "view.js");
-                deps.push(_application.deps_path + "thirdparty/codebase5.0_std/dhtmlx.css");
-                deps.push(_application.deps_path + "thirdparty/codebase5.0_std/dhtmlx.js");
+                deps.push("http://cdn.dhtmlx.com/edge/dhtmlx.css");
+                deps.push("http://cdn.dhtmlx.com/edge/dhtmlx.js");
+
+
+
+
+
+
                 deps.push(_application.deps_path + "thirdparty/signals.js");
                 deps.push(_application.deps_path + "thirdparty/hasher.js");
                 deps.push(_application.deps_path + "thirdparty/crossroads.js");

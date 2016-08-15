@@ -355,7 +355,7 @@ The HTML code wich is reponsible for loading your dhxMVP application should look
 <body>
 </body>
 </html>
-```
+````
 
 
 ## The `application` script
@@ -537,7 +537,7 @@ $dhx.ui.mvp.views.declare({
         return view;
     }())
 });
-```
+````
 
 A more complete `Main View` demo code may be [viewed here](https://gist.github.com/web2solutions/b5efa4546b9502396b1e3b007d51a465)
 
@@ -596,7 +596,7 @@ $dhx.ui.mvp.presenters.declare({
         return API;
     }())
 });
-```
+````
 
 A more complete `Main Presenter` demo code may be [viewed here](https://gist.github.com/web2solutions/3ffe4b181640c810d152cbd158693c78)
 
@@ -874,7 +874,7 @@ $dhx.ui.mvp.model.engine.declare({
         return API;
     }())
 });
-```
+````
 
 ***NOTE***
 
@@ -1124,7 +1124,7 @@ $dhx.ui.mvp.views.declare({
         return view;
     }())
 });
-```
+````
 
 A more complete `Child View` demo code may be [viewed here](https://gist.github.com/web2solutions/354b7f926d48ab0eb6e796834089d379)
 
@@ -1161,7 +1161,7 @@ $dhx.ui.mvp.presenters.declare({
         return API;
     }())
 });
-```
+````
 
 A more complete `Child Presenter` demo code may be [viewed here](https://gist.github.com/web2solutions/15826fd72615da2a1b1eadcf2d45e3da)
 
