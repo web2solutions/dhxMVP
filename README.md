@@ -99,7 +99,7 @@ Another common problems are:
 The dhxMVP boilerplate solves all those problems by using `dhx.ui.mvp`, a MVP framework.
 
 
-`dhx.ui.mvp` let you to declare your routes and it will call it proper `presenter` and `view` associated to it, automatically creating references to the model on each view and presenter.
+`dhx.ui.mvp` let you to declare your routes and it will call it proper `presenter` and `view` associated to it, automatically creating references to the model on each `child presenter`.
 
 For each route, you declare (will use route as file name if not declared) a `view` and a `presenter`, but not least, you may also to attach any javascript file to the view scope.
 
