@@ -200,7 +200,7 @@ This boilerplate provides:
 1. features to build full featured offline applications with powerful local database using [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). 
 
 2. features to build full featured syncable applications using a Message Mediator working over a `remote` provider.
-    PubNub is the first built in remote provider.
+    [PubNub](https://www.pubnub.com/) is the first built in remote provider.
 
 
 For future releases, this boilerplate will also provides a complete REST back end to be consumed by your client side application, in this way, letting you to build offline, online and syncable applications.
