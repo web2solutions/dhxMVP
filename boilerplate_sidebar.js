@@ -43,11 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 engine: 'backboneIDB',
                 models: [
                     "user",
-                    "question"
+                    "question",
+                    "pet"
                 ],
                 collections: [
                     "users",
-                    "questions"
+                    "questions",
+                    "pets"
                 ]
             }
         });
@@ -83,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     app.start({
         backboneIDB: true,
         $dhx_form: true,
-        $dhx_grid: true
+        $dhx_grid: true,
+        $dhx_crypt: true
     });
 });    

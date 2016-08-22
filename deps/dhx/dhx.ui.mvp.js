@@ -88,39 +88,8 @@
             this.container = _application.container;
             this.root = _application.root;
             this.icons_path = _application.icons_path;
-        },
-        /**
-         * [create communication bus between presenter, model and view]
-         * @param {[Presenter]} presenter [description]
-         */
-        setBusChannel = function(presenter) {
-            presenter.topic = _application.appId + '.presenter';
-            presenter._view.topic = _application.appId + '.view';
-            presenter._model.topic = _application.appId + '.model';
-            //alert(_root_topic);
-            // make presenter to listen both model and view
-            presenter._subscriber = presenter._subscriber || function(topic, data) {
-                //console.log('presenter._subscriber . message: ' + topic, data);
-                if (topic == presenter._view.topic) {
-                    // message from view
-                } else if (topic == presenter._model.topic) {
-                    // message from model
-                }
-            };
-            presenter._subscriber_view_token = $dhx.MQ.subscribe(presenter._view.topic, presenter._subscriber);
-            presenter._subscriber_model_token = $dhx.MQ.subscribe(presenter._model.topic, presenter._subscriber);
-            // make view listen to presenter
-            presenter._view._subscriber = presenter._view._subscriber || function(topic, data) {
-                //console.log('presenter._view._subscriber message: ' + topic, data);
-            };
-            presenter._view._subscriber_presenter_token = $dhx.MQ.subscribe(presenter.topic, presenter._view._subscriber);
-            // make model listen to presenter
-            presenter._model._subscriber = presenter._model._subscriber || function(topic, data) {
-                ////console.log('presenter._model._subscriber message: ' + topic, data);
-            };
-            presenter._model._subscriber_presenter_token = $dhx.MQ.subscribe(presenter.topic, presenter._model._subscriber);
-            return presenter;
         };
+
     /**
      * [application.prototype MVP aplication bootstrap constructor class prototype chain]
      * @type {Object}
@@ -141,21 +110,31 @@
                     presenter,
                     view;
                 c = c || {};
+
+                // set mobile flag
+                if (window.screen.availWidth < 1024) {
+                    namespace.ui.isMobile = true;
+                }
+
                 core.push(_application.lib_path + "presenter/" + ($dhx.environment != 'test' ? "min." : "") + "presenter.js");
                 core.push(_application.lib_path + "view/" + ($dhx.environment != 'test' ? "min." : "") + "view.js");
-                deps.push("http://cdn.dhtmlx.com/edge/dhtmlx.css");
-                deps.push("http://cdn.dhtmlx.com/edge/dhtmlx.js");
+                //deps.push("http://cdn.dhtmlx.com/edge/dhtmlx.css");
+                //deps.push("http://cdn.dhtmlx.com/edge/dhtmlx.js");
 
-
-
-
+                deps.push(_application.deps_path + "thirdparty/dhtmlx5.0/dhtmlx.css");
+                deps.push(_application.deps_path + "thirdparty/dhtmlx5.0/dhtmlx_.js");
 
 
                 deps.push(_application.deps_path + "thirdparty/signals.js");
                 deps.push(_application.deps_path + "thirdparty/hasher.js");
                 deps.push(_application.deps_path + "thirdparty/crossroads.js");
                 deps.push(_application.deps_path + "dhx/min.dhx.MQ.js");
+                deps.push(_application.deps_path + "dhx/dhx.ui.Mediator.js");
                 deps.push(_application.deps_path + "dhx/dhx.ui.router.js");
+                deps.push(_application.deps_path + "dhx/dhx.ui.session.js");
+
+
+            
                 if (c.full) {
                     deps.push(_application.deps_path + "thirdparty/jquery.min.js");
                     deps.push("https://cdn.jsdelivr.net/pouchdb/5.4.5/pouchdb.min.js");
@@ -184,9 +163,16 @@
                         deps.push("https://cdn.jsdelivr.net/pouchdb/5.4.5/pouchdb.min.js");
                     }
                     if (c.backboneIDB) {
+                        deps.push("http://cdn.pubnub.com/pubnub.min.js");
+
+                        
+                        
                         deps.push(_application.deps_path + "thirdparty/min.underscore.js");
                         deps.push(_application.deps_path + "thirdparty/backbone-min.js");
                         deps.push(_application.deps_path + "thirdparty/min.backbone-indexeddb.js");
+                        
+
+                        
                     }
                     if (c.$dhx_crypt) {
                         deps.push(_application.deps_path + "dhx/min.dhx.crypt.js");
@@ -251,6 +237,9 @@
         dispatch: function(route, addEntry) {
             var router = this.router;
             //console.info('Dispatching route: ', route);
+
+            namespace.destroy_active_route();
+
             if( route != '#' )
             {
                 $dhx.ui.router.routeTo(route);
@@ -261,10 +250,6 @@
                 window.location.hash = '/';
                 _application.active_route = route;
             }
-            
-
-            //console.log('router: ', _router);
-            
         },
         route: function(stash) {
             this.routes[stash.url] = stash;
@@ -375,7 +360,19 @@
             });
         }
     };
+    
     namespace.start_all = function() {
+        //alert( window.screen.availWidth );
+
+        window.pubnub = PUBNUB.init({
+            publish_key: 'pub-c-d128f7d4-39ab-43e7-9547-4dc1bdea2300',
+            subscribe_key: 'sub-c-142379cc-668e-11e6-9eba-02ee2ddab7fe',
+            //uuid: 'Stephen',
+            error: function (error) {
+                console.log('Error:', error);
+            }
+        });
+
         namespace.setup_routes();
         namespace.setup_models();
         namespace.setup_collections();
@@ -386,7 +383,7 @@
                     
         };
 
-        console.log( _router.routes );
+        //console.log( _router.routes );
         // declare routes
         for (var route in _router.routes) {
             if (route != '#') {
@@ -411,9 +408,29 @@
                             view.initialize();
                             presenter._view = view;
                             presenter.view = view;
-                            presenter._model = model;
+                            //presenter._model = model;
                             presenter.model = model;
-                            presenter = setBusChannel(presenter);
+                            
+
+
+                            // make presenter to listen to Mediator
+                            presenter._subscriber = presenter.subscriber || function(event, message) {
+                                console.log('Presenter subescriber defined in $dhx.ui.mvp Received Message: ', message);
+                            };
+                            
+
+                            // make model listen to Mediator
+                            presenter.model._subscriber = presenter.model.subscriber || function(event, message) {
+                                console.log('Model subescriber defined in $dhx.ui.mvp Received Message: ', message);
+                            };
+
+
+                            presenter._subscriber_token = $dhx.ui.Mediator.listen('users,pets,questions:changeModel', presenter._subscriber);
+
+                            presenter.model._subscriber_presenter_token = $dhx.ui.Mediator.listen('users,pets,questions:changeModel', presenter.model._subscriber);
+                            
+
+
                             _application.presenters = $dhx.ui.mvp.presenters;
                             _application.views = $dhx.ui.mvp.views;
                             ////console.log( presenter );
@@ -443,6 +460,8 @@
                 return model;
             }(window[modelName]));
             $dhx.ui.mvp.model.declare(model);
+
+            window[modelName] = null;
         });
     };
     namespace.setup_collections = function() {
@@ -457,6 +476,8 @@
                 return collection;
             }(window[collectionName]));
             $dhx.ui.mvp.model.collection.declare(collection);
+
+            window[collectionName] = null;
         });
     };
     namespace.queryString = function(name, url) {
@@ -631,19 +652,7 @@
         }
 
 
-        // destroy last active view
-        if (_application.active_route && _application.active_route != '#' && _application.active_route != route) {
-            _application.last_active_route = _application.active_route;
-            _child_presenters[_application.last_active_route].destroy();
-            _child_views[_application.last_active_route].destroy();
-            $dhx.MQ.unsubscribe(_child_views[_application.last_active_route]._subscriber_presenter_token);
-            $dhx.MQ.unsubscribe(_child_presenters[_application.last_active_route]._subscriber_model_token);
-            $dhx.MQ.unsubscribe(_child_presenters[_application.last_active_route]._subscriber_view_token);
-            _child_views[_application.last_active_route] = null;
-            _child_presenters[_application.last_active_route] = null;
-            delete _child_views[_application.last_active_route];
-            delete _child_presenters[_application.last_active_route];
-        }
+        
 
         // set global active_route value
         _application.active_route = route;
@@ -674,34 +683,53 @@
             $dhx.onDemand.load(deps, function() {
                 _child_presenters[route] = $dhx.ui.mvp.presenters.get(routes[route].presenter);
                 _child_views[route] = $dhx.ui.mvp.views.get(routes[route].view);
+
                 // import auxiliar views as new object into currently namespace scope
                 if (routes[route].append_views) {
                     routes[route].append_views.forEach(function(stash) {
                         _child_views[route][Object.keys(stash)[0]] = window[stash[Object.keys(stash)[0]]];
+                        //window[stash[Object.keys(stash)[0]]] = null;
                     });
                 }
-                _child_presenters[route]._view = _child_views[route];
-                _child_presenters[route]._view._wrapper = _main_view._wrapper;
-                _child_presenters[route]._view.app = {
+
+                // create a reference to view on child presenter
+                _child_presenters[route].view = _child_views[route];
+
+                _child_presenters[route].view._wrapper = _main_view._wrapper;
+                _child_presenters[route].view.app = {
                     mainView: $dhx.ui.mvp.views.get('view'),
                     _child_presenters: _child_presenters,
                     _child_views: _child_views
                 };
-                _child_presenters[route]._view.window_manager = _main_view.window_manager;
-                _child_presenters[route].model = _router.presenter._model;
-                _child_presenters[route].view = _child_views[route];
-                if (!_child_presenters[route]._model) {
-                    _child_presenters[route]._model = _router.presenter._model;
-                }
-                _child_presenters[route] = setBusChannel(_child_presenters[route]);
-                _child_views[route].model = _router.presenter._model;
+                
+                //_child_presenters[route]._view.window_manager = _main_view.window_manager;
+                
+                // create reference to modek on child presenter
+                _child_presenters[route].model = _router.presenter.model;
+
+                // set a subscriber if not defined on child presenter
+                _child_presenters[route]._subscriber = _child_presenters[route].subscriber || function(event, message) {
+                    console.log('Child Presenter subescriber defined in $dhx.ui.mvp Received Message: ', message);
+                };
+
+                // subscribe presenter to events
+                _child_presenters[route]._subscriber_token = $dhx.ui.Mediator.listen('questions:changeModel', _child_presenters[route]._subscriber);
+
+                
+                // create a reference to presenter on view
                 _child_views[route].presenter = _child_presenters[route];
+                
+
                 // start presenter
                 _child_presenters[route].start();
+
                 //initialize view
                 _child_views[route].initialize();
+                
                 // render view
                 _child_views[route].render(_router.presenter._model, _child_presenters[route]);
+                
+
                 $dhx.MQ.publish(_child_presenters[route].topic, {
                     action: 'start',
                     target: null
@@ -716,6 +744,26 @@
             //} else if (_router[method_name]) {
             //    _router[method_name]();
             //}
+        }
+    };
+    namespace.destroy_active_route = function(){
+        _application.last_active_route = _application.active_route;
+        // destroy last active view if is there one
+        if (_child_presenters[_application.last_active_route]) {
+            // call child_presenter.destroy()
+            if (_child_presenters[_application.last_active_route].destroy) {
+                _child_presenters[_application.last_active_route].destroy();
+            }
+            // call child_view.destroy()
+            if (_child_views[_application.last_active_route].destroy) {
+                _child_views[_application.last_active_route].destroy();
+            }
+            // make child_presenter to unlistent to listener assigned to it
+            $dhx.ui.Mediator.unlisten(_child_presenters[_application.last_active_route]._subscriber_token);
+            _child_views[_application.last_active_route] = null;
+            _child_presenters[_application.last_active_route] = null;
+            delete _child_views[_application.last_active_route];
+            delete _child_presenters[_application.last_active_route];
         }
     };
     namespace.views = {
@@ -753,6 +801,73 @@
             model_name = model_name.toString().replace(/\//g, '');
             return namespace.models.models[model_name] || false;
         }
+    };
+    namespace.ui = {
+        isMobile: false,
+        window_manager: null,
+        window_manager_is_ready: false,
+        _window_manager: function (skin) {
+            
+            var self = namespace.ui;
+            
+            if (!self.window_manager_is_ready) {
+                self.window_manager = new dhtmlXWindows({
+                    //skin: self.skin
+                });
+                //self.window_manager.setSkin(self.skin);
+                self.window_manager_is_ready = true;
+            }
+        },
+        window: function (c) {
+            var self = namespace.ui;
+
+            if( ! self.window_manager_is_ready )
+            {
+                self._window_manager();
+            }
+
+            return self.window_manager.createWindow(c);
+        },
+        askNotificationPermission: function(c) {
+            Notification.requestPermission(function(permission) {
+                // Whatever the user answers, we make sure Chrome stores the information
+                if (!('permission' in Notification)) {
+                    Notification.permission = permission;
+                }
+                if (c.onSuccess) c.onSuccess(permission);
+                //document.getElementById('dhx_npermission').value = permission;
+                // If the user is okay, let's create a notification
+                if (permission === "granted") {
+                    var notification = new Notification('Notification test', {
+                        body: 'it is working!',
+                        icon: _application.root + 'assets/images/notification.png'
+                    });
+                }
+            });
+        },
+        askLocationPermission: function(c) {
+            
+        },
+        getQuota : function (onSuccess, onFail) {
+            var webkitStorageInfo = window.webkitStorageInfo || navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage || false;
+            if (!webkitStorageInfo) {
+                var err = $dhx.Browser.name + " does not provide quota management.";
+                $dhx.notify('Quota information', err, _application.root + 'assets/images/notification.png');
+                if (onFail) onFail(err);
+                return;
+            }
+            
+            webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.TEMPORARY, function (used, remaining) {
+                used = (used / 1024 / 1024 / 1024).toFixed(5);
+                remaining = (remaining / 1024 / 1024 / 1024).toFixed(2);
+                //$dhx.notify('Quota information', "Used quota: " + used + " GB, remaining quota: " + remaining+' GB.', _application.root + 'assets/images/notification.png');
+                if (onSuccess) onSuccess(used, remaining);
+            }, function (e) {
+                if (onFail) onFail(e);
+                console.log('Error', e);
+            });
+        }
+    
     };
     namespace.model = {
         _collections: {},
@@ -845,12 +960,21 @@
                     if (c.record.__v) {
                         attributes.__v = c.record.__v;
                     }
+
+                    
+
+
                     if (c.record.id) {
                         attributes.id = c.record.id;
                     }
-                    if (c.record._id) {
-                        attributes._id = c.record._id;
+                    else
+                    {
+                        attributes.id = $dhx.guid();
                     }
+
+                    attributes._id = attributes.id;
+
+
                     for (var i in attributes) {
                         self[i] = attributes[i];
                     }

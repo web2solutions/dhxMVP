@@ -92,7 +92,11 @@ Another common problems are:
 
     Encouraged in top most several modern frameworks may not work for Enterprise applications, where you may have ` 2, 3, 4, 5 or even more` MB loading at the same time before application starts.
 
-The dhxMVP boilerplate solves all those problems by using `dhx.ui.mvp`, a MVP framework
+- Keep clients data in sync and in realtime
+    
+    The succes of a online SPA directly rely on how and when data are displayed on the view
+
+The dhxMVP boilerplate solves all those problems by using `dhx.ui.mvp`, a MVP framework.
 
 
 `dhx.ui.mvp` let you to declare your routes and it will call it proper `presenter` and `view` associated to it, automatically creating references to the model on each view and presenter.
@@ -191,7 +195,13 @@ Or Download this repository as zip and uncompress it at /Users/YourName/apps/
 
 ## What the boilerplate provides?
 
-Until this version, this boilerplate provides features to build full featured offline applications with powerful local database using [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). Still there is no standard defined for server communication. This piece of software shall to be implemented.
+This boilerplate provides:
+
+1. features to build full featured offline applications with powerful local database using [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). 
+
+2. features to build full featured syncable applications using a Message Mediator working over a `remote` provider.
+    PubNub is the first built in remote provider.
+
 
 For future releases, this boilerplate will also provides a complete REST back end to be consumed by your client side application, in this way, letting you to build offline, online and syncable applications.
 
@@ -211,6 +221,7 @@ The currently implemented features are:
         - /help
             - view
             - presenter
+    - Online Data sync
 
 - Code Validation and Automation Suite
  - gulp jshint - Run jsHint against application code
@@ -247,7 +258,6 @@ Please install it. Check the doc at [Git-LFS repo at Github](https://github.com/
 
 
 ## How to use the boilerplate to get my application done?
-
 
 
 ### Setup development environment
@@ -409,11 +419,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 engine: 'backboneIDB',
                 models: [
                     "user",
-                    "question"
+                    "question",
+                    "pet"
                 ],
                 collections: [
                     "users",
-                    "questions"
+                    "questions",
+                    "pets"
                 ]
             }
         });
@@ -447,9 +459,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     app.start({
-        backboneIDB: true,
-        $dhx_form: true,
-        $dhx_grid: true
+        backboneIDB: true, // require files used by backboneIDB engine
+        $dhx_form: true, // require dhx form helpers
+        $dhx_grid: true, // require dhx grid helpers
+        $dhx_crypt: true // require dhx crypt helpers
     });
 });    
 ````
@@ -485,10 +498,6 @@ The application `Main View` shall to provide the following mandatory methods:
 
     event function which is triggered always when a route is dispatched.
 
-- ***_subscriber***
-
-    Used to receive messages from different application modules
-
 - ***initialize***
 
     Used to perform any task before rendering the view
@@ -513,8 +522,10 @@ $dhx.ui.mvp.views.declare({
                 /**
                  * [onDispatch event. Called each time a route is dispatched via main_view.dispatch() ]
                  */
-                onDispatch:function(id) {
+                onDispatch:function( route ) {
                     var self = this;
+
+                    self.sidebar.cells( route ).setActive();
                 },
                 
                 /**
@@ -522,15 +533,6 @@ $dhx.ui.mvp.views.declare({
                  */
                 render: function( render ) {
                     var self = this;
-                    
-                },
-                /**
-                 * [subscriber function which receives messages from presenter]
-                 * @param  {[string]} topic [listened topic]
-                 * @param  {[Objec]} data  [message object]
-                 */
-                _subscriber: function(topic, data) {
-                    var self = $dhx.ui.mvp.views.get('view');
                     
                 }
             });
@@ -575,6 +577,11 @@ The application `Main Presenter` shall to provide the following mandatory method
 
     Used to destroy components when unloading the entire application
 
+- ***subscriber***
+
+    Used to receive messages from Mediator.
+    Used to perform actions on presenter or view when requested by Mediator
+
 
 It should looks like the following:
 
@@ -591,6 +598,10 @@ $dhx.ui.mvp.presenters.declare({
             destroy: function() {
                 $dhx.debug.log('MAIN:PRESENTER: destroy from MAIN:PRESENTER');
                 //$dhx.debug.log(this._view);
+            },
+            subscriber: function( event, message ){
+                var self = $dhx.ui.mvp.presenters.get('presenter'),
+                    view = self.view;
             }
         }; // end API
         return API;
@@ -727,6 +738,16 @@ var question = {
             */
             ui: {
                 /*
+                * Expose a explanatory text on UI side related to that document property.
+                * Adds a text tooltip to the control related to that document property on the UI side.
+                */
+                note: 'This is a user question',
+                /*
+                *  Define a maxlength property value to be effective in any control on UI side 
+                *  related to that document property.
+                */
+                maxLength: 100,
+                /*
                 * Aspects of this property on a UI Form
                 */
                 form: {
@@ -782,6 +803,8 @@ var question = {
                 rules: 'NotEmpty'
             },
             ui: {
+                note: 'This is answer for the question',
+                maxLength: 1000,
                 form: {
                     label: 'Answer',
                     type: 'input',
@@ -823,6 +846,10 @@ Collections are saved into the following directory:
 
 Actually, the unique `Engine` implemented uses Backbone to `Create` and `Handle`, `Models` and `Collections` using the predefined models. It also uses the `indexeddb-backbonejs-adapter` plugin to persist data on a local database powered by [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
 
+If you are planning to implement a online and realtime Single Page Application, the currently implemented engined `backboneIDB` provides to you automatically sync data between connected clients. It transparently keep the local `IndexedDB` database of all connected clients in sync using a online Pub/Sub provider (currently implemented over PubNub only).
+
+If you are planning in to build a offline application, the Pub/Sub will only provide local communication between application components.
+
 The Engine automatically maps in runtime, the whole defined `Models` and `Collections`, and build a `input` and `output` CRUD style API to provide standardized data access and manipulation to the application. Rather than directly manipulate `Models` and `Collections`, you will count with a clear and well defined API which covers all your models and collections.
 
 The advantage of implementing a `Data Driver` consist in providing proxyed data access to the models. In other words, you have total freedom to create a new Data Driver that defines a completely different data `access`, `manipulation` and `storage` rules and provide support to different environments and stacks.
@@ -839,6 +866,9 @@ $dhx.ui.mvp.model.engine.declare({
             database:{
                 description: '',
                 id: ''
+            },
+            subscriber: function( event, message ){
+
             },
             schema:{
                 add_all_records_from_server: function(){},
@@ -1038,12 +1068,6 @@ Now, let's see how to declare the routes:
 
 ***Complete setup***
 
-Use it only in two cases:
-
-1. When you want to create files for child `Presenters` or `Views` and give the file a name that is different of the dispatched route name.
-
-2. If you want to inject another javascript files into the route scope.
-
 
 ````javascript
         router.route({
@@ -1062,7 +1086,9 @@ Use it only in two cases:
 
 ````javascript
     router.route({
-        url: '/help'
+        url: 'help/:id:',
+        view: 'help',
+        presenter: 'help',
     });
 ````
 
@@ -1110,14 +1136,6 @@ $dhx.ui.mvp.views.declare({
                 render: function() {
                     var self = this;
                     
-                },
-                /**
-                 * [subscriber function which receives jobs from presenter]
-                 * @param  {[string]} topic [listened topic]
-                 * @param  {[Objec]} data  [message object]
-                 */
-                _subscriber: function(topic, data) {
-                    var self = $dhx.ui.mvp.views.get( route );
                 }
             });
 
@@ -1156,7 +1174,12 @@ $dhx.ui.mvp.presenters.declare({
             destroy: function() {
                 
                 
-            }
+            },
+            subscriber: function( event, message ){
+                var self = $dhx.ui.mvp.presenters.get('help'),
+                    view = self.view;
+                
+            },
         }; // end API
         return API;
     }())
@@ -1183,8 +1206,8 @@ On a dhxMVP application, every route is associated to a `Child Presenter`.
 
 Considering the Application Demo provided in this boilerplate, every time you want to add a new button on the left sidebar, you will need:
 
-1. Declare a new route into `lib/app.js`
-2. Add a new sidebar button on the file `lib/presenter/presenter.js`
+1. Declare a new route into `./boilerplate_sidebar.js`
+2. Add a new sidebar button on the file `lib/presenter/presenter.js` inside add_sidebar_buttons() scope.
 3. Declare a new Child View and create it file inside `lib/view/` folder.
 4. Declare a new Child Presenter and create it file inside `lib/presenter/` folder.
 
@@ -1513,10 +1536,48 @@ A Google Chrome Extension version of your app is automatically generated when yo
 
 
 
+## Release notes
+
+Version: v0.0.94-alpha
+
+- Complete data sync between connected clients. Online usage.
+- Messaging Mediator
+    - Local Messaging Mediator
+        - Assynchronous Pub/Sub to provide local/offline communication between `isolated application pieces`.
+    - Remote Messaging Mediator
+        - Assynchronous Pub/Sub to provide remote/online communication/data sync between `connected clients`.
+            Currently using [PubNub](https://www.pubnub.com/) as communication stack. Easily replaced by your own stack with websocket and Redis for example.
+- Demo improvements
+    - New Pet model
+    - New Pets collection
+    - Main presenter subscriber
+        - Update Dashboard charts data when receives a message
+    - Help child presenter subscriber
+        - Insert data on view when receives a message
+        - Update data on view when receives a message
+        - Delete data on view when receives a message
+    - Help child view 
+        - Insert data - UI - send message
+        - Update data - UI - send message
+        - Delete data - UI - send message
+- $dhx.ui.mvp improvements
+- $dhx.ui.session initial implementation
+- $dhx.component improvements
+- $dhx.getRandomColor
+- backboneIDB engine improvements
+    Create, Update and Destroy models when receiving proper messages from Mediator.
+    Notify Mediator when performed action was requested by local client. Notify other connected users.
+- New properties for model ui definition
+    - note
+        Expose a explanatory text on UI side related to that document property.
+        Adds a text tooltip to the control related to that document property on the UI side.
+    - maxLength
+        Define a maxlength property value to be effective in any control on UI side related to that document property.
+- navigator.geolocation shim
 
 ## Todo
 
-- Implement a Messaging Mediatior
+- Generate Cordova distribution. Mobile application version.
 
 - Implement a `datastore` API
     
@@ -1524,7 +1585,11 @@ A Google Chrome Extension version of your app is automatically generated when yo
 
 - Provide server sync for backboneIDB Engine
     
-    Using Mongo on Back End
+    Using Express, WS and Redis on Back End
+
+- Provide server storage for backboneIDB Engine
+    - Using Mongo on Back End
+    - Using Couchbase
 
 - Implement Pouch Engine and provide support to CouchBase
 

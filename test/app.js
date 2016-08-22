@@ -45,11 +45,13 @@ var app = new dhx_application({
                 engine: 'backboneIDB',
                 models: [
                     "user",
-                    "question"
+                    "question",
+                    "pet"
                 ],
                 collections: [
                     "users",
-                    "questions"
+                    "questions",
+                    "pets"
                 ]
             }
 });
@@ -85,5 +87,6 @@ var app = new dhx_application({
     app.start({
         backboneIDB: true,
         $dhx_form: true,
-        $dhx_grid: true
+        $dhx_grid: true,
+        $dhx_crypt: true
     });

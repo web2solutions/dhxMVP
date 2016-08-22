@@ -29,15 +29,87 @@ $dhx.component = $dhx.component || {
     form: function(c) {
         var dhxForm = null,
             self = this,
-            that = $dhx.component;
+            that = $dhx.component,
+            mountSettingsViaModel = function( defaults ) {
+                var input_settings;
+                for (var prop in defaults) {
+                    //console.log(prop, defaults[prop]);
+                    if (prop != '_id' && prop != '__v') {
+                        input_settings = {
+                            type: defaults[prop].ui.form.type,
+                            name: prop,
+                            label: defaults[prop].ui.form.label,
+                            value: defaults[prop].default || '',
+                            required: (defaults[prop].validate.required || false),
+                            validate: (defaults[prop].validate.rules || ''),
+                            mask_to_use: (defaults[prop].validate.mask_to_use || ''),
+                        };
+                        if (defaults[prop].ui.note) {
+                            if (defaults[prop].ui.note.length > 0) {
+                                input_settings.note = {
+                                    text: defaults[prop].ui.note
+                                };
+                                input_settings.tooltip = defaults[prop].ui.note;
+                                input_settings.info = true;
+                            }
+                        }
+                        if (defaults[prop].ui.maxLength) {
+                            if ($dhx.isNumber(defaults[prop].ui.maxLength)) {
+                                if (parseInt(defaults[prop].ui.maxLength) > 0) {
+                                    input_settings.maxLength = defaults[prop].ui.maxLength;
+                                }
+                            }
+                        }
+                        c.settings.template.push(input_settings);
+                    }
+                }
+
+                c.settings.template.push({
+                    type: "block",
+                    list: [
+                    {
+                        type: "settings",
+                        position: "label-right",
+                        offsetLeft: 0
+                    },{
+                        type: 'checkbox',
+                        name: 'close_on_save',
+                        label: 'Close on save',
+                        checked: true
+                        //position: 'label-right'
+                    }]
+                });
+
+                c.settings.template.push({
+                    type: "block",
+                    list: [{
+                        type: "button",
+                        name: 'save',
+                        value: 'Save item'
+                    }, {
+                        type: 'newcolumn'
+                    }, {
+                        type: "button",
+                        name: 'reset',
+                        value: 'Reset form'
+                    }]
+                });
+            };
         if (!that.checkCommomConfiguration(c, 'form')) {
             return;
         }
+
+
+        if( c.defaults ){
+            mountSettingsViaModel( c.defaults );
+        }
+
         if (typeof c.parent == 'string') {
             dhxForm = new dhtmlXForm(c.parent, c.settings.template);
         } else {
             dhxForm = c.parent.attachForm(c.settings.template);
         }
+
         dhxForm._dhx_form_id = c.id;
         $dhx.dhtmlx.prepareForm(c.id, c.settings, dhxForm);
         dhxForm.fields = $dhx.dhtmlx.getFormFields(c.id);
@@ -54,6 +126,23 @@ $dhx.component = $dhx.component || {
         dhxForm.getFieldsName = function() {
             $dhx.dhtmlx.getFormFields(c.id);
         };
+        dhxForm.reset = function() {
+            try{
+                var hash = {},
+                    data = dhxForm.getFormData();
+
+                for( var field in  data)
+                {
+                    hash[ field ] = '';
+                }
+
+                dhxForm.setFormData(hash);
+            }
+            catch(e){
+                console.log(e.stack);
+            }
+        };
+        
         dhxForm.check = function() {
             return $dhx.dhtmlx.validateForm(c.id, dhxForm);
         };
