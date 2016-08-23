@@ -8,6 +8,10 @@
 
 dhxMVP is a boilerplate system for building online, [offline](https://www.w3.org/TR/offline-webapps/) and [syncable](https://developer.mozilla.org/en-US/Apps/Fundamentals/Offline) Javascript [MVP](https://pt.wikipedia.org/wiki/Model-view-presenter) [Single Page Applications](https://en.wikipedia.org/wiki/Single-page_application) using [DHTMLX](http://dhtmlx.com/).
 
+Demo app:
+
+[https://web2solutions.github.io/dhxMVP](https://web2solutions.github.io/dhxMVP)
+
 
 - [Why another MV* implementation](#why-another-mv-implementation)
 - [Kit installation](#kit-installation)

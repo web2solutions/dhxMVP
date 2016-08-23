@@ -163,7 +163,7 @@
                         deps.push("https://cdn.jsdelivr.net/pouchdb/5.4.5/pouchdb.min.js");
                     }
                     if (c.backboneIDB) {
-                        deps.push("//cdn.pubnub.com/pubnub.min.js");
+                        deps.push("https://cdn.pubnub.com/pubnub.min.js");
 
                         
                         
@@ -370,7 +370,8 @@
             //uuid: 'Stephen',
             error: function (error) {
                 console.log('Error:', error);
-            }
+            },
+            ssl : (('https:' == document.location.protocol) ? true : false)
         });
 
         namespace.setup_routes();
