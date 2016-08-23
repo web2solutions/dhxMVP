@@ -1,3 +1,4 @@
+var app;
 document.addEventListener('DOMContentLoaded', function() {
 
     //$dhx.environment = "production";
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // instantiate $dhx MVP application and router
-    var app = new dhx_application({
+    app = new dhx_application({
             appId: "MV* DHTMLX Demo app",
             container: document.body,
             root: '',

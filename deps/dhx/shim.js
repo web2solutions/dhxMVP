@@ -1523,7 +1523,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
     if (cache) callback(cache);
     
-    $.getScript('//www.google.com/jsapi',function(){
+    $.getScript('https://www.google.com/jsapi',function(){
       
      // sometimes ClientLocation comes back null
      if (google.loader.ClientLocation) {
