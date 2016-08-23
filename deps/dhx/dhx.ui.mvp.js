@@ -163,7 +163,7 @@
                         deps.push("https://cdn.jsdelivr.net/pouchdb/5.4.5/pouchdb.min.js");
                     }
                     if (c.backboneIDB) {
-                        deps.push("http://cdn.pubnub.com/pubnub.min.js");
+                        deps.push("//cdn.pubnub.com/pubnub.min.js");
 
                         
                         
