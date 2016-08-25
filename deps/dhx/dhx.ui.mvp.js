@@ -426,9 +426,9 @@
                             };
 
 
-                            presenter._subscriber_token = $dhx.ui.Mediator.listen('users,pets,questions:changeModel', presenter._subscriber);
+                            presenter._subscriber_token = $dhx.ui.Mediator.listen('users,pets,questions,providers,ips:changeModel', presenter._subscriber);
 
-                            presenter.model._subscriber_presenter_token = $dhx.ui.Mediator.listen('users,pets,questions:changeModel', presenter.model._subscriber);
+                            presenter.model._subscriber_presenter_token = $dhx.ui.Mediator.listen('users,pets,questions,providers,ips:changeModel', presenter.model._subscriber);
                             
 
 
@@ -936,10 +936,25 @@
                             // if attributes already have model_field_obj_key declared
                             if (typeof attributes[model_field_obj_key] !== 'undefined') {
                                 // check it type if it matches the type declared on schema
-                                if (typeof attributes[model_field_obj_key] !== model_schema[model_field_obj_key].type.toLowerCase()) {
-                                    console.warn('error creating record object');
-                                    throw 'Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + ', but you passed ' + typeof attributes[model_field_obj_key];
+                                
+                                if( model_schema[model_field_obj_key].type.toLowerCase() == 'date' )
+                                {
+                                    if( ! $dhx.isDate( attributes[model_field_obj_key] ) )
+                                    {
+                                        console.warn('error creating record object', attributes[model_field_obj_key]);
+                                        throw 'Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + '.';
+                                    }
                                 }
+                                else
+                                {
+                                    if (typeof attributes[model_field_obj_key] !== model_schema[model_field_obj_key].type.toLowerCase()) {
+                                        console.warn('error creating record object');
+                                        throw 'Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + ', but you passed ' + typeof attributes[model_field_obj_key];
+                                    }
+                                }
+
+                                
+
                                 // check it format if it matches the validate.rules declared on schema
                                 if (model_schema[model_field_obj_key].validate.required || (model_schema[model_field_obj_key].validate.rules || "").indexOf('NotEmpty') > -1) {
                                     //console.log( 'IS MANDATORY'  );
