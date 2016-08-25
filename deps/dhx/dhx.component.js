@@ -53,6 +53,9 @@ $dhx.component = $dhx.component || {
                                 input_settings.info = true;
                             }
                         }
+                        if (defaults[prop].ui.form.options) {
+                            input_settings.options = defaults[prop].ui.form.options;
+                        }
                         if (defaults[prop].ui.maxLength) {
                             if ($dhx.isNumber(defaults[prop].ui.maxLength)) {
                                 if (parseInt(defaults[prop].ui.maxLength) > 0) {

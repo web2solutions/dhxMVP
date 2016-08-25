@@ -123,7 +123,7 @@ $dhx.ui.Mediator = (function(root){
                 event = pattern.split(':')[1];
                 collection = pattern.split(':')[0];
 
-                //console.info( '$dhx.ui.Mediator registered listener #'+subscriber_token+' event '+event+' for '+ collection + ': ', arguments );
+                console.info( '$dhx.ui.Mediator registered listener #'+subscriber_token+' event '+event+' for '+ collection + ': ', arguments );
 
                 //subscriber_token = pubsub.subscribe(event, fn);
 
@@ -135,11 +135,18 @@ $dhx.ui.Mediator = (function(root){
                 }
                 else
                 {
+
                     
-                    if( _private.listening.contains( collection ) )
+                    if( _private.listening.length > 0  )
                     {
                         return;
                     }
+
+                    self._settingListenerUp = true;
+                    _private.listening.push( collection );
+
+                    console.log('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY', _private.listening);
+
                     var state = {
                             age: $dhx.ui.session.age(),
                             full: $dhx.ui.session.name(),
@@ -156,7 +163,7 @@ $dhx.ui.Mediator = (function(root){
                         },
                         connect : function(channel){
                             
-                            _private.listening.push( channel );
+                            
                             
                             self._settingListenerUp = false;
                             

@@ -45,12 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 models: [
                     "user",
                     "question",
-                    "pet"
+                    "pet",
+                    "customer",
+                    "ip",
+                    "provider"
                 ],
                 collections: [
                     "users",
                     "questions",
-                    "pets"
+                    "pets",
+                    "customers",
+                    "ips",
+                    "providers"
                 ]
             }
         });
@@ -80,6 +86,19 @@ document.addEventListener('DOMContentLoaded', function() {
         url: 'help/:id:',
         view: 'help',
         presenter: 'help',
+    });
+
+
+    router.route({
+        url: 'providers',
+        view: 'providers',
+        presenter: 'providers',
+    });
+
+    router.route({
+        url: 'ips',
+        view: 'ips',
+        presenter: 'ips',
     });
 
 
