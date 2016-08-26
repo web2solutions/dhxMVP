@@ -84,6 +84,10 @@ $dhx.ui.form = $dhx.ui.form || {
                 settings = settings || false;
                 VMasker(el).maskMoney(settings);
             },
+            ip: function( obj ){
+                // <input type="text" data-inputmask="'alias': 'customAlias'" />
+                console.log( obj );
+            },
             integer: function(obj) {
                 setTimeout(function() {
                     obj.value = obj.value.replace(/\D/g, "");

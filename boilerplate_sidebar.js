@@ -96,9 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     router.route({
-        url: 'ips',
-        view: 'ips',
-        presenter: 'ips',
+        url: 'ip',
+        view: 'ip',
+        presenter: 'ip',
     });
 
 

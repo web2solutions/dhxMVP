@@ -260,6 +260,27 @@ $dhx.dhtmlx = $dhx.dhtmlx || {
 					} else if (mask_to_use == "integer") {
                         DHTMLXForm.getInput(name).addEventListener("keydown", self.inputIntegerHandler);
                         DHTMLXForm.getInput(name).maxLength = "10";
+                    }else if (mask_to_use == "ip") {
+                        
+                        // <input type="text" data-inputmask="'alias': 'customAlias'" />
+                        DHTMLXForm.getInput(name).setAttribute('data-inputmask', "'alias': 'ip'");
+
+                        Inputmask().mask( DHTMLXForm.getInput(name) );
+
+                    }else if (mask_to_use == "universal_phone") {
+                        
+                        // <input type="text" data-inputmask="'alias': 'customAlias'" />
+                        DHTMLXForm.getInput(name).setAttribute('data-inputmask', "'alias': 'phone'");
+
+                        Inputmask().mask( DHTMLXForm.getInput(name) );
+
+                    }else if (mask_to_use == "email") {
+                        
+                        // <input type="text" data-inputmask="'alias': 'customAlias'" />
+                        DHTMLXForm.getInput(name).setAttribute('data-inputmask', "'alias': 'email'");
+
+                        Inputmask().mask( DHTMLXForm.getInput(name) );
+
                     }else if (mask_to_use == "number") {
                         DHTMLXForm.getInput(name).addEventListener("keydown", self.inputNumberHandler);
                     }else if (mask_to_use == "credit_card") {
