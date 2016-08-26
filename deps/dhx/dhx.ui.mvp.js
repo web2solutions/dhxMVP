@@ -133,6 +133,8 @@
                 deps.push(_application.deps_path + "dhx/dhx.ui.router.js");
                 deps.push(_application.deps_path + "dhx/dhx.ui.session.js");
 
+                deps.push(_application.deps_path + "dhx/min.dhx.ui.data.js");
+
 
             
                 if (c.full) {
@@ -155,6 +157,7 @@
                     deps.push(_application.deps_path + "dhx/min.dhx.component.js");
                     deps.push(_application.deps_path + "dhx/min.dhx.dhtmlx.js");
                     deps.push(_application.deps_path + "dhx/min.dhx.ui.form.js");
+
                 } else {
                     if (c.stripe) {
                         deps.push("https://js.stripe.com/v2/");
@@ -194,6 +197,9 @@
                         deps.push(_application.deps_path + "dhx/min.dhx.dhtmlx.js");
                         deps.push(_application.deps_path + "dhx/min.dhx.ui.form.js");
                     }
+
+                    deps.push(_application.deps_path + "thirdparty/inputmask/jquery.inputmask.bundle.min.js");
+                    deps.push(_application.deps_path + "thirdparty/inputmask/extra/phone.js");
                 }
                 if (_application.stash.model.models) {
                     _application.stash.model.models.forEach(function(file) {
@@ -426,9 +432,12 @@
                             };
 
 
-                            presenter._subscriber_token = $dhx.ui.Mediator.listen('users,pets,questions,providers,ips:changeModel', presenter._subscriber);
+                            //console.log('FFFFFFFFFF ', Object.keys(model.schema.io).join() );
 
-                            presenter.model._subscriber_presenter_token = $dhx.ui.Mediator.listen('users,pets,questions,providers,ips:changeModel', presenter.model._subscriber);
+
+                            presenter._subscriber_token = $dhx.ui.Mediator.listen(Object.keys(model.schema.io).join() + ':changeModel', presenter._subscriber);
+
+                            presenter.model._subscriber_presenter_token = $dhx.ui.Mediator.listen(Object.keys(model.schema.io).join() + ':changeModel', presenter.model._subscriber);
                             
 
 
@@ -714,7 +723,7 @@
                 };
 
                 // subscribe presenter to events
-                _child_presenters[route]._subscriber_token = $dhx.ui.Mediator.listen('questions:changeModel', _child_presenters[route]._subscriber);
+                _child_presenters[route]._subscriber_token = $dhx.ui.Mediator.listen(Object.keys($dhx.ui.mvp.model.engine.get(_application.stash.model.engine).schema.io).join() + ':changeModel', _child_presenters[route]._subscriber);
 
                 
                 // create a reference to presenter on view
@@ -942,14 +951,14 @@
                                     if( ! $dhx.isDate( attributes[model_field_obj_key] ) )
                                     {
                                         console.warn('error creating record object', attributes[model_field_obj_key]);
-                                        throw 'Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + '.';
+                                        //console.error('Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + '.' );
                                     }
                                 }
                                 else
                                 {
                                     if (typeof attributes[model_field_obj_key] !== model_schema[model_field_obj_key].type.toLowerCase()) {
-                                        console.warn('error creating record object');
-                                        throw 'Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + ', but you passed ' + typeof attributes[model_field_obj_key];
+                                        console.warn('bad record property: ', model_field_obj_key);
+                                        //console.error('Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + ', but you passed ' + typeof attributes[model_field_obj_key] );
                                     }
                                 }
 
@@ -960,8 +969,8 @@
                                     //console.log( 'IS MANDATORY'  );
                                     //console.log( 'attributes[ model_field_obj_key ]: ', attributes[ model_field_obj_key ]  );
                                     if (attributes[model_field_obj_key] === "" || attributes[model_field_obj_key] === null) {
-                                        console.warn('error creating record object');
-                                        throw 'You need to provide a value for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + '.';
+                                        console.warn('bad record value: ', attributes[model_field_obj_key]);
+                                        //console.error('You need to provide a value for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + '.');
                                     }
                                 }
                                 //console.log('------XXX-------');

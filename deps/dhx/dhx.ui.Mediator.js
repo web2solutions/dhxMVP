@@ -123,7 +123,7 @@ $dhx.ui.Mediator = (function(root){
                 event = pattern.split(':')[1];
                 collection = pattern.split(':')[0];
 
-                console.info( '$dhx.ui.Mediator registered listener #'+subscriber_token+' event '+event+' for '+ collection + ': ', arguments );
+                //console.info( '$dhx.ui.Mediator registered listener #'+subscriber_token+' event '+event+' for '+ collection + ': ', arguments );
 
                 //subscriber_token = pubsub.subscribe(event, fn);
 
@@ -145,7 +145,7 @@ $dhx.ui.Mediator = (function(root){
                     self._settingListenerUp = true;
                     _private.listening.push( collection );
 
-                    console.log('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY', _private.listening);
+                    //console.log('YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY', _private.listening);
 
                     var state = {
                             age: $dhx.ui.session.age(),
@@ -156,7 +156,7 @@ $dhx.ui.Mediator = (function(root){
                     };
                     pubnub.subscribe({
                         channel : collection,
-                        state: state,
+                        //state: state,
                         message : function( message, env, channel ){
                             console.info('Mediator received message sent by '+( message.client_id == $dhx.ui.session.client_id() ? 'this' : 'other'  )+' client from PubNub #'+channel+'. Forwarding to pusub now.');
                             pubsub.publish(message.event, message);
