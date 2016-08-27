@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "question",
                     //"pet",
                     "customer",
+                    "customer_type",
                     "ip",
                     "provider"
                 ],
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     "questions",
                     //"pets",
                     "customers",
+                    "customer_types",
                     "ips",
                     "providers"
                 ]
@@ -100,6 +102,21 @@ document.addEventListener('DOMContentLoaded', function() {
         view: 'ip',
         presenter: 'ip',
     });
+
+
+    router.route({
+        url: 'customers',
+        view: 'customers',
+        presenter: 'customers',
+    });
+
+    router.route({
+        url: 'customer_types',
+        view: 'customer_types',
+        presenter: 'customer_types',
+    });
+
+    
 
 
     app.start({
