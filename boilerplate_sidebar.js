@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 models: [
                     "user",
                     "question",
-                    "pet",
+                    //"pet",
                     "customer",
                     "ip",
                     "provider"
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 collections: [
                     "users",
                     "questions",
-                    "pets",
+                    //"pets",
                     "customers",
                     "ips",
                     "providers"
