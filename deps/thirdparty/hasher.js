@@ -32,7 +32,7 @@ var hasher = (function(window){
 
         document = window.document,
         history = window.history,
-        Signal = signals.Signal,
+        Signal = window.signals.Signal,
 
         // local vars ----------------------------------------------------------------------
 
@@ -429,13 +429,13 @@ var hasher = (function(window){
     return hasher;
 };
 
-if (typeof define === 'function' && define.amd) {
-    define(['signals'], factory);
-} else if (typeof exports === 'object') {
-    module.exports = factory(require('signals'));
-} else {
+//if (typeof define === 'function' && define.amd) {
+//    define(['signals'], factory);
+//} else if (typeof exports === 'object') {
+//    module.exports = factory(require('signals'));
+//} else {
     /*jshint sub:true */
     window['hasher'] = factory(window['signals']);
-}
+//}
 
 }());
