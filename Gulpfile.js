@@ -725,7 +725,7 @@ gulp.task('build-installer-windows', function() {
         packaging: true,
         //asar: true,
         //token: 'abc123...',
-        platforms: ['win32-ia32', /*'win32',*/],
+        platforms: ['win32-ia32', 'win32-x64'],
         platformResources: {
             darwin: {
                 CFBundleDisplayName: packageJson.name,

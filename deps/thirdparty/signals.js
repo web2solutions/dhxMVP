@@ -432,14 +432,14 @@
 
 
     //exports to multiple environments
-    if(typeof define === 'function' && define.amd){ //AMD
-        define(function () { return signals; });
-    } else if (typeof module !== 'undefined' && module.exports){ //node
-        module.exports = signals;
-    } else { //browser
+    //if(typeof define === 'function' && define.amd){ //AMD
+    //    define(function () { return signals; });
+    //} else if (typeof module !== 'undefined' && module.exports){ //node
+    //    module.exports = signals;
+    //} else { //browser
         //use string because of Google closure compiler ADVANCED_MODE
         /*jslint sub:true */
         global['signals'] = signals;
-    }
+    //}
 
-}(this));
+}(window));
