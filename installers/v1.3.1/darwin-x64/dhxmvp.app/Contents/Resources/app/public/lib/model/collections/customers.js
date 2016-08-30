@@ -1,0 +1,3 @@
+var customers = {
+    model: 'customer'
+};

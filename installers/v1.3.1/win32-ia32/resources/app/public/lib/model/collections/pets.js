@@ -1,0 +1,3 @@
+var pets = {
+    model: 'pet'
+};

@@ -1,0 +1,3 @@
+var users = {
+    model: 'user'
+};
