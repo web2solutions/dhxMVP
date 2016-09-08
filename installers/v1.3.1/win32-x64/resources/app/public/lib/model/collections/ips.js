@@ -1,0 +1,3 @@
+var ips = {
+    model: 'ip'
+};

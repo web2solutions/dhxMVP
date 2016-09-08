@@ -1,4 +1,4 @@
-/*@font-face {
+@font-face {
     font-family: UbuntuRegular;
     src: url(../fonts/Ubuntu-R.ttf);
 }
@@ -16,7 +16,7 @@ body:after
 {
   content: url(../fonts/Ubuntu-R.ttf);
   display: none;
-}*/
+}
 
 
 
@@ -211,22 +211,6 @@ html,body{
      /*overflow: auto !important;*/
     }
 
-    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item div.dhxsidebar_bubble{
-      background-color: #9F132C;
-    }
-
-    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item:hover div.dhxsidebar_bubble{
-      background-color: #610C9F;
-    }
-    }
-
-    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item div.dhxsidebar_bubble:hover{
-      background-color: #610C9F;
-    }
-    
-    .dhxsidebar_base_dhx_web div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item.dhxsidebar_item_selected div.dhxsidebar_bubble{
-       background-color: #9F6F04;
-    }
 
     div.simple_bold {
       margin: 2px 0px;
@@ -237,6 +221,56 @@ html,body{
       margin: 2px 0px;
       padding: 1px 0px;
     }
+
+
+
+    .dhxsidebar_base_dhx_skyblue div.dhxsidebar_cont div.dhxsidebar_side{
+      
+    }
+
+
+
+    .dhxsidebar_base_dhx_skyblue div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items{
+      
+    }
+
+    .dhxsidebar_base_dhx_skyblue div.dhxsidebar_cont div.dhxsidebar_side div.dhxsidebar_side_items div.dhxsidebar_item {
+      
+    }
+
+    .dhxform_obj_dhx_skyblue div.dhxform_img.btn2state_0 {
+        background-image: url("../images/toggle_no.png");
+        width: 42px;
+        height: 20px;
+    }
+
+ 
+    .dhxform_obj_dhx_skyblue div.dhxform_img.btn2state_1 {
+        background-image: url("../images/toggle_yes.png");
+        width: 42px;
+        height: 20px;
+    }
+
+    div.dhxform_img.btn2state_1 {
+        background-image: url("../images/toggle_yes.png");
+        width: 42px;
+        height: 20px;
+    }
+
+    .dhxform_obj_dhx_skyblue div.disabled div.dhxform_img.btn2state_0 {
+        background-image: url("../images/toggle_no_dis.png");
+        width: 42px;
+        height: 20px;
+    }
+
+    .dhxform_obj_dhx_skyblue div.disabled div.dhxform_img.btn2state_1 {
+        background-image: url("../images/toggle_yes_dis.png");
+        width: 42px;
+        height: 20px;
+    }
+
+
+
 
 
 
@@ -285,6 +319,8 @@ html,body{
         height: 20px;
     }
 
+
+
     #progress {
       width: 150px;
       height: 150px;
@@ -314,37 +350,4 @@ html,body{
 
     #mocha{
       z-index: 9999999;
-    }
-
-    .dhxform_obj_dhx_web div.dhxform_btn.dhxform_btn_over {
-     background-color: #2a8ed2 ;
-    }
-
-    div.dhxform_item_label_left.dash_buttons  div.dhxform_btn{
-      height: 60px;
-    }
-
-    div.dhxform_item_label_left.dash_buttons  div.dhxform_btn div.dhxform_btn_txt.dhxform_btn_txt_autowidth
-    {
-      height: 40px;
-      font-size: 30px;
-      padding-top: 17px;
-    }
-
-    span.dashboard_title{
-      font-size: 30px;
-      color: #4672B2
-    }
-
-    a.dashboard_link{
-      text-decoration: none;
-      color: inherit;
-    }
-
-    img.dash_buttons_image{
-      width: 40px;
-      height: 40px;
-      position: absolute;
-      top: 10px;
-      left: 10px;
     }

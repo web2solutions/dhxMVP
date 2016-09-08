@@ -49,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "customer",
                     "customer_type",
                     "ip",
-                    "provider"
+                    "provider",
+                    "server"
                 ],
                 collections: [
                     "users",
@@ -58,7 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "customers",
                     "customer_types",
                     "ips",
-                    "providers"
+                    "providers",
+                    "servers"
                 ]
             }
         });
@@ -95,12 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
         url: 'providers',
         view: 'providers',
         presenter: 'providers',
-    });
-
-    router.route({
-        url: 'ip',
-        view: 'ip',
-        presenter: 'ip',
+        append_views: [
+            { "ip" : 'ips' },
+            { "servers" : 'servers' }
+        ]
     });
 
 

@@ -76,18 +76,6 @@
                 if (this.onDispatch) this.onDispatch(id);
             };
             _main_view = this;
-        },
-        /**
-         * [private view constructor]
-         * @param  {[type]} stash [description]
-         * @return {[view]}   view    [description]
-         */
-        child_view = function(factory) {
-            child_view = namespace.copyTo(child_view, factory);
-            this.appId = _application.appId;
-            this.container = _application.container;
-            this.root = _application.root;
-            this.icons_path = _application.icons_path;
         };
 
     /**
@@ -268,13 +256,8 @@
             //namespace.triggerMethod('start', options);
         }
     };
-    child_view.prototype = {
-        initialize: function(options) {
-            //console.log(' initialize  method from child_view.prototype');
-            ////console.log('app initialized from ' + options.from);
-            //namespace.triggerMethod('start', options);
-        }
-    };
+    
+    
     /**
      * [$dhx.ui.mvp.router Public access to MVP router features]
      * @type {Object}
@@ -359,6 +342,23 @@
          * @return {[constructor]}         [MVP router constructor]
          */
         extend: function(factory) {
+
+            var child_view = function(factory) {
+                child_view = namespace.copyTo(child_view, factory);
+                this.appId = _application.appId;
+                this.container = _application.container;
+                this.root = _application.root;
+                this.icons_path = _application.icons_path;
+            };
+
+            child_view.prototype = {
+                initialize: function(options) {
+                    //console.log(' initialize  method from child_view.prototype');
+                    ////console.log('app initialized from ' + options.from);
+                    //namespace.triggerMethod('start', options);
+                }
+            };
+
             return namespace.extend({
                 base: child_view,
                 factory: factory,
@@ -366,6 +366,8 @@
             });
         }
     };
+
+    
     
     namespace.start_all = function() {
         //alert( window.screen.availWidth );
@@ -680,27 +682,23 @@
         // this route has a predefined presenter
         if (routes[route].presenter) {
             var deps = [];
+            
             if (routes[route].view) {
                 deps.push(_application.lib_path + "view/" + ($dhx.environment != 'test' ? "min." : "") + routes[route].view + ".js");
             }
             deps.push(_application.lib_path + "presenter/" + ($dhx.environment != 'test' ? "min." : "") + routes[route].presenter + ".js");
-            // import auxiliar views
-            if (routes[route].append_views) {
-                routes[route].append_views.forEach(function(stash) {
-                    deps.push(_application.lib_path + "view/" + ($dhx.environment != 'test' ? "min." : "") + stash[Object.keys(stash)[0]] + ".js");
-                });
-            }
+            
             $dhx.onDemand.load(deps, function() {
+
+                //console.log(deps);
+
                 _child_presenters[route] = $dhx.ui.mvp.presenters.get(routes[route].presenter);
                 _child_views[route] = $dhx.ui.mvp.views.get(routes[route].view);
 
-                // import auxiliar views as new object into currently namespace scope
-                if (routes[route].append_views) {
-                    routes[route].append_views.forEach(function(stash) {
-                        _child_views[route][Object.keys(stash)[0]] = window[stash[Object.keys(stash)[0]]];
-                        //window[stash[Object.keys(stash)[0]]] = null;
-                    });
-                }
+                
+                //console.log( route );
+                //console.log( routes[route].presenter );
+                //console.log( routes[route].view );
 
                 // create a reference to view on child presenter
                 _child_presenters[route].view = _child_views[route];
@@ -744,6 +742,51 @@
                     action: 'start',
                     target: null
                 });
+
+
+                var depss = [];
+                // import auxiliar views
+                if (routes[route].append_views) {
+                    routes[route].append_views.forEach(function(stash) {
+                        //console.log( 'Object.keys(stash)[0]', Object.keys(stash)[0] );
+                        depss.push(_application.lib_path + "presenter/" + ($dhx.environment != 'test' ? "min." : "") + Object.keys(stash)[0] + ".js");
+                        depss.push(_application.lib_path + "view/" + ($dhx.environment != 'test' ? "min." : "") + Object.keys(stash)[0] + ".js"); 
+                    });
+                }
+
+                //console.log( Object.keys( window ).length );
+                //console.log( $dhx.ui.mvp.views );
+
+               $dhx.onDemand.require(depss, function() {
+                    //console.log(Object.keys(window).length);
+                    //console.log($dhx.ui.mvp.views);
+                    // import auxiliar views as new object into currently namespace scope
+                    if (routes[route].append_views) {
+                        routes[route].append_views.forEach(function(stash) {
+                            //console.log( stash );
+                            //console.log('xxxxxxxx', Object.keys(stash)[0] );
+                            //console.log('xxxxxxxx', $dhx.ui.mvp.views.get( Object.keys(stash)[0] ) );
+                            //console.log('xxxxxxxx', stash[Object.keys(stash)[0]] );
+                            _child_views[route][ stash[Object.keys(stash)[0]] ] = $dhx.ui.mvp.views.get( Object.keys(stash)[0] );
+                            //$dhx.ui.mvp.views.get( Object.keys(stash)[0] ).render();
+                            _child_views[route][ stash[Object.keys(stash)[0]] ].presenter = $dhx.ui.mvp.presenters.get( Object.keys(stash)[0] );
+                            _child_views[route][ stash[Object.keys(stash)[0]] ].presenter.model = _router.presenter.model;
+                            _child_views[route][ stash[Object.keys(stash)[0]] ].presenter.view = _child_views[route][ stash[Object.keys(stash)[0]] ];
+
+                            // make presenter to listen to Mediator
+                            //_child_views[route][ stash[Object.keys(stash)[0]] ].presenter._subscriber = _child_views[route][ stash[Object.keys(stash)[0]] ].presenter.subscriber || function(event, message) {
+                            //    console.log('Presenter subescriber defined in $dhx.ui.mvp Received Message: ', message);
+                            //};
+
+                            //_child_views[route][ stash[Object.keys(stash)[0]] ].presenter._subscriber_token = $dhx.ui.Mediator.listen(Object.keys(_router.presenter.model.schema.io).join() + ':changeModel', _child_views[route][ stash[Object.keys(stash)[0]] ].presenter._subscriber);
+
+                        });
+                    }
+                });
+
+                
+
+                
             });
         } else {
             // this route has not a predefined presenter
@@ -780,6 +823,8 @@
         views: [],
         declare: function(c) {
             var view_name = Object.keys(c)[0];
+            //console.log(' ====== Declaring view: ', view_name);
+            //console.log( c[view_name] );
             view_name = view_name.toString().replace(/\//g, '');
             namespace.views.views[view_name] = c[view_name];
         },
@@ -788,10 +833,14 @@
             return namespace.views.views[view_name] || false;
         }
     };
+    
+
+    
     namespace.presenters = {
         presenters: [],
         declare: function(c) {
             var view_name = Object.keys(c)[0];
+            //console.log(' ====== Declaring presenter: ', view_name);
             view_name = view_name.toString().replace(/\//g, '');
             namespace.presenters.presenters[view_name] = c[view_name];
         },
@@ -946,6 +995,8 @@
                             if (typeof attributes[model_field_obj_key] !== 'undefined') {
                                 // check it type if it matches the type declared on schema
                                 
+                                //console.log( model_schema[model_field_obj_key] );
+
                                 if( model_schema[model_field_obj_key].type.toLowerCase() == 'date' )
                                 {
                                     if( ! $dhx.isDate( attributes[model_field_obj_key] ) )
@@ -954,12 +1005,23 @@
                                         //console.error('Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + '.' );
                                     }
                                 }
-                                else
+                                else if( model_schema[model_field_obj_key].type.toLowerCase() == 'array' )
+                                {
+                                    if ( ! $dhx.isArray( attributes[model_field_obj_key] ) ) {
+                                        console.warn('bad record property: ', model_field_obj_key);
+                                        //console.error('Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + ', but you passed ' + typeof attributes[model_field_obj_key] );
+                                    }
+                                }
+                                else  if( model_schema[model_field_obj_key].type.toLowerCase() == 'string' || model_schema[model_field_obj_key].type.toLowerCase() == 'number' )
                                 {
                                     if (typeof attributes[model_field_obj_key] !== model_schema[model_field_obj_key].type.toLowerCase()) {
                                         console.warn('bad record property: ', model_field_obj_key);
                                         //console.error('Invalid type for ' + model_field_obj_key + '. It should be ' + model_schema[model_field_obj_key].type.toLowerCase() + ', but you passed ' + typeof attributes[model_field_obj_key] );
                                     }
+                                }
+                                else
+                                {
+                                    console.warn('Unknow type. bad record property: ', model_field_obj_key);
                                 }
 
                                 

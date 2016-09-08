@@ -1,0 +1,3 @@
+var questions = {
+    model: 'question'
+};
