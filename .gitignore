@@ -2,7 +2,6 @@ log/
 *.pid
 *.swp
 node_modules/
-installers/
 *.DS_Store
 *.sublime-project
 *.sublime-workspace
