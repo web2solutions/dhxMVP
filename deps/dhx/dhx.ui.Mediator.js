@@ -151,8 +151,8 @@ $dhx.ui.Mediator = (function(root){
                             age: $dhx.ui.session.age(),
                             full: $dhx.ui.session.name(),
                             country: $dhx.ui.session.country(),
-                            appstate: 'foreground',
-                            latlong: '51.5072° N, 0.1275° W'
+                            //appstate: 'foreground',
+                            //latlong: '51.5072° N, 0.1275° W'
                     };
                     pubnub.subscribe({
                         channel : collection,

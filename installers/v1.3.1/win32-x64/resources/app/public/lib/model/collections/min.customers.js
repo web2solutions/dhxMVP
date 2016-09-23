@@ -1,1 +1,0 @@
-var customers={model:"customer"};

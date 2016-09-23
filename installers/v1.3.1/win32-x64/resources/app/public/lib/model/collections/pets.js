@@ -1,3 +1,0 @@
-var pets = {
-    model: 'pet'
-};

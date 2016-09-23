@@ -19,7 +19,7 @@ var config = {
       //secure: true,
       auth: {
         user: 'web2solucoes@gmail.com',
-        pass: 't3z9q5h3'
+        pass: 'xxxxx'
       },
       secureConnection: false,
       tls: { ciphers: 'SSLv3' }
@@ -27,7 +27,7 @@ var config = {
     from: "web2solucoes@gmail.com"
   },
   url: 'http://49.50.88.222', //DO NOT USE A TRAILING /
-  contact: 'contact@xpertminds.net',
+  contact: 'web2solucoes@gmail.com',
   data: 'data/',
   stripe: {
     sk: "sk_test_XtEYHWCYxS51bEJ0hfN5gl2F",

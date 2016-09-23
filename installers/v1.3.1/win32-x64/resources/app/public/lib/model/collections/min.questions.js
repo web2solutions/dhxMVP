@@ -1,1 +1,0 @@
-var questions={model:"question"};
