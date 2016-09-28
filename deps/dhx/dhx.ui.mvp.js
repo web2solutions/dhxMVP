@@ -153,17 +153,15 @@
                     if (c.pouch) {
                         deps.push("https://cdn.jsdelivr.net/pouchdb/5.4.5/pouchdb.min.js");
                     }
+                    if( c.firebase )
+                    {
+                        deps.push("https://www.gstatic.com/firebasejs/3.0.2/firebase.js");
+                    }
                     if (c.backboneIDB) {
                         deps.push("https://cdn.pubnub.com/pubnub.min.js");
-
-                        
-                        
                         deps.push(_application.deps_path + "thirdparty/min.underscore.js");
                         deps.push(_application.deps_path + "thirdparty/backbone-min.js");
                         deps.push(_application.deps_path + "thirdparty/min.backbone-indexeddb.js");
-                        
-
-                        
                     }
                     if (c.$dhx_crypt) {
                         deps.push(_application.deps_path + "dhx/min.dhx.crypt.js");
@@ -211,6 +209,76 @@
                 }
                 // load dep files
                 $dhx.onDemand.require(deps, function() {
+
+                    if( c.firebase )
+                    {
+                        var config = {
+                            apiKey: "AIzaSyCZXRpqiX6GTE2WlD4r0GpuUMroC09VWoI",
+                            authDomain: "dhxmvp.firebaseapp.com",
+                            databaseURL: "https://dhxmvp.firebaseio.com",
+                            storageBucket: "dhxmvp.appspot.com"
+                        };
+                        firebase.initializeApp(config);
+                        if( c.firebase.auth )
+                        {
+
+                            firebase.auth().onAuthStateChanged(function(user) {
+                                if (user) {
+                                    // User is signed in.
+                                    var displayName = user.displayName;
+                                    var email = user.email;
+                                    var emailVerified = user.emailVerified;
+                                    var photoURL = user.photoURL;
+                                    var uid = user.uid;
+                                    var providerData = user.providerData;
+
+
+                                    // import models and collections files
+                                    $dhx.onDemand.require(models, function() {
+                                        // import models engine file
+                                        $dhx.onDemand.require(model_engine, function() {
+                                            $dhx.onDemand.require(core, function() {
+                                                namespace.start_all();
+                                            }); // end $dhx.onDemand.require(core, function() 
+                                        }); // end $dhx.onDemand.require(model_engine, function() 
+                                    }); // end  $dhx.onDemand.require(models, function() 
+
+                                    user.getToken().then(function(accessToken) {
+                                        /*document.getElementById('sign-in-status').textContent = 'Signed in';
+                                        document.getElementById('sign-in').textContent = 'Sign out';
+                                        document.getElementById('account-details').textContent = JSON.stringify({
+                                            displayName: displayName,
+                                            email: email,
+                                            emailVerified: emailVerified,
+                                            photoURL: photoURL,
+                                            uid: uid,
+                                            accessToken: accessToken,
+                                            providerData: providerData
+                                        }, null, '  ');*/
+                                        console.log({
+                                            displayName: displayName,
+                                            email: email,
+                                            emailVerified: emailVerified,
+                                            photoURL: photoURL,
+                                            uid: uid,
+                                            accessToken: accessToken,
+                                            providerData: providerData
+                                        });
+                                    });
+                                } else {
+                                    // User is signed out.
+                                    //document.getElementById('sign-in-status').textContent = 'Signed out';
+                                    //document.getElementById('sign-in').textContent = 'Sign in';
+                                    //document.getElementById('account-details').textContent = 'null';
+                                    window.location = 'firebase_login.html';
+                                }
+                            }, function(error) {
+                                console.log(error);
+                            });
+                            return;
+                        } 
+                    }
+
                     // import models and collections files
                     $dhx.onDemand.require(models, function() {
                         // import models engine file
@@ -220,6 +288,8 @@
                             }); // end $dhx.onDemand.require(core, function() 
                         }); // end $dhx.onDemand.require(model_engine, function() 
                     }); // end  $dhx.onDemand.require(models, function() 
+
+
                 }); // end $dhx.onDemand.require(deps, function() 
             } // end application.start()
     };

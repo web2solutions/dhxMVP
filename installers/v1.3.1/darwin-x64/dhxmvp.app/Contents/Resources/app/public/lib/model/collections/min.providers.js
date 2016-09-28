@@ -1,1 +1,0 @@
-var providers={model:"provider"};

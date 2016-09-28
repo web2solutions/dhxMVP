@@ -1,1 +1,0 @@
-var pets={model:"pet"};

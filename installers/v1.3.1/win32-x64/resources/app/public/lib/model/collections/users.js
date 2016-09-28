@@ -1,3 +1,0 @@
-var users = {
-    model: 'user'
-};

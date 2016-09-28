@@ -108,6 +108,10 @@ document.addEventListener('DOMContentLoaded', function() {
         url: 'customers',
         view: 'customers',
         presenter: 'customers',
+        append_views: [
+            { "customer_servers" : 'servers' }
+        ]
+        // customer_servers
     });
 
     router.route({
@@ -123,6 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
         backboneIDB: true,
         $dhx_form: true,
         $dhx_grid: true,
-        $dhx_crypt: true
+        $dhx_crypt: true,
+        //firebase:{
+        //    auth: true
+        //}
     });
 });    
