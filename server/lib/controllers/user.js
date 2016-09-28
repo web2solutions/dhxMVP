@@ -426,8 +426,11 @@ user.passwordreset = function(username, twofactor, cb) {
     user.app.models.user.find({
         username: username
     }, function(e, d) {
-        var dopw = function() {
-            var pw = crypto.randomBytes(8).toString("hex");
+        if (e || d.length !== 1) {
+            cb(3);
+            return;
+        }
+        var pw = crypto.randomBytes(8).toString("hex");
             d[0].password = user.saltpassword(pw);
             d[0].save(function(e) {
                 if (e) {
@@ -446,29 +449,6 @@ user.passwordreset = function(username, twofactor, cb) {
                     cb(e ? 4 : 0);
                 });
             });
-        };
-        if (e || d.length !== 1) {
-            cb(3);
-            return;
-        }
-        if (d[0].twofa === "none") {
-            dopw();
-            return;
-        } else {
-            if (twofactor == undefined) {
-                cb(2);
-                return;
-            }
-            user.checkcode(username, twofactor, function(valid) {
-                if (valid) {
-                    dopw();
-                    return;
-                }
-                cb(1);
-            });
-            return;
-        }
-        cb(1);
     });
 };
 user.passwordchange = function(token, oldpass, newpass, cb) {

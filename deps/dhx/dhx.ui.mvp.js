@@ -443,8 +443,8 @@
         //alert( window.screen.availWidth );
 
         window.pubnub = PUBNUB.init({
-            publish_key: 'pub-c-0ff6edd3-c1e5-4c66-87bd-7f373d45b56d',
-            subscribe_key: 'sub-c-f7f00f76-78f4-11e6-9a04-0619f8945a4f',
+            publish_key: 'pub-c-d128f7d4-39ab-43e7-9547-4dc1bdea2300',
+            subscribe_key: 'sub-c-142379cc-668e-11e6-9eba-02ee2ddab7fe',
             //uuid: 'Stephen',
             error: function (error) {
                 console.log('Error:', error);
