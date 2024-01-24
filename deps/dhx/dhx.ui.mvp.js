@@ -978,23 +978,21 @@
             
         },
         getQuota : function (onSuccess, onFail) {
-            var webkitStorageInfo = window.webkitStorageInfo || navigator.webkitTemporaryStorage || navigator.webkitPersistentStorage || false;
-            if (!webkitStorageInfo) {
-                var err = $dhx.Browser.name + " does not provide quota management.";
-                $dhx.notify('Quota information', err, _application.root + 'assets/images/notification.png');
-                if (onFail) onFail(err);
-                return;
-            }
-            
-            webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.TEMPORARY, function (used, remaining) {
-                used = (used / 1024 / 1024 / 1024).toFixed(5);
-                remaining = (remaining / 1024 / 1024 / 1024).toFixed(2);
-                //$dhx.notify('Quota information', "Used quota: " + used + " GB, remaining quota: " + remaining+' GB.', _application.root + 'assets/images/notification.png');
-                if (onSuccess) onSuccess(used, remaining);
-            }, function (e) {
-                if (onFail) onFail(e);
-                console.log('Error', e);
-            });
+
+
+            navigator.webkitTemporaryStorage.queryUsageAndQuota ( 
+                function(usedBytes, grantedBytes) {  
+                    console.log('we are using ', usedBytes, ' of ', grantedBytes, 'bytes');
+                    usedBytes = (usedBytes / 1024 / 1024 / 1024).toFixed(5);
+                    grantedBytes = (grantedBytes / 1024 / 1024 / 1024).toFixed(2);
+                    //$dhx.notify('Quota information', "Used quota: " + usedBytes + " GB, remaining quota: " + remaining+' GB.', _application.root + 'assets/images/notification.png');
+                    if (onSuccess) onSuccess(usedBytes, grantedBytes);
+                }, 
+                function(e) { 
+                    if (onFail) onFail(e);
+                    console.log('Error', e);  
+                }
+            );
         }
     
     };
